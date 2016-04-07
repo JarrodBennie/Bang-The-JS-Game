@@ -1,0 +1,26 @@
+.dice {
+  height: 100px;
+  width: 100px;
+  border: solid 2px black;
+  display: inline-block;
+}
+
+.one {
+  background-image: url('one.jpg');
+}
+
+.two {
+  background-image: url('two.jpg');
+}
+
+.beer {
+  background-image: url('beer.jpg');
+}
+
+.dynamite {
+  background-image: url('dynamite.jpg');
+}
+
+.arrow {
+  background-image: url('arrow.jpg');
+}
