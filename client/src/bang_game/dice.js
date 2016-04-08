@@ -9,8 +9,12 @@ var Dice = function(){
   };
 };
 
+dice = [1,2,3,4,5,6]
+
 
 Dice.prototype.roll = function(numberOfDice){
-  var roll = Math.floor(Math.random() * 6) + 1
-  
+  var result = Math.floor(Math.random() * 6) + 1;
+  console.log(result)
 }
+
+module.exports = Dice;
