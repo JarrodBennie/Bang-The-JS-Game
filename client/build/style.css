@@ -1,3 +1,4 @@
+
 .dice {
   height: 100px;
   width: 100px;
@@ -23,4 +24,8 @@
 
 .arrow {
   background-image: url('arrow.jpg');
+}
+
+.row {
+  margin: auto;
 }
