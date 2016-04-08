@@ -1,12 +1,7 @@
-Character = require("./character.js");
-
 var Game = function(players){
   this.players = players;
   this.characters = []
-
-
-
-
+  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"]
 
   var character1 = {
     name: "Jesse Jones",
@@ -128,12 +123,8 @@ var Game = function(players){
     ability_description: "You only need 2x [Gatling] to use the Gatling Gun."
   };
   this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];
-
-};
-
-Game.prototype.assignRoles = function(playersArray){
-
-
+  
+  
 };
 
 var getUniqueRandomElement = function(array){
@@ -143,18 +134,26 @@ var getUniqueRandomElement = function(array){
   return choice;
 };
 
+Game.prototype.assignRoles = function(){
+  for (var i = 0; i < this.players.length; i++){
+    this.players[i].role = getUniqueRandomElement(this.roles);
+  }
+};
 
 
-Game.prototype.assignCharacters = function(playersArray){
-  for (var i = 0; i < playersArray.length; i++){
-    playersArray[i].character = getUniqueRandomElement(this.characters)
+Game.prototype.assignCharacters = function(){
+  for (var i = 0; i < this.players.length; i++){
+    this.players[i].character = getUniqueRandomElement(this.characters);
   };//loop
+
+};
+
+Game.prototype.winConditionCheck = function(){
 
 };
 
 
 
 
-
-
 module.exports = Game;
+module.exports.randomElement = getUniqueRandomElement;
