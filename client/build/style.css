@@ -1,7 +1,4 @@
-body {
-   padding-left: 240px;
- }
-
+/*
  @media only screen and (max-width : 992px) {
    body {
      padding-left: 0;
@@ -23,9 +20,6 @@ body {
 p {
   color: black;
 }
-
-
-
 
 .dice {
   height: 75px;
@@ -53,9 +47,9 @@ p {
 .arrow {
   background-image: url('arrow.jpg');
 }
-
-.row {
-  margin: auto;
+*/
+.content, #game-logo {
+  margin-left: 240px;
 }
 
 .sheriff-icon {
@@ -64,5 +58,4 @@ p {
 
 .hp-icon {
   color: lightcoral;
-
 }

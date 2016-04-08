@@ -11,396 +11,149 @@
 </head>
 <body>
   <nav>
-    <div class="nav-wrapper">
-      <a href="/" class="brand-logo">BANG! The Dice Game</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="/">Home</a></li>
-        <li><a href="/rules">Rules</a></li>
+    <a href="/" class="brand-logo" id="game-logo">BANG! The Dice Game</a>
+    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="/">Home</a></li>
+      <li><a href="/rules">Rules</a></li>
+    </ul>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="/">Home</a></li>
+      <li><a href="/rules">Rules</a></li>
+    </ul>
+    <ul id="slide-out" class="side-nav fixed">
+      <ul class="collection">
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/bRkKXmX.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 1</span>
+          <p class="grey-text text-darken-4">Jesse Jones</p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <div class="card-action">
+            <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
+            <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+          </div>
+        </li>
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/580j9rS.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 2</span>
+          <p class="grey-text text-darken-4">Willy The Kid<br></p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
+          <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+        </li>
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/F6GioiG.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 3</span>
+          <p class="grey-text text-darken-4">Lucky Duke<br></p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
+          <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+        </li>
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/OF8OH13.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 4</span>
+          <p class="grey-text text-darken-4">El Gringo</p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
+          <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+        </li>
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 5</span>
+          <p class="grey-text text-darken-4">Slab The Killer<br></p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
+          <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+        </li>
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/UFADg9e.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 6</span>
+          <p class="grey-text text-darken-4">Paul Regret</p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
+          <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+        </li>
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/1HkWchT.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Player 7</span>
+          <p class="grey-text text-darken-4">Vulture Sam</p>
+          <div class="card-action">
+            <i class="material-icons hp-icon">favorite</i>
+          </div>
+          <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a><br>
+          <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
+        </li>
       </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><a href="/">Home</a></li>
-        <li><a href="/rules">Rules</a></li>
-      </ul>
-    </div>
+    </ul>
+    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
   </nav>
+  <div class="content">
 
-<nav>
-  <ul id="slide-out" class="side-nav fixed">
-        <ul class="collection">
-            <li class="collection-item avatar">
-              <img src="arrow.jpg" alt="" class="circle">
-              <span class="title">Player 1</span>
-              <p>Jesse Jones <br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-              <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
-              <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-
-            </li>
-            <li class="collection-item avatar">
-              <img src="dynamite.jpg" alt="" class="circle">
-              <span class="title">Player 2</span>
-              <p>Willy The Kid <br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-              <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
-              <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="gatling.jpg" alt="" class="circle">
-              <span class="title .left-align">Player 3</span>
-              <p>Lucky Duke<br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-              <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
-              <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="beer.jpg" alt="" class="circle">
-              <span class="title">Player 4</span>
-              <p>El Gringo <br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-             <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
-             <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="beer.jpg" alt="" class="circle">
-              <span class="title">Player 5</span>
-              <p>Black Jack <br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-             <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
-             <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-
-            </li>
-            <li class="collection-item avatar">
-              <img src="beer.jpg" alt="" class="circle">
-              <span class="title">Player 6</span>
-              <p>Paul Regret <br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-              <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a>
-              <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-            </li>
-            <li class="collection-item avatar">
-              <img src="beer.jpg" alt="" class="circle">
-              <span class="title">Player 7</span>
-              <p>Vulture Sam <br>
-
-              </p>
-              <div class="card-action">
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite</i>
-                <i class="material-icons right hp-icon">favorite_border</i>
-                <i class="material-icons hp-icon">favorite_border</i>
-              </div>
-             <a href="#!" class="secondary-content"><i class="material-icons">gps_not_fixed</i></a><br>
-             <a href="#!" class="secondary-content"><i class="material-icons">healing</i></a>
-            </li>
-          </ul>
-
-      </ul>
-      <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-  </nav>
-
-
-  <!-- TOP ROW -->
-  <div class="row">
-    <!-- PLAYER 1 -->
-    <div class="card col s3">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
+  <!-- SPACER -->
+  <div class="row"></div>
+  <div class="row"></div>
+  
+    <!-- CURRENT PLAYER -->
+    <div class="row">
+      <div class="card col s8 offset-s2">
+        <div class="card-image waves-effect waves-block waves-light">
+        </div>
+        <div class="card-content">
+          <img class="circle" width="75" src="http://i.imgur.com/hlVk73M.png">
+          <span class="card-title activator grey-text text-darken-4">Jourdonnais<i class="material-icons right">more_vert</i></span>
+          <p class="grey-text text-darken-4">Player 8</p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Journdonnais<i class="material-icons right">close</i></span>
+          <p>You never lose more than one life point to Indians.</p>
+        </div>
+        <div class="card-action">
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite_border</i>
+          <i class="material-icons hp-icon">favorite_border</i>
+        </div>
       </div>
     </div>
-    <!-- PLAYER 2 -->
-    <div class="card col s4 offset-s1 teal">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator white-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p class="white-text">Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
-    <!-- PLAYER 3 -->
-    <div class="card col s3 offset-s1">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src=" ">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name <i class="material-icons sheriff-icon">brightness_high</i><i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name <i class="material-icons sheriff-icon">brightness_high</i><i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
-  </div>
 
-  <!-- MIDDLE ROW -->
-  <div class="row">
-    <!-- PLAYER 4 -->
-    <div class="card col s3">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
     <!-- GAME INFO -->
-    <div class="card col s4 offset-s1">
-      <div class="card-image waves-effect waves-block waves-light">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Game Info<i class="material-icons right">more_vert</i></span>
+    <div class="row">
+      <div class="card col s8 offset-s2">
+        <div class="card-image waves-effect waves-block waves-light">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator grey-text text-darken-4">Game Info<i class="material-icons right">more_vert</i></span>
 
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Game Info<i class="material-icons right">close</i></span>
-        <p>Here is some more information about the current game.</p>
-      </div>
-      <div class="card-action">
-      <div class="dice one">1</div>
-      <div class="dice two">2</div>
-      <div class="dice beer">3</div>
-      <div class="dice dynamite">4</div>
-      <div class="dice arrow">5</div>
-
-        <a class="waves-effect waves-light btn">roll dice</a>
-        <a class="waves-effect waves-light btn">end turn</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Game Info<i class="material-icons right">close</i></span>
+          <p>Here is some more information about the current game.</p>
+        </div>
+        <div class="card-action">
+          <a class="waves-effect waves-light btn">roll dice</a>
+          <a class="waves-effect waves-light btn">end turn</a>
+        </div>
       </div>
     </div>
-    <!-- PLAYER 5 -->
-    <div class="card col s3 offset-s1">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOTTOM ROW -->
-  <div class="row">
-    <!-- PLAYER 6 -->
-    <div class="card col s3">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
-    <!-- PLAYER 7 -->
-    <div class="card col s4 offset-s1">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
-    <!-- PLAYER 8 -->
-    <div class="card col s3 offset-s1">
-      <div class="card-image waves-effect waves-block waves-light">
-        <img class="activator" src="">
-      </div>
-      <div class="card-content">
-        <span class="card-title activator grey-text text-darken-4">Character Name<i class="material-icons right">more_vert</i></span>
-        <p>Player Name</p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4">Character Name<i class="material-icons right">close</i></span>
-        <p>Here is a description of the player's character and special ability.</p>
-      </div>
-      <div class="card-action">
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-        <i class="material-icons hp-icon">favorite_border</i>
-      </div>
-    </div>
-  </div>
-
- <!--  // Initialize collapse button -->
-   <script>$(".button-collapse").sideNav();</script>
+    <!--  // Initialize collapse button -->
+    <script>$(".button-collapse").sideNav();</script>
   <!--  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
-   //$('.collapsible').collapsible(); -->
-
+  //$('.collapsible').collapsible(); -->
 </body>
 </html>
