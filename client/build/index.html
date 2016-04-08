@@ -10,26 +10,29 @@
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
+  <!-- NAVBAR -->
   <nav class="red darken-4">
     <a href="/" class="brand-logo" id="game-logo">BANG! The JS Game</a>
     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-med-and-down">
-      <li><a href="/">Home</a></li>
+      <li><a href="/">New Game</a></li>
       <li><a href="/">Info</a></li>
       <li><a href="/rules">Rules</a></li>
       <li><a href="/">Leaderboards</a></li>
     </ul>
     <ul class="side-nav" id="mobile-demo">
-      <li><a href="/">Home</a></li>
+      <li><a href="/">New Game</a></li>
       <li><a href="/">Info</a></li>
       <li><a href="/rules">Rules</a></li>
       <li><a href="/">Leaderboards</a></li>
     </ul>
+    <!-- SIDEBAR -->
+    <!-- PLAYER 1 -->
     <ul id="slide-out" class="side-nav fixed">
-      <ul class="collection">
+      <ul class="collection" id="sidebar">
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/bRkKXmX.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 1</span>
+          <span class="title grey-text text-darken-4">Adam</span>
           <p class="grey-text text-darken-4">Jesse Jones</p>
           <div class="card-action">
             <div class="progress red lighten-4">
@@ -37,9 +40,10 @@
             </div>
           </div>
         </li>
+        <!-- PLAYER 2 -->
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/580j9rS.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 2</span>
+          <span class="title grey-text text-darken-4">Sam - PREVIOUS</span>
           <p class="grey-text text-darken-4">Willy The Kid<br></p>
           <div class="card-action">
           </div>
@@ -47,37 +51,41 @@
             <div class="determinate red darken-4" style="width: 80%"></div>
           </div>
         </li>
+        <!-- PLAYER 3 -->
         <li class="collection-item avatar red darken-4">
           <img src="http://i.imgur.com/F6GioiG.png" alt="" class="circle">
-          <span class="title white-text">Player 3</span>
+          <span class="title white-text">Jarrod</span><i class="material-icons secondary-content sheriff-icon">brightness_high</i>
           <p class="white-text">Lucky Duke<br></p>
           <div class="card-action">
           </div>
           <p class="white-text"><b>Current Player</b></p>
         </li>
+        <!-- PLAYER 4 -->
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/OF8OH13.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 4</span>
+          <span class="title grey-text text-darken-4">Craig - NEXT</span>
           <p class="grey-text text-darken-4">El Gringo</p>
           <div class="card-action">
           </div>
           <div class="progress red lighten-4">
-            <div class="determinate red darken-4" style="width: 20%"></div>
+            <div class="determinate red darken-4" style="width: 60%"></div>
           </div>
         </li>
+        <!-- PLAYER 5 -->
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 5</span>
+          <span class="title grey-text text-darken-4">Tony</span>
           <p class="grey-text text-darken-4">Slab The Killer<br></p>
           <div class="card-action">
           </div>
           <div class="progress red lighten-4">
-            <div class="determinate red darken-4" style="width: 90%"></div>
+            <div class="determinate red darken-4" style="width: 10%"></div>
           </div>
         </li>
+        <!-- PLAYER 6 -->
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/UFADg9e.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 6</span>
+          <span class="title grey-text text-darken-4">Alison</span>
           <p class="grey-text text-darken-4">Paul Regret</p>
           <div class="card-action">
           </div>
@@ -85,47 +93,48 @@
             <div class="determinate red darken-4" style="width: 80%"></div>
           </div>
         </li>
+        <!-- PLAYER 7 -->
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/1HkWchT.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 7</span>
+          <span class="title grey-text text-darken-4">Alasdair</span>
           <p class="grey-text text-darken-4">Vulture Sam</p>
+          <div class="card-action">
+          </div>
+          <div class="progress red lighten-4">
+            <div class="determinate red darken-4" style="width: 70%"></div>
+          </div>
+        </li>
+        <!-- PLAYER 8 -->
+        <li class="collection-item avatar">
+          <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
+          <span class="title grey-text text-darken-4">Claire</span>
+          <p class="grey-text text-darken-4">Journdonnais</p>
           <div class="card-action">
           </div>
           <div class="progress red lighten-4">
             <div class="determinate red darken-4" style="width: 80%"></div>
           </div>
         </li>
-        <li class="collection-item avatar">
-          <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
-          <span class="title grey-text text-darken-4">Player 8</span>
-          <p class="grey-text text-darken-4">Journdonnais</p>
-          <div class="card-action">
-          </div>
-          <div class="progress red lighten-4">
-            <div class="determinate red darken-4" style="width: 10%"></div>
-          </div>
-        </li>
       </ul>
     </ul>
     <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
   </nav>
+  <!-- MAIN CONTENT -->
   <div class="content">
-
     <!-- SPACER -->
     <div class="row"></div>
-
+    <div class="row"></div>
     <!-- CURRENT PLAYER -->
     <div class="row">
       <div class="card col s8 offset-s2">
         <div class="card-image waves-effect waves-block waves-light">
         </div>
         <div class="card-content">
-          <img src="http://i.imgur.com/F6GioiG.png" class="circle" width="75"><i class="material-icons right">more_vert</i><br>
-          <span class="card-title activator grey-text text-darken-4">Player 3</span>
-          <p class="grey-text text-darken-4">Lucky Duke</p>
+          <span class="card-title activator"><img src="http://i.imgur.com/F6GioiG.png" class="circle" width="75">Current Player<i class="material-icons right">keyboard_arrow_up</i></span>
+          <p><b>Jarrod</b> - Lucky Duke</p>
         </div>
         <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4">El Gringo<i class="material-icons right">close</i></span>
+          <span class="card-title grey-text text-darken-4">Lucky Duke<i class="material-icons right">close</i></span>
           <p>You may make one extra re-roll.</p>
         </div>
         <div class="card-action">
@@ -135,35 +144,36 @@
           <i class="material-icons hp-icon">favorite</i>
           <i class="material-icons hp-icon">favorite</i>
           <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
+          <i class="material-icons hp-icon">favorite</i>
           <i class="material-icons hp-icon">favorite_border</i>
           <i class="material-icons hp-icon">favorite_border</i>
+          <i class="material-icons right sheriff-icon">brightness_high</i>
         </div>
       </div>
     </div>
-
     <!-- GAME INFO -->
     <div class="row">
       <div class="card col s8 offset-s2">
         <div class="card-image waves-effect waves-block waves-light">
         </div>
-        <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">Game Info<i class="material-icons right">more_vert</i></span>
-
+        <div class="card-content center-align">
+          <span class="card-title activator grey-text text-darken-4">[ 1 ][ 2 ][ 3 ][ 4 ][ 5 ]<i class="material-icons right">keyboard_arrow_up</i></span>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">Game Info<i class="material-icons right">close</i></span>
-          <p>Here is some more information about the current game.</p>
+          <p>Here is some information about the current game.</p>
         </div>
         <div class="card-action center-align">
-          <a class="waves-effect waves-light btn red darken-4">roll dice</a>
+          <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>
           <a class="btn tooltipped red darken-4" data-position="bottom" data-delay="50" data-tooltip="Select a player to heal">heal</a>
           <a class="btn tooltipped red darken-4" data-position="bottom" data-delay="50" data-tooltip="Select a player to shoot">shoot</a>
-          <a class="waves-effect waves-light btn red darken-4 disabled">end turn</a>
+          <a class="waves-effect waves-light btn disabled">end turn</a>
         </div>
       </div>
     </div>
-
-    <!-- RANDOMLY SELECTED HINT -->
+    <!-- HINT -->
     <div class="row">
       <div class="col s12 m8 offset-m2">
         <div class="card-panel red darken-4">
@@ -173,10 +183,12 @@
         </div>
       </div>
     </div>
-    <!--  // Initialize collapse button -->
+    <!-- JSQUERY SCRIPTS -->
+    <!-- INITIALISE MOBILE NAV -->
     <script>
       $(".button-collapse").sideNav();
     </script>
+    <!-- INITIALISE HEAL/SHOOT TOOLTIPS -->
     <script>
      $(document).ready(function(){
       $('.tooltipped').tooltip({delay: 50});
