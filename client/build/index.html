@@ -39,9 +39,9 @@
           <p class="grey-text text-darken-4">Willy The Kid<br></p>
           <div class="card-action">
           </div>
-            <div class="progress red lighten-4">
-              <div class="determinate red darken-4" style="width: 80%"></div>
-            </div>
+          <div class="progress red lighten-4">
+            <div class="determinate red darken-4" style="width: 80%"></div>
+          </div>
         </li>
         <li class="collection-item avatar red darken-4">
           <img src="http://i.imgur.com/F6GioiG.png" alt="" class="circle">
@@ -57,9 +57,9 @@
           <p class="grey-text text-darken-4">El Gringo</p>
           <div class="card-action">
           </div>
-            <div class="progress red lighten-4">
-              <div class="determinate red darken-4" style="width: 20%"></div>
-            </div>
+          <div class="progress red lighten-4">
+            <div class="determinate red darken-4" style="width: 20%"></div>
+          </div>
         </li>
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
@@ -67,9 +67,9 @@
           <p class="grey-text text-darken-4">Slab The Killer<br></p>
           <div class="card-action">
           </div>
-            <div class="progress red lighten-4">
-              <div class="determinate red darken-4" style="width: 90%"></div>
-            </div>
+          <div class="progress red lighten-4">
+            <div class="determinate red darken-4" style="width: 90%"></div>
+          </div>
         </li>
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/UFADg9e.png" alt="" class="circle">
@@ -77,9 +77,9 @@
           <p class="grey-text text-darken-4">Paul Regret</p>
           <div class="card-action">
           </div>
-            <div class="progress red lighten-4">
-              <div class="determinate red darken-4" style="width: 80%"></div>
-            </div>
+          <div class="progress red lighten-4">
+            <div class="determinate red darken-4" style="width: 80%"></div>
+          </div>
         </li>
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/1HkWchT.png" alt="" class="circle">
@@ -87,9 +87,9 @@
           <p class="grey-text text-darken-4">Vulture Sam</p>
           <div class="card-action">
           </div>
-            <div class="progress red lighten-4">
-              <div class="determinate red darken-4" style="width: 80%"></div>
-            </div>
+          <div class="progress red lighten-4">
+            <div class="determinate red darken-4" style="width: 80%"></div>
+          </div>
         </li>
         <li class="collection-item avatar">
           <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
@@ -117,8 +117,8 @@
         <div class="card-image waves-effect waves-block waves-light">
         </div>
         <div class="card-content">
-          <img src="http://i.imgur.com/F6GioiG.png" class="circle" width="75">
-          <span class="card-title activator grey-text text-darken-4">Player 3<i class="material-icons right">more_vert</i></span>
+          <img src="http://i.imgur.com/F6GioiG.png" class="circle" width="75"><i class="material-icons right">more_vert</i><br>
+          <span class="card-title activator grey-text text-darken-4">Player 3</span>
           <p class="grey-text text-darken-4">Lucky Duke</p>
         </div>
         <div class="card-reveal">
@@ -151,9 +151,11 @@
           <span class="card-title grey-text text-darken-4">Game Info<i class="material-icons right">close</i></span>
           <p>Here is some more information about the current game.</p>
         </div>
-        <div class="card-action">
+        <div class="card-action center-align">
           <a class="waves-effect waves-light btn red darken-4">roll dice</a>
-          <a class="waves-effect waves-light btn red darken-4">end turn</a>
+          <a class="btn tooltipped red darken-4" data-position="bottom" data-delay="50" data-tooltip="Select a player to heal">heal</a>
+          <a class="btn tooltipped red darken-4" data-position="bottom" data-delay="50" data-tooltip="Select a player to shoot">shoot</a>
+          <a class="waves-effect waves-light btn red darken-4 disabled">end turn</a>
         </div>
       </div>
     </div>
@@ -169,8 +171,13 @@
       </div>
     </div>
     <!--  // Initialize collapse button -->
-    <script>$(".button-collapse").sideNav();</script>
-  <!--  // Initialize collapsible (uncomment the line below if you use the dropdown variation)
-  //$('.collapsible').collapsible(); -->
+    <script>
+      $(".button-collapse").sideNav();
+    </script>
+    <script>
+     $(document).ready(function(){
+      $('.tooltipped').tooltip({delay: 50});
+    });
+  </script>
 </body>
 </html>
