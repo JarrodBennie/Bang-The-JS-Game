@@ -9,12 +9,14 @@ var Dice = function(){
   };
 };
 
-dice = [1,2,3,4,5,6]
-
 
 Dice.prototype.roll = function(numberOfDice){
-  var result = Math.floor(Math.random() * 6) + 1;
-  console.log(result)
-}
+  var rollsArray = [];
+  for( var i=0; i<numberOfDice; i++){
+    var result = Math.floor(Math.random() * 6) + 1;
+    rollsArray.push( result );
+  };
+  return rollsArray;
+};
 
 module.exports = Dice;
