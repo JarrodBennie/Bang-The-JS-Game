@@ -1,7 +1,7 @@
 var Dice = function(){
   this.currentRoll = [];
   this.saved = [];
-  //// will need to reset dice.saved to [] between change of player turn.
+  this.arrowsRolled = 0;
 
   this.meaningOf = {
     1: "Shoot 1",
@@ -13,6 +13,11 @@ var Dice = function(){
   };
 };
 
+//// Will need to reset the dice between change of player turn - use reset below.
+Dice.prototype.reset = function(){
+  this.saved = [];
+  this.arrowsRolled = 0;
+}
 
 Dice.prototype.roll = function(){
   this.currentRoll = [];
@@ -22,6 +27,7 @@ Dice.prototype.roll = function(){
     this.currentRoll.push( result );
   };
   this.saveDynamite();
+  this.countArrows();
   return this.currentRoll;
 };
 //// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save(player1) seems a bit ugly but would allow us to check player special card.
@@ -73,6 +79,16 @@ Dice.prototype.threeGatling = function(){
   };
   return result;
 };
+
+Dice.prototype.countArrows= function(){
+  for( item of this.currentRoll){
+    if( item === 6){
+      this.arrowsRolled += 1;
+    };
+  };
+};
+//// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
+
 
 
 

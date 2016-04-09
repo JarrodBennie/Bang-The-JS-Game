@@ -51,6 +51,19 @@ describe('Dice', function(){
     assert.equal(dice.threeGatling(), true);
   });
 
+  it("should save number of arrows rolled over players full turn", function(){
+    dice.currentRoll = [ 1, 6, 2, 6, 3]
+    dice.countArrows();
+    assert.equal(dice.arrowsRolled, 2);
+  });
+
+  it("should reset saved dice and arrows rolled to nothing for start of next player turn", function(){
+    dice.saved = [ 1, 2, 3, 4, 5 ];
+    this.arrowsRolled = 2;
+    dice.reset();
+    assert.deepEqual(dice.saved, [ ] );
+    assert.equal(dice.arrowsRolled, 0 );
+  });
 
 
 
