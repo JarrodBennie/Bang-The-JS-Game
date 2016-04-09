@@ -14,12 +14,22 @@ describe('Dice', function(){
     assert.deepEqual( dice.saved, []);
   });
 
+  it("should return URL of image", function(){
+    assert.equal(dice.imageUrl[1], 'http://i.imgur.com/j32ofq3.png');
+  });
+
   it("should return random number between 1-6", function(){
-    assert.notEqual( dice.roll(), 7);
+    var result = dice.roll();
+    assert.equal( result[0] <7 && result[0] > 0, true);
   });
 
   it("should return array of 5 random numbers", function(){
     assert.equal(dice.roll().length, 5);
+  });
+
+  it("should return array of 3 random numbers if 2 numbers saved before roll", function(){
+    dice.saved = [ 2, 4 ]
+    assert.equal(dice.roll().length, 3);
   });
 
   it("should save dice at index 2", function(){
