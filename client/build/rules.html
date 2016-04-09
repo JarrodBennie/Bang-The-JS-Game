@@ -15,13 +15,15 @@
   </script>
 </head>
 <body>
-  <nav>
-    <div class="nav-wrapper">
+  <nav class="red darken-4">
+    <div class="nav-wrapper red darken-4">
       <a href="/" class="brand-logo">BANG! The Dice Game</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         <li><a href="/">Home</a></li>
         <li><a href="/rules">Rules</a></li>
+        <li><a href="/">Info</a></li>
+        <li><a href="/">Leaderboards</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li><a href="/">Home</a></li>
@@ -31,23 +33,28 @@
   </nav>
   <div class="parallax-container">
     <!-- TEST IMAGE -->
-    <div class="parallax"><img src="http://41.media.tumblr.com/ae981922dea774de5ed2fc8b435bad90/tumblr_o06pjnf3LP1u9pcmwo3_1280.jpg"></div>
+    <div class="parallax"><img src="http://3.bp.blogspot.com/-oZUGx4ufwbg/VDMPVaYVvsI/AAAAAAAAFpQ/BKCzIBi7DaA/s1600/BLOG%2BBang_mat.jpg"></div>
   </div>
   <div class="section white">
     <div class="row container">
-      <h2 class="header">Rules</h2>
+      <h2 class="header center-align">Rules</h2>
       <p class="grey-text text-darken-3 lighten-3">
-        <blockquote><h4>Object of the game</h4></blockquote>
-        <p>Each player has his own goal, depending on his role card:</p>
+
+
+      <ul class="collapsible" data-collapsible="accordion">
+        <li>
+          <div class="collapsible-header center-align red darken-1"><b>Object of the Game</b></div>
+          <div class="collapsible-body center-align"><p>Each player has his own goal, depending on his role card:</p>
         <ul>
           <li>The <i>Sheriff</i> must eliminate all <i>Outlaws</i> and <i>Renegades</i>.</li>
           <li><i>Outlaws</i> must eliminate the <i>Sheriff</i>.</li>
           <li><i>Deputies</i> must help and protect the <i>Sheriff</i>.</li>
-          <li><i>Renegades</i> must be the last character in play.</li>
-        </ul>
-        
-        <blockquote><h4>The Game</h4></blockquote>
-        <p>The game is played in turns, in clockwise order. On your turn, you will:</p>
+          <li><i>Renegades</i> must be the last character in play.</li><br>
+        </ul></div>
+        </li>
+        <li>
+          <div class="collapsible-header center-align red darken-1"><b>The Game</b></div>
+          <div class="collapsible-body center-align"><p>The game is played in turns, in clockwise order. On your turn, you will:</p>
         <ul>
           <li>Roll all five dice</li>
           <li>You may then choose to keep the dice or re-roll some or all of them up to two times. If you roll a third time, you may also re-roll any dice you didn’t choose to re-roll on your second roll. You must accept the third roll.</li>
@@ -55,25 +62,29 @@
           <li>Your turn is over and play passes to the player on your left.</li>
         </ul>
         <p><b>Important</b>: Any <b>Dynamite</b> rolled <b>cannot</b> be re-rolled (see below).</p>
-        <p><b>Note</b>: Any Arrows rolled must be resolved immediately after each roll (see below).</p>
-
-        <blockquote><h4>Running Out of Life Points</h4></blockquote>
-        <p>If you lose your last life point, you are out of the game. Show your role to all players and discard all your arrows. If you are eliminated, you do not act in the game anymore. But, if your team partners win, you win too!</p>
-
-        <blockquote><h4>End of the Game</h4></blockquote>
-        <p>The game ends <b>immediately</b> if:</p>
-        <p>a) <b>The Sheriff is eliminated</b>: If a Renegade is the only one alive, he wins. Otherwise, all Outlaws win as a team.</p>
-        <p>b) <b>All the Outlaws <u>and</u> Renegades are eliminated</b>: The Sheriff and all Deputies win as a team.</p>
-        <p><b>Note</b>: In an 8-player game, each of the two Renegades plays on his own, and wins only if he is the last player alive. If, in the final stages of the game, the Sheriff is confronted by two Renegades and the Sheriff is eliminated first, the Outlaws win!</p>
-        <p><b>Example</b>: All the Outlaws have been eliminated, but a Renegade is still in play. In this case, the game continues. The Renegade must now face the Sheriff and his Deputies on his own.</p>
-        <p><b>Example</b>: The Sheriff is eliminated, but all the Outlaws were already eliminated and one Deputy and a Renegade are still in play. The game ends with the Outlaws winning! They achieved their goal at the cost of their own lives!</p>
-        <p><b>Example</b>: All players are eliminated at the same time. Outlaws win!</p>
-      </p>
+        <p><b>Note</b>: Any Arrows rolled must be resolved immediately after each roll (see below).</p></div>
+        </li>
+        <li>
+          <div class="collapsible-header center-align red darken-1"><b>Running Out of Life Points</b></div>
+          <div class="collapsible-body center-align"> <p>If you lose your last life point, you are out of the game. Show your role to all players and discard all your arrows. If you are eliminated, you do not act in the game anymore. But, if your team partners win, you win too!</p></div>
+        </li>
+        <li>
+          <div class="collapsible-header center-align red darken-1"><b>End of the Game</b></div>
+            <div class="collapsible-body center-align"> <p>The game ends <b>immediately</b> if:</p>
+                  <p>a) <b>The Sheriff is eliminated</b>: If a Renegade is the only one alive, he wins. Otherwise, all Outlaws win as a team.</p>
+                  <p>b) <b>All the Outlaws <u>and</u> Renegades are eliminated</b>: The Sheriff and all Deputies win as a team.</p>
+                  <p><b>Note</b>: In an 8-player game, each of the two Renegades plays on his own, and wins only if he is the last player alive. If, in the final stages of the game, the Sheriff is confronted by two Renegades and the Sheriff is eliminated first, the Outlaws win!</p>
+                  <p><b>Example</b>: All the Outlaws have been eliminated, but a Renegade is still in play. In this case, the game continues. The Renegade must now face the Sheriff and his Deputies on his own.</p>
+                  <p><b>Example</b>: The Sheriff is eliminated, but all the Outlaws were already eliminated and one Deputy and a Renegade are still in play. The game ends with the Outlaws winning! They achieved their goal at the cost of their own lives!</p>
+                  <p><b>Example</b>: All players are eliminated at the same time. Outlaws win!</p></div>
+                  </li>
+                  </ul>
     </div>
   </div>
   <div class="parallax-container">
     <!-- TEST IMAGE -->
-    <div class="parallax"><img src="http://41.media.tumblr.com/ae981922dea774de5ed2fc8b435bad90/tumblr_o06pjnf3LP1u9pcmwo3_1280.jpg"></div>
+    <div class="parallax"><img src="http://www.tableforsix.co.za/wp-content/uploads/2015/08/IMG_7187.jpg"></div>
   </div>
 </body>
 </html>
+

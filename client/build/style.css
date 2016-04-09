@@ -1,61 +1,39 @@
-/*
- @media only screen and (max-width : 992px) {
-   body {
-     padding-left: 0;
-   }
- }
-
-.side-nav {
-  width: 500px;
+body {
+  background-image: url("https://pixabay.com/static/uploads/photo/2015/12/03/08/50/paper-1074131_960_720.jpg")
 }
 
-.title {
-  color: black;
+img {
+  border: 1px solid white;
 }
 
-.secondary-content {
-  margin-left: 50px;
+#sidebar {
+  margin: 0 auto;
 }
 
-p {
-  color: black;
-}
-
-.dice {
-  height: 75px;
-  width: 75px;
-  border: solid 2px black;
-  display: inline-block;
-}
-
-.one {
-  background-image: url('one.jpg');
-}
-
-.two {
-  background-image: url('two.jpg');
-}
-
-.beer {
-  background-image: url('beer.jpg');
-}
-
-.dynamite {
-  background-image: url('dynamite.jpg');
-}
-
-.arrow {
-  background-image: url('arrow.jpg');
-}
-*/
-.content, #game-logo {
+.content {
   margin-left: 240px;
 }
 
+#game-logo {
+  margin-left: 250px;
+}
+
 .sheriff-icon {
-  color: gold;
+  color: #ffc107;
 }
 
 .hp-icon {
-  color: lightcoral;
+  color: #b71c1c;
 }
+
+
+
+/*
+-- NOTES
+if(timesRolled == 3 || dynamites == 3) diceRollButton.class='waves-effect waves-light btn disabled';
+
+var diceRollButton = document.getElementById('roll-dice-button')
+var diceRollButton.onclick = function(){
+  if(class == 'disabled') return : dice.roll();
+}
+*/
