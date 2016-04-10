@@ -32,8 +32,9 @@ window.onload = function(){
   var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
+  var dice = new Dice;
   rollDiceButton.onclick = function(){
-    console.log('You clicked on the roll dice button!');
+    rollDice(dice);
   }
   healButton.onclick = function(){
     console.log('You clicked on the heal button!');
@@ -86,6 +87,26 @@ window.onload = function(){
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')
   }
+}
+
+var rollDice = function(dice){
+  var diceElements = document.getElementsByClassName('dice')
+
+  var x = 0
+
+  for (var i = 0; i < dice.saved.length; i++) {
+    var currentDice = document.getElementById('dice-'+(x + 1));
+    currentDice.src = dice.imageUrl[dice.saved[i]];
+    x++
+  }
+  dice.roll();
+  for (var i = 0; i < dice.currentRoll.length; i++){
+    currentDice = document.getElementById('dice-'+(x + 1));
+    currentDice.src = dice.imageUrl[dice.currentRoll[i]];
+    x++
+  }
+  console.log("saved :", dice.saved);
+  console.log("current :", dice.currentRoll);
 }
 
 var targetPlayer = function(selection){

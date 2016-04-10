@@ -20,7 +20,7 @@ img {
   background-image: url("https://pixabay.com/static/uploads/photo/2015/12/03/08/50/paper-1074131_960_720.jpg");
 }
 
-.card-content, .card-action {
+.info-card {
   background-image: url("https://pixabay.com/static/uploads/photo/2015/12/03/08/50/paper-1074131_960_720.jpg");
   border: solid 1px black;
 }
