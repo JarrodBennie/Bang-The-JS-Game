@@ -8,8 +8,11 @@
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="bundle.js"></script>
 </head>
 <body>
+  <!-- HIDDEN -->
+  <div id="hidden"></div>
   <!-- NAVBAR -->
   <nav class="red darken-4">
     <a href="/" class="brand-logo" id="game-logo">BANG! The JS Game</a>
@@ -27,10 +30,10 @@
       <li><a href="/">Leaderboards</a></li>
     </ul>
     <!-- SIDEBAR -->
-    <!-- PLAYER 1 -->
     <ul id="slide-out" class="side-nav fixed">
       <ul class="collection" id="sidebar">
-        <li class="collection-item avatar">
+      <!-- PLAYER 1 -->
+        <li id="player-1" class="collection-item avatar player">
           <img src="http://i.imgur.com/bRkKXmX.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Adam</span>
           <p class="grey-text text-darken-4">Jesse Jones</p>
@@ -41,7 +44,7 @@
           </div>
         </li>
         <!-- PLAYER 2 -->
-        <li class="collection-item avatar">
+        <li id="player-2" class="collection-item avatar player">
           <img src="http://i.imgur.com/580j9rS.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Sam - PREVIOUS</span>
           <p class="grey-text text-darken-4">Willy The Kid<br></p>
@@ -52,7 +55,7 @@
           </div>
         </li>
         <!-- PLAYER 3 -->
-        <li class="collection-item avatar red darken-4">
+        <li id="current-player" class="collection-item avatar red darken-4 current-player">
           <img src="http://i.imgur.com/F6GioiG.png" alt="" class="circle">
           <span class="title white-text">Jarrod</span><i class="material-icons secondary-content sheriff-icon">brightness_high</i>
           <p class="white-text">Lucky Duke<br></p>
@@ -61,7 +64,7 @@
           <p class="white-text"><b>Current Player</b></p>
         </li>
         <!-- PLAYER 4 -->
-        <li class="collection-item avatar">
+        <li id="player-4" class="collection-item avatar player">
           <img src="http://i.imgur.com/OF8OH13.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Craig - NEXT</span>
           <p class="grey-text text-darken-4">El Gringo</p>
@@ -72,7 +75,7 @@
           </div>
         </li>
         <!-- PLAYER 5 -->
-        <li class="collection-item avatar">
+        <li id="player-5" class="collection-item avatar player">
           <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Tony</span>
           <p class="grey-text text-darken-4">Slab The Killer<br></p>
@@ -83,7 +86,7 @@
           </div>
         </li>
         <!-- PLAYER 6 -->
-        <li class="collection-item avatar">
+        <li id="player-6" class="collection-item avatar player">
           <img src="http://i.imgur.com/UFADg9e.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Alison</span>
           <p class="grey-text text-darken-4">Paul Regret</p>
@@ -94,7 +97,7 @@
           </div>
         </li>
         <!-- PLAYER 7 -->
-        <li class="collection-item avatar">
+        <li id="player-7" class="collection-item avatar player">
           <img src="http://i.imgur.com/1HkWchT.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Alasdair</span>
           <p class="grey-text text-darken-4">Vulture Sam</p>
@@ -105,7 +108,7 @@
           </div>
         </li>
         <!-- PLAYER 8 -->
-        <li class="collection-item avatar">
+        <li id="player-8" class="collection-item avatar player">
           <img src="http://i.imgur.com/hlVk73M.png" alt="" class="circle">
           <span class="title grey-text text-darken-4">Claire</span>
           <p class="grey-text text-darken-4">Journdonnais</p>
@@ -155,13 +158,13 @@
     </div>
     <!-- 
       DICE IMAGE URLS
-      ARROW = http://i.imgur.com/pUn7Uru.png
-      DYNAMITE = http://i.imgur.com/ygbg1Fg.png
       1 = http://i.imgur.com/j32ofq3.png
       2 = http://i.imgur.com/AR0V71o.png
+      ARROW = http://i.imgur.com/pUn7Uru.png
+      DYNAMITE = http://i.imgur.com/ygbg1Fg.png
       BEER = http://i.imgur.com/TWQYd4q.png
-      GATING = http://i.imgur.com/0q1hvpf.png
-     -->
+      GATLING = http://i.imgur.com/0q1hvpf.png
+    -->
     <!-- GAME INFO -->
     <div class="row">
       <div class="card col s8 offset-s2">
@@ -169,21 +172,22 @@
         </div>
         <div class="card-content center-align">
           <span class="card-title activator"><i class="material-icons right">keyboard_arrow_up</i></span>
-          <img src="http://i.imgur.com/pUn7Uru.png" width="50px">
-          <img src="http://i.imgur.com/pUn7Uru.png" width="50px">
-          <img src="http://i.imgur.com/pUn7Uru.png" width="50px">
-          <img src="http://i.imgur.com/pUn7Uru.png" width="50px">
-          <img src="http://i.imgur.com/pUn7Uru.png" width="50px">
+          <img src="http://i.imgur.com/pUn7Uru.png" width="50px" id="dice-1">
+          <img src="http://i.imgur.com/ygbg1Fg.png" width="50px" id="dice-2">
+          <img src="http://i.imgur.com/j32ofq3.png" width="50px" id="dice-3">
+          <img src="http://i.imgur.com/j32ofq3.png" width="50px" id="dice-4">
+          <img src="http://i.imgur.com/TWQYd4q.png" width="50px" id="dice-5">
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">Game Info<i class="material-icons right">close</i></span>
           <p>Here is some information about the current game.</p>
+          <p>This will probably contain the number of arrows remaining in the central pile.</p>
         </div>
         <div class="card-action center-align">
           <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>
-          <a class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to heal">heal</a>
-          <a class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to shoot">shoot</a>
-          <a class="waves-effect waves-light btn disabled">end turn</a>
+          <a id="heal-button" class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to heal">heal</a>
+          <a id="shoot-button" class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to shoot">shoot</a>
+          <a id="end-turn-button" class="waves-effect waves-light btn disabled">end turn</a>
         </div>
       </div>
     </div>
@@ -192,7 +196,7 @@
       <div class="col s12 m8 offset-m2">
         <div class="card-panel red darken-4">
           <span class="white-text">
-            <p class="center-align" id="hint"><b>Hint</b>: Don't believe Tony's lies.</p>
+            <p class="center-align" id="hint"></p>
           </span>
         </div>
       </div>
