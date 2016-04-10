@@ -81,9 +81,12 @@ window.onload = function(){
 }
 
 var targetPlayer = function(player){
-  var targetedPlayers = document.getElementsByClassName('collection-item avatar player red lighten-4');
-  if(targetedPlayers[0]) targetedPlayers[0].setAttribute('class', 'collection-item avatar player');
-
+  var targetedPlayer = document.getElementsByClassName('collection-item avatar player red lighten-4');
+  if(targetedPlayer[0]){
+    if(targetedPlayer[0] != player){
+      targetedPlayer[0].setAttribute('class', 'collection-item avatar player');
+    }
+  }
   if(player.className === "collection-item avatar player"){
     player.setAttribute('class', 'collection-item avatar player red lighten-4');
   } else {
