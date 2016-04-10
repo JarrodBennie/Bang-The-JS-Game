@@ -76,5 +76,4 @@ describe('Dice', function(){
   });
 
 
-
 });
