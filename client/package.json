@@ -14,5 +14,7 @@
     "mocha": "^2.4.5",
     "webpack": "^1.12.14"
   },
-  "dependencies": {}
+  "dependencies": {
+    "lodash": "^4.9.0"
+  }
 }

@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
 var Dice = require('../dice.js');
+var _ = require('lodash');
 
 
 describe('Dice', function(){
@@ -75,5 +76,10 @@ describe('Dice', function(){
     assert.equal(dice.arrowsRolled, 0 );
   });
 
+  it("should have an 'all dice array' which stores the saved dice and the current roll dice in an array of 5 numbers that is the same as what should be displayed on screen in browser", function(){
+    dice.saved = [ 1, 2, 3 ];
+    dice.roll();
+    assert.equal(typeof(dice.all[3]), "number");
+  });
 
 });
