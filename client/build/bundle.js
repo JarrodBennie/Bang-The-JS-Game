@@ -44,6 +44,24 @@
 /* 0 */
 /***/ function(module, exports) {
 
+	window.onload = function(){
+	
+	
+	
+	}; // window.onload [end]
+	
+	
+	// create new Game:
+	var players = [new Player("Adam"), new Player("Bennie"), new Player("Craig"), new Player("Jarrod"), new Player("Morton"), new Player("Parkyn"), new Player("Reid"), new Player("Sam")]
+	
+	var game = new Game(players);
+	
+	game.assignRoles();
+	game.assignCharacters();
+	
+	
+	
+	
 
 
 /***/ }
