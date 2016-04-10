@@ -13,6 +13,7 @@ window.onload = function(){
   var dice5 = document.getElementById('dice-5') || document.getElementById('hidden');
   
   // PLAYER LIST
+  var players = document.querySelector('player');
   var player1 = document.getElementById('player-1') || document.getElementById('hidden');
   var player2 = document.getElementById('player-2') || document.getElementById('hidden');
   var player3 = document.getElementById('player-3') || document.getElementById('hidden');
@@ -51,30 +52,41 @@ window.onload = function(){
     console.log('You clicked on dice 5!');
   }
   player1.onclick = function(){
-    console.log('You clicked on player 1!');
+    targetPlayer(this);
   }
   player2.onclick = function(){
-    console.log('You clicked on player 2!');
+    targetPlayer(this);
   }
   player3.onclick = function(){
-    console.log('You clicked on player 3!');
+    targetPlayer(this);
   }
   player4.onclick = function(){
-    console.log('You clicked on player 4!');
+    targetPlayer(this);
   }
   player5.onclick = function(){
-    console.log('You clicked on player 5!');
+    targetPlayer(this);
   }
   player6.onclick = function(){
-    console.log('You clicked on player 6!');
+    targetPlayer(this);
   }
   player7.onclick = function(){
-    console.log('You clicked on player 7!');
+    targetPlayer(this);
   }
   player8.onclick = function(){
-    console.log('You clicked on player 8!');
+    targetPlayer(this);
   }
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')
+  }
+}
+
+var targetPlayer = function(player){
+  var targetedPlayers = document.getElementsByClassName('collection-item avatar player red lighten-4');
+  if(targetedPlayers[0]) targetedPlayers[0].setAttribute('class', 'collection-item avatar player');
+
+  if(player.className === "collection-item avatar player"){
+    player.setAttribute('class', 'collection-item avatar player red lighten-4');
+  } else {
+    player.setAttribute('class', 'collection-item avatar player');
   }
 }
