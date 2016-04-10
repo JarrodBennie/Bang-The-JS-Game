@@ -1,3 +1,7 @@
+_ = require('lodash');
+Dice = require('./bang_game/dice');
+Hint = require('./bang_game/hint');
+
 window.onload = function(){
   // BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button');
@@ -23,6 +27,10 @@ window.onload = function(){
   var player7 = document.getElementById('player-7') || document.getElementById('hidden');
   var player8 = document.getElementById('player-8') || document.getElementById('hidden');
   var currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
+
+  var hint = new Hint;
+  var hintElement = document.getElementById('hint');
+  hintElement.innerHTML = _.sample(hint.all);
 
   rollDiceButton.onclick = function(){
     console.log('You clicked on the roll dice button!');
@@ -80,16 +88,20 @@ window.onload = function(){
   }
 }
 
-var targetPlayer = function(player){
-  var targetedPlayer = document.getElementsByClassName('collection-item avatar player red lighten-4');
-  if(targetedPlayer[0]){
-    if(targetedPlayer[0] != player){
-      targetedPlayer[0].setAttribute('class', 'collection-item avatar player');
-    }
+var targetPlayer = function(selection){
+  var healthBar = selection.getElementsByClassName('progress')[0];
+  var targetedPlayer = document.getElementsByClassName('collection-item avatar player red lighten-4')[0];
+  if (targetedPlayer) var targetedHealthBar = targetedPlayer.getElementsByClassName('progress')[0];
+
+  if(targetedPlayer && targetedPlayer != selection){
+    targetedPlayer.setAttribute('class', 'collection-item avatar player');
+    targetedHealthBar.setAttribute('class', 'progress red lighten-4');
   }
-  if(player.className === "collection-item avatar player"){
-    player.setAttribute('class', 'collection-item avatar player red lighten-4');
+  if(selection.className === "collection-item avatar player"){
+    selection.setAttribute('class', 'collection-item avatar player red lighten-4');
+    healthBar.setAttribute('class', 'progress white');
   } else {
-    player.setAttribute('class', 'collection-item avatar player');
+    selection.setAttribute('class', 'collection-item avatar player');
+    healthBar.setAttribute('class', 'progress red lighten-4');
   }
 }
