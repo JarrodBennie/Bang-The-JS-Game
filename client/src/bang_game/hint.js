@@ -2,7 +2,9 @@ var Hint = function(){
   this.all = [
     "Don't believe Tony's lies.",
     "Beware of the Erik special.",
-    "Don't forget to use your character's special ability!",
+    "Remember to utilise your character's special ability!",
+    "Arrow damage is not dealt until the last arrow is taken and the Indians attack."
+    
   ]
 }
 
