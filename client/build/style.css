@@ -227,14 +227,3 @@ transform:translatey(0);
 transition-delay:.2s;
 background-image: url("https://pixabay.com/static/uploads/photo/2015/12/03/08/50/paper-1074131_960_720.jpg");
 }
-
-
-/*
--- NOTES
-if(timesRolled == 3 || dynamites == 3) diceRollButton.class='waves-effect waves-light btn disabled';
-
-var diceRollButton = document.getElementById('roll-dice-button')
-var diceRollButton.onclick = function(){
-  if(class == 'disabled') return : dice.roll();
-}
-*/

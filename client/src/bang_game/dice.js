@@ -63,8 +63,6 @@ Dice.prototype.saveDynamite = function(){
     };
   };
 };
-
-
 //// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 Dice.prototype.threeDynamite = function(){
   var result = false;
