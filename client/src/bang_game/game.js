@@ -135,10 +135,31 @@ var getUniqueRandomElement = function(array){
   return choice;
 };
 
-Game.prototype.savePlayers = function(){
-  if (this.players.length === 8) {
-    this.allPlayers = this.players.slice();
-  };
+
+
+
+Game.prototype.setup = function(){
+  this.assignRoles();
+  this.assignCharacters();
+  this.setAllHealth();
+  this.savePlayers();
+  this.rotateSheriffToFirst();
+};
+
+Game.prototype.rotateSheriffToFirst = function(){
+  var sheriffIndex;
+  for (var i = 0; i < this.players.length; i++){
+    if (this.players[i].role === "Sheriff"){
+      sheriffIndex = i;
+    }
+  }
+  this.rotatePlayers(sheriffIndex);
+};
+
+Game.prototype.setAllHealth = function(){
+  for (var i = 0; i < this.players.length; i++){
+    this.players[i].setHealth();
+  }
 };
 
 Game.prototype.assignRoles = function(){
@@ -154,6 +175,11 @@ Game.prototype.assignCharacters = function(){
   };//loop
 };
 
+Game.prototype.savePlayers = function(){
+  if (this.players.length === 8) {
+    this.allPlayers = this.players.slice();
+  };
+};
 
 Game.prototype.rotatePlayers = function(numSteps){
   // rotates the array the number of times that is passed as an argument
@@ -179,6 +205,11 @@ Game.prototype.rotatePlayers = function(numSteps){
 
 Game.prototype.nextTurn = function(){
   // possibly add function calls here for things that need done at the end of each turn
+
+  // //////////////////////////////////////////////////
+  // Adam has stuff to add to this function
+  // //////////////////////////////////////////////////
+
   this.checkForDeaths();
   this.winCheck();
   this.rotatePlayers();
@@ -188,7 +219,7 @@ Game.prototype.nextTurn = function(){
 // checks if any players have 0 health - and call the game.removePlayer(player) function on them if so
 Game.prototype.checkForDeaths = function(){
   for (var i = 0; i < this.players.length; i++){
-    if (this.players[i].health === 0){
+    if (this.players[i].health <= 0){
       this.removePlayer(this.players[i]);
     }// "if health is 0" conditional [end]
   };// for loop [end]
@@ -249,9 +280,6 @@ Game.prototype.winCheckRenegade = function(){
 };
 
 Game.prototype.winCheck = function(){
-
-
-
   //all win conditions checked in appropriate order
 
   // the if else if statement for renegade and outlaw is important, as if the sheriff is dead, the winCheckOutlaws function returns and outlaws win - this is often correct - but if a single renegade is alive, and just killed the sheriff - then the renegade wins - so we have to check if the renegade should win first, before reverting to checking if outlaws should win in the far more common case that the renegade is not the only player left alive.
@@ -269,13 +297,8 @@ Game.prototype.winCheck = function(){
   else if (outlawCheckResult){
     return outlawCheckResult;
   }
-
   return null;
-
 };
-
-
-
 
 module.exports = Game;
 module.exports.randomElement = getUniqueRandomElement;
