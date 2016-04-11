@@ -95,18 +95,33 @@
 	  }
 	  // DICE
 	  dice1.onclick = function(){
+	    var dice1Value = dice.all[0];
+	    if(dice1Value != 5) dice.save(dice1Value);
+	    dice1.onclick = null;
 	    console.log('You clicked on dice 1!');
 	  }
 	  dice2.onclick = function(){
+	    var dice2Value = dice.all[1];
+	    if(dice2Value != 5) dice.save(dice2Value);
+	    dice2.onclick = null;
 	    console.log('You clicked on dice 2!');
 	  }
 	  dice3.onclick = function(){
+	    var dice3Value = dice.all[2];
+	    if(dice3Value != 5) dice.save(dice3Value);
+	    dice3.onclick = null;
 	    console.log('You clicked on dice 3!');
 	  }
 	  dice4.onclick = function(){
+	    var dice4Value = dice.all[3];
+	    if(dice4Value != 5) dice.save(dice4Value);
+	    dice4.onclick = null;
 	    console.log('You clicked on dice 4!');
 	  }
 	  dice5.onclick = function(){
+	    var dice5Value = dice.all[4];
+	    if(dice5Value != 5) dice.save(dice5Value);
+	    dice5.onclick = null;
 	    console.log('You clicked on dice 5!');
 	  }
 	  // PLAYER LIST
@@ -186,6 +201,23 @@
 	    healthBar.setAttribute('class', 'progress red lighten-4');
 	  }
 	}
+	
+	var endGame = function(gameResult){
+	  // TRIGGER END GAME MODAL
+	  // DISABLE BUTTONS
+	}
+	
+	
+	var saveDice = function(dice, index){
+	  dice.save(dice.all[index]);
+	  // currentClick1 = unsaveDice(index);
+	
+	};
+	
+	// var unsaveDice1 = function(index){
+	//   dice.unsave(dice.all[index]);
+	//   currentClick1 = saveDice(index);
+	// };
 
 /***/ },
 /* 1 */
@@ -16208,31 +16240,33 @@
 	
 	Dice.prototype.roll = function(){
 	  this.currentRoll = [];
-	  for( var dice of this.saved){
-	    this.all.push( dice );
-	  };
+	  // for( var dice of this.saved){
+	  //   this.all.push( dice );
+	  // };
 	  var numberOfDiceToRoll = 5 - this.saved.length;
 	  for( var i=0; i < numberOfDiceToRoll; i++){
 	    var result = Math.floor(Math.random() * 6) + 1;
 	
 	    this.currentRoll.push( result );
-	    this.all.push( result );
+	    // this.all.push( result );
 	  };
+	
+	  this.all = this.saved.concat(this.currentRoll)
+	  console.log("dice.all", this.all)
 	  this.saveDynamite();
 	  this.countArrows();
 	  return this.currentRoll;
 	};
 	//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
 	
-	Dice.prototype.save = function( index ){
-	  this.saved.push( this.currentRoll[ index ]);
+	Dice.prototype.save = function( value ){
+	  this.saved.push(value);
 	};
 	
 	Dice.prototype.saveDynamite = function(){
 	  for( var item of this.currentRoll){
 	    if( item === 5){
-	      var indexOfDynamite = this.currentRoll.indexOf( item );
-	      this.save( indexOfDynamite );
+	      this.save(5);
 	    };
 	  };
 	};

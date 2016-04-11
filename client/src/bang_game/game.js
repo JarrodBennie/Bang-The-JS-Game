@@ -206,14 +206,17 @@ Game.prototype.rotatePlayers = function(numSteps){
 };
 
 Game.prototype.nextTurn = function(){
-  // possibly add function calls here for things that need done at the end of each turn
 
-  // //////////////////////////////////////////////////
-  // Adam has stuff to add to this function
-  // //////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  // Adam has stuff to add to this function         //
+  ////////////////////////////////////////////////////
 
   this.checkForDeaths();
-  this.winCheck();
+  if(this.winCheck()){
+    this.end(this.winCheck());
+    endGame();
+  }
+  this.dice.reset();
   this.rotatePlayers();
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
