@@ -50,7 +50,7 @@ describe('Dice', function(){
 
   it("should return true if 3 or more dynamite combined between current roll and saved", function(){
     dice.save(3);
-    dice.currentRoll = [ 5, 1, 2, 3, 5 ];
+    dice.currentRoll = [ 5, 1, 2, 5 ];
     assert.equal(dice.threeDynamite(), true);
   });
 

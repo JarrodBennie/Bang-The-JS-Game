@@ -1,8 +1,10 @@
-var Game = function(players){
+var Game = function(players, dice){
   this.players = players;
   this.allPlayers = [];
   this.characters = [];
-  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"]
+  this.totalArrows = 9;
+  this.dice = dice;
+  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"];
 
   var character1 = {
     name: "Jesse Jones",
@@ -204,14 +206,17 @@ Game.prototype.rotatePlayers = function(numSteps){
 };
 
 Game.prototype.nextTurn = function(){
-  // possibly add function calls here for things that need done at the end of each turn
 
-  // //////////////////////////////////////////////////
-  // Adam has stuff to add to this function
-  // //////////////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  // Adam has stuff to add to this function         //
+  ////////////////////////////////////////////////////
 
   this.checkForDeaths();
-  this.winCheck();
+  if(this.winCheck()){
+    this.end(this.winCheck());
+    endGame();
+  }
+  this.dice.reset();
   this.rotatePlayers();
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
@@ -299,6 +304,23 @@ Game.prototype.winCheck = function(){
   }
   return null;
 };
+
+
+Game.prototype.updateArrows = function(){
+  this.players[0].arrows += dice.arrowsRolled;
+  this.totalArrows -= dice.arrowsRolled;
+  if( this.totalArrows <= 0 ){
+    this.arrowsDamage() /// see below//  would need to loop all players and do player.health - player.arrows;
+    this.totalArrows = 9;  /// put arrows back in middle.
+  }
+};
+Game.prototype.arrowsDamage = function(){
+  for( player of this.players){
+    player.removeHealthPerArrow();
+  }
+}
+
+
 
 module.exports = Game;
 module.exports.randomElement = getUniqueRandomElement;
