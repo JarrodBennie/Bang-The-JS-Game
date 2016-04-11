@@ -37,16 +37,18 @@ window.onload = function(){
   // BUTTONS
   var dice = new Dice(diceElements);
 
+  // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
-    console.log("dice.canRoll:", dice.canRoll());
     diceClickEnable();
     rollDice(dice, diceElements);
+    
     if(!dice.canRoll){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     }
     savedDiceFull(dice, diceElements, rollDiceButton);
   }
+
   healButton.onclick = function(){
     console.log('You clicked on the heal button!');
   }
@@ -70,7 +72,6 @@ window.onload = function(){
       dice1.onclick = null;
       dice1.style.opacity = 0.5;
       savedDiceFull(dice, diceElements, rollDiceButton);
-      console.log('You clicked on dice 1!');
     }
     dice2.onclick = function(){
       var dice2Value = dice.all[1];
@@ -78,7 +79,6 @@ window.onload = function(){
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
       savedDiceFull(dice, diceElements, rollDiceButton);
-      console.log('You clicked on dice 2!');
     }
     dice3.onclick = function(){
       var dice3Value = dice.all[2];
@@ -86,7 +86,6 @@ window.onload = function(){
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
       savedDiceFull(dice, diceElements, rollDiceButton);
-      console.log('You clicked on dice 3!');
     }
     dice4.onclick = function(){
       var dice4Value = dice.all[3];
@@ -94,7 +93,6 @@ window.onload = function(){
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
       savedDiceFull(dice, diceElements, rollDiceButton);
-      console.log('You clicked on dice 4!');
     }
     dice5.onclick = function(){
       var dice5Value = dice.all[4];
@@ -102,10 +100,10 @@ window.onload = function(){
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
       savedDiceFull(dice, diceElements, rollDiceButton);
-      console.log('You clicked on dice 5!');
     }
   }
   diceClickEnable();
+
   // PLAYER LIST
   player1.onclick = function(){
     targetPlayer(this);
@@ -147,10 +145,8 @@ var rollDice = function(dice, diceElements){
     diceElements[i].style.opacity = 0.5;
     counter++
   }
-
   // ROLL DICE
   if(dice.canRoll()) dice.roll();
-
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
@@ -159,9 +155,6 @@ var rollDice = function(dice, diceElements){
     if(dice.saved.length === 5) currentDice.style.opacity = 1;
     counter++
   }
-  // DEBUGGING
-  console.log("saved :", dice.saved);
-  console.log("current :", dice.currentRoll);
 }
 
 
@@ -198,9 +191,7 @@ var endGame = function(gameResult){
 
 var savedDiceFull = function(dice, diceElements, rollDiceButton){
   if(dice.canRoll() === false){
-    for (var i = 0; i < diceElements.length; i++){
-      diceElements[i].style.opacity = 1;
-    }
+    for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   }
 }
