@@ -1,4 +1,4 @@
-[[[[<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>BANG! The JS Game</title>
@@ -156,6 +156,7 @@
         </div>
       </div>
     </div>
+
 <!--
 DICE IMAGE URLS
 1 = http://i.imgur.com/j32ofq3.png
@@ -169,6 +170,40 @@ GATLING = http://i.imgur.com/0q1hvpf.png
 <div class="row">
   <div class="card col s8 offset-s2">
     <div class="card-image waves-effect waves-block waves-light">
+
+    <!-- GAME INFO -->
+    <div class="row">
+      <div class="card col s8 offset-s2">
+        <div class="card-image waves-effect waves-block waves-light">
+        </div>
+        <div class="card-content center-align">
+          <span class="card-title activator"><i class="material-icons right">keyboard_arrow_up</i></span>
+          <img width="50px" id="dice-1">
+          <img width="50px" id="dice-2">
+          <img width="50px" id="dice-3">
+          <img width="50px" id="dice-4">
+          <img width="50px" id="dice-5">
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Arrow Pile<i class="material-icons right">close</i></span>
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+          <img width="50px" src="http://i.imgur.com/pUn7Uru.png">
+        </div>
+        <div class="card-action center-align">
+          <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>
+          <a id="heal-button" class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to heal">heal</a>
+          <a id="shoot-button" class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to shoot">shoot</a>
+          <a id="end-turn-button" class="waves-effect waves-light btn disabled">end turn</a>
+        </div>
+      </div>
+
     </div>
     <div class="card-content center-align">
       <span class="card-title activator"><i class="material-icons right">keyboard_arrow_up</i></span>
@@ -213,4 +248,4 @@ GATLING = http://i.imgur.com/0q1hvpf.png
   });
 </script>
 </body>
-</html>]]]]
+</html>

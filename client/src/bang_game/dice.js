@@ -1,6 +1,9 @@
+var _ = require('lodash');
+
 var Dice = function(){
   this.currentRoll = [];
   this.saved = [];
+  this.all = [];
   this.arrowsRolled = 0;
 
   this.meaningOf = {
@@ -31,11 +34,16 @@ Dice.prototype.reset = function(){
 }
 
 Dice.prototype.roll = function(){
+  for( item of this.saved){
+    this.all.push( item );
+  }
   this.currentRoll = [];
   var numberOfDiceToRoll = 5 - this.saved.length;
   for( var i=0; i < numberOfDiceToRoll; i++){
     var result = Math.floor(Math.random() * 6) + 1;
+
     this.currentRoll.push( result );
+    this.all.push( result );
   };
   this.saveDynamite();
   this.countArrows();
@@ -55,8 +63,6 @@ Dice.prototype.saveDynamite = function(){
     };
   };
 };
-
-
 //// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 Dice.prototype.threeDynamite = function(){
   var result = false;
@@ -102,5 +108,7 @@ Dice.prototype.countArrows= function(){
 
 //// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 
+
+//// 
 
 module.exports = Dice;
