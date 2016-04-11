@@ -51,38 +51,44 @@
 	window.onload = function(){
 	  // TARGET BUTTONS
 	  var rollDiceButton = document.getElementById('roll-dice-button'),
-	    healButton = document.getElementById('heal-button'),
-	    shootButton = document.getElementById('shoot-button'),
-	    endTurnButton = document.getElementById('end-turn-button');
+	  healButton = document.getElementById('heal-button'),
+	  shootButton = document.getElementById('shoot-button'),
+	  endTurnButton = document.getElementById('end-turn-button');
 	
 	  // TARGET DICE IMAGES
 	  var dice1 = document.getElementById('dice-1') || document.getElementById('hidden'),
-	    dice2 = document.getElementById('dice-2') || document.getElementById('hidden'),
-	    dice3 = document.getElementById('dice-3') || document.getElementById('hidden'),
-	    dice4 = document.getElementById('dice-4') || document.getElementById('hidden'),
-	    dice5 = document.getElementById('dice-5') || document.getElementById('hidden');
+	  dice2 = document.getElementById('dice-2') || document.getElementById('hidden'),
+	  dice3 = document.getElementById('dice-3') || document.getElementById('hidden'),
+	  dice4 = document.getElementById('dice-4') || document.getElementById('hidden'),
+	  dice5 = document.getElementById('dice-5') || document.getElementById('hidden'),
+	  diceElements = [dice1, dice2, dice3, dice4, dice5];
 	  
 	  // TARGET PLAYER LIST
-	    var player1 = document.getElementById('player-1') || document.getElementById('hidden');
-	    player2 = document.getElementById('player-2') || document.getElementById('hidden'),
-	    player3 = document.getElementById('player-3') || document.getElementById('hidden'),
-	    player4 = document.getElementById('player-4') || document.getElementById('hidden'),
-	    player5 = document.getElementById('player-5') || document.getElementById('hidden'),
-	    player6 = document.getElementById('player-6') || document.getElementById('hidden'),
-	    player7 = document.getElementById('player-7') || document.getElementById('hidden'),
-	    player8 = document.getElementById('player-8') || document.getElementById('hidden'),
-	    currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
+	  var player1 = document.getElementById('player-1') || document.getElementById('hidden'),
+	  player2 = document.getElementById('player-2') || document.getElementById('hidden'),
+	  player3 = document.getElementById('player-3') || document.getElementById('hidden'),
+	  player4 = document.getElementById('player-4') || document.getElementById('hidden'),
+	  player5 = document.getElementById('player-5') || document.getElementById('hidden'),
+	  player6 = document.getElementById('player-6') || document.getElementById('hidden'),
+	  player7 = document.getElementById('player-7') || document.getElementById('hidden'),
+	  player8 = document.getElementById('player-8') || document.getElementById('hidden'),
+	  currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
 	
 	  // DISPLAY HINT CARD
 	  var hint = new Hint,
-	    hintElement = document.getElementById('hint');
+	  hintElement = document.getElementById('hint');
 	  hintElement.innerHTML = _.sample(hint.all);
 	
 	  // EVENT LISTENERS
 	  // BUTTONS
-	  var dice = new Dice;
+	  var dice = new Dice(diceElements);
 	  rollDiceButton.onclick = function(){
+	    diceClickEnable();
 	    rollDice(dice);
+	    if(dice.rolls === 0 || dice.threeDynamite()){
+	      this.onclick = null;
+	      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+	    }
 	  }
 	  healButton.onclick = function(){
 	    console.log('You clicked on the heal button!');
@@ -94,21 +100,55 @@
 	    console.log('You clicked on the end turn button!');
 	  }
 	  // DICE
-	  dice1.onclick = function(){
-	    console.log('You clicked on dice 1!');
+	  var diceClickEnable = function(){
+	    dice1.style.opacity = 1;
+	    dice2.style.opacity = 1;
+	    dice3.style.opacity = 1;
+	    dice4.style.opacity = 1;
+	    dice5.style.opacity = 1;
+	
+	    dice1.onclick = function(){
+	      var dice1Value = dice.all[0];
+	      if(dice1Value != 5) dice.save(dice1Value);
+	      dice1.onclick = null;
+	      dice1.style.opacity = 0.5;
+	      savedDiceFull(dice, diceElements, rollDiceButton);
+	      console.log('You clicked on dice 1!');
+	    }
+	    dice2.onclick = function(){
+	      var dice2Value = dice.all[1];
+	      if(dice2Value != 5) dice.save(dice2Value);
+	      dice2.onclick = null;
+	      dice2.style.opacity = 0.5;
+	      savedDiceFull(dice, diceElements, rollDiceButton);
+	      console.log('You clicked on dice 2!');
+	    }
+	    dice3.onclick = function(){
+	      var dice3Value = dice.all[2];
+	      if(dice3Value != 5) dice.save(dice3Value);
+	      dice3.onclick = null;
+	      dice3.style.opacity = 0.5;
+	      savedDiceFull(dice, diceElements, rollDiceButton);
+	      console.log('You clicked on dice 3!');
+	    }
+	    dice4.onclick = function(){
+	      var dice4Value = dice.all[3];
+	      if(dice4Value != 5) dice.save(dice4Value);
+	      dice4.onclick = null;
+	      dice4.style.opacity = 0.5;
+	      savedDiceFull(dice, diceElements, rollDiceButton);
+	      console.log('You clicked on dice 4!');
+	    }
+	    dice5.onclick = function(){
+	      var dice5Value = dice.all[4];
+	      if(dice5Value != 5) dice.save(dice5Value);
+	      dice5.onclick = null;
+	      dice5.style.opacity = 0.5;
+	      savedDiceFull(dice, diceElements, rollDiceButton);
+	      console.log('You clicked on dice 5!');
+	    }
 	  }
-	  dice2.onclick = function(){
-	    console.log('You clicked on dice 2!');
-	  }
-	  dice3.onclick = function(){
-	    console.log('You clicked on dice 3!');
-	  }
-	  dice4.onclick = function(){
-	    console.log('You clicked on dice 4!');
-	  }
-	  dice5.onclick = function(){
-	    console.log('You clicked on dice 5!');
-	  }
+	  diceClickEnable();
 	  // PLAYER LIST
 	  player1.onclick = function(){
 	    targetPlayer(this);
@@ -154,12 +194,15 @@
 	  for (var i = 0; i < dice.currentRoll.length; i++){
 	    currentDice = document.getElementById('dice-'+(counter + 1));
 	    currentDice.src = dice.imageUrl[dice.currentRoll[i]];
+	    if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
+	    if(dice.saved.length === 5) currentDice.style.opacity = 1;
 	    counter++
 	  }
 	  // DEBUGGING
 	  console.log("saved :", dice.saved);
 	  console.log("current :", dice.currentRoll);
 	}
+	
 	
 	// SELECT PLAYER FROM LIST
 	var targetPlayer = function(selection){
@@ -184,6 +227,20 @@
 	  else {
 	    selection.setAttribute('class', 'collection-item avatar player');
 	    healthBar.setAttribute('class', 'progress red lighten-4');
+	  }
+	}
+	
+	var endGame = function(gameResult){
+	  // TRIGGER END GAME MODAL
+	  // DISABLE BUTTONS
+	}
+	
+	var savedDiceFull = function(dice, diceElements, rollDiceButton){
+	  if(dice.saved.length === 5){
+	    for (var i = 0; i < diceElements.length; i++){
+	      diceElements[i].style.opacity = 1;
+	    }
+	    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	  }
 	}
 
@@ -16167,11 +16224,19 @@
 
 	var _ = __webpack_require__(1);
 	
-	var Dice = function(){
+	var Dice = function(diceElements){
 	  this.currentRoll = [];
 	  this.saved = [];
 	  this.all = [];
 	  this.arrowsRolled = 0;
+	  this.diceElements = diceElements;
+	  this.rolls = 3;
+	
+	//// INFO ABOUT ABOVE:
+	//// this.currentRoll - the result of the dice from the player's last roll
+	//// this.saved - the dice that the player will not re-roll
+	//// this.all - an array that is the same as the dice that are being displayed in the browser. It is made of the dice the player didnt re-roll and the remaining dice after they have been rolled. ( this.saved + this.currentRoll after new numbers have been generated)  Used for event listener so can use index position. the dice that are being displayed in the browser come from looping through 2 arrays(saved and currentRoll- so that saved dice wont spin) so dont have proper index positions without this.all
+	
 	
 	  this.meaningOf = {
 	    1: "Shoot 1",
@@ -16201,53 +16266,53 @@
 	}
 	
 	Dice.prototype.roll = function(){
-	  for( item of this.saved){
-	    this.all.push( item );
+	  if(this.rolls === 0){
+	    console.log("You can't roll the dice any more!")
+	    return;
+	  }
+	
+	  for (var i = 0; i < this.saved.length; i++) {
+	    this.diceElements[i].onclick = null;
+	    this.diceElements[i].style.opacity = 0.5;
 	  }
 	  this.currentRoll = [];
+	
 	  var numberOfDiceToRoll = 5 - this.saved.length;
 	  for( var i=0; i < numberOfDiceToRoll; i++){
 	    var result = Math.floor(Math.random() * 6) + 1;
 	
 	    this.currentRoll.push( result );
-	    this.all.push( result );
 	  };
+	
+	  this.all = this.saved.concat(this.currentRoll)
+	  console.log("dice.all", this.all)
 	  this.saveDynamite();
 	  this.countArrows();
+	  this.rolls--;
+	
 	  return this.currentRoll;
 	};
-	//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save(player1) seems a bit ugly but would allow us to check player special card.
+	//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
 	
-	Dice.prototype.save = function( index ){
-	  this.saved.push( this.currentRoll[ index ]);
+	Dice.prototype.save = function( value ){
+	  this.saved.push(value);
 	};
 	
 	Dice.prototype.saveDynamite = function(){
 	  for( var item of this.currentRoll){
 	    if( item === 5){
-	      var indexOfDynamite = this.currentRoll.indexOf( item );
-	      this.save( indexOfDynamite );
+	      this.save(5);
 	    };
 	  };
 	};
 	//// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 	Dice.prototype.threeDynamite = function(){
-	  var result = false;
 	  var counter = 0;
-	  for( var number of this.currentRoll){
-	    if( number === 5){
-	      counter ++;
-	    };
-	  };
-	  for( var number of this.saved){
-	    if( number === 5){
-	      counter ++;
-	    };
-	  };
-	  if( counter >= 3){
-	    result = true;
-	  };
-	  return result;
+	  for( var number of this.all){
+	    if( number === 5) counter ++;
+	  }
+	  if( counter >= 3) return true;
+	  return false;
 	};
 	
 	Dice.prototype.threeGatling = function(){
@@ -16275,8 +16340,6 @@
 	
 	//// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 	
-	
-	//// 
 	
 	module.exports = Dice;
 
