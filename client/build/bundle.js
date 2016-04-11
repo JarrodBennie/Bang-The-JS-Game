@@ -82,10 +82,12 @@
 	  // EVENT LISTENERS
 	  // BUTTONS
 	  var dice = new Dice(diceElements);
+	
 	  rollDiceButton.onclick = function(){
+	    console.log("dice.canRoll:", dice.canRoll());
 	    diceClickEnable();
-	    rollDice(dice);
-	    if(dice.rolls === 0 || dice.threeDynamite()){
+	    rollDice(dice, diceElements);
+	    if(!dice.canRoll){
 	      this.onclick = null;
 	      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	    }
@@ -181,16 +183,20 @@
 	}
 	
 	// ROLL DICE BUTTON
-	var rollDice = function(dice){
+	var rollDice = function(dice, diceElements){
 	  var counter = 0;
 	  // DISPLAY SAVED DICE
 	  for (var i = 0; i < dice.saved.length; i++) {
 	    var currentDice = document.getElementById('dice-'+(counter + 1));
 	    currentDice.src = dice.imageUrl[dice.saved[i]];
+	    diceElements[i].onclick = null;
+	    diceElements[i].style.opacity = 0.5;
 	    counter++
 	  }
+	
 	  // ROLL DICE
-	  dice.roll();
+	  if(dice.canRoll()) dice.roll();
+	
 	  // DISPLAY CURRENT ROLL
 	  for (var i = 0; i < dice.currentRoll.length; i++){
 	    currentDice = document.getElementById('dice-'+(counter + 1));
@@ -237,7 +243,7 @@
 	}
 	
 	var savedDiceFull = function(dice, diceElements, rollDiceButton){
-	  if(dice.cantRoll()){
+	  if(dice.canRoll() === false){
 	    for (var i = 0; i < diceElements.length; i++){
 	      diceElements[i].style.opacity = 1;
 	    }
@@ -16225,12 +16231,11 @@
 
 	var _ = __webpack_require__(1);
 	
-	var Dice = function(diceElements){
+	var Dice = function(){
 	  this.currentRoll = [];
 	  this.saved = [];
 	  this.all = [];
 	  this.arrowsRolled = 0;
-	  this.diceElements = diceElements;
 	  this.rolls = 3;
 	
 	//// INFO ABOUT ABOVE:
@@ -16267,21 +16272,12 @@
 	}
 	
 	Dice.prototype.roll = function(){
-	  if(this.rolls === 0){
-	    console.log("You can't roll the dice any more!")
-	    return;
-	  }
-	
-	  for (var i = 0; i < this.saved.length; i++) {
-	    this.diceElements[i].onclick = null;
-	    this.diceElements[i].style.opacity = 0.5;
-	  }
 	  this.currentRoll = [];
+	  if(!this.canRoll()) return;
 	
 	  var numberOfDiceToRoll = 5 - this.saved.length;
 	  for( var i=0; i < numberOfDiceToRoll; i++){
 	    var result = Math.floor(Math.random() * 6) + 1;
-	
 	    this.currentRoll.push( result );
 	  };
 	
@@ -16342,12 +16338,12 @@
 	
 	//// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 	
-	Dice.prototype.cantRoll = function(){
-	  result = false;
-	  if(this.rolls === 0) return true;
-	  if(this.saved.length === 5) return true;
-	  if(this.threeDynamite()) return true;
-	}
+	Dice.prototype.canRoll = function(){
+	  if(this.rolls === 0) return false;
+	  if(this.saved.length === 5) return false;
+	  if(this.threeDynamite()) return false;
+	  return true;
+	};
 	
 	
 	module.exports = Dice;
@@ -16376,7 +16372,8 @@
 	    "<b>Hint</b>: If the Sheriff is confronted by 2 Renegades and the Sheriff dies first, the Outlaws win!",
 	    "<b>Hint</b>: Click on a die to save it and prevent it from re-rolling.",
 	    "<b>Hint</b>: If you aren't satisfied with your roll, you can re-roll up to twice.",
-	    "<b>Hint</b>: Click the heal button with no player targeted to heal yourself."
+	    "<b>Hint</b>: Click the heal button with no player targeted to heal yourself.",
+	    "<b>Hint</b>: The Sheriff always takes the first turn."
 	  ]
 	}
 	

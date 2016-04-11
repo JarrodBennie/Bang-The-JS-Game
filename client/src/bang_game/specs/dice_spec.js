@@ -33,8 +33,8 @@ describe('Dice', function(){
     assert.equal(dice.roll().length, 3);
   });
 
-  it("should save dice at index 2", function(){
-    dice.save(2);
+  it("should save a dice with the value 3", function(){
+    dice.save(3);
     assert.deepEqual( dice.saved, [ 3 ] );
   });
 
@@ -44,21 +44,21 @@ describe('Dice', function(){
   });
 
   it("should return true if 3 or more dynamite in current roll", function(){
-    dice.currentRoll = [ 5, 5, 1, 5, 2 ];
+    dice.all = [ 5, 5, 1, 5, 2 ];
     assert.equal(dice.threeDynamite(), true);
   });
 
+  // threeDynamite uses dice.all now, not saved & current. Test is obsolete
   it("should return true if 3 or more dynamite combined between current roll and saved", function(){
-    dice.save(3);
+    dice.save(5);
     dice.currentRoll = [ 5, 1, 2, 5 ];
     assert.equal(dice.threeDynamite(), true);
   });
 
   it("should return true if 3 or more gatling saved", function(){
-    dice.currentRoll = [ 4, 4, 4, 1, 2 ];
-    dice.save(0);
-    dice.save(1);
-    dice.save(2);
+    dice.save(4);
+    dice.save(4);
+    dice.save(4);
     assert.equal(dice.threeGatling(), true);
   });
 

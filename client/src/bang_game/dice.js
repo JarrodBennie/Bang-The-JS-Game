@@ -1,11 +1,10 @@
 var _ = require('lodash');
 
-var Dice = function(diceElements){
+var Dice = function(){
   this.currentRoll = [];
   this.saved = [];
   this.all = [];
   this.arrowsRolled = 0;
-  this.diceElements = diceElements;
   this.rolls = 3;
 
 //// INFO ABOUT ABOVE:
@@ -42,21 +41,12 @@ Dice.prototype.reset = function(){
 }
 
 Dice.prototype.roll = function(){
-  if(this.rolls === 0){
-    console.log("You can't roll the dice any more!")
-    return;
-  }
-
-  for (var i = 0; i < this.saved.length; i++) {
-    this.diceElements[i].onclick = null;
-    this.diceElements[i].style.opacity = 0.5;
-  }
   this.currentRoll = [];
+  if(!this.canRoll()) return;
 
   var numberOfDiceToRoll = 5 - this.saved.length;
   for( var i=0; i < numberOfDiceToRoll; i++){
     var result = Math.floor(Math.random() * 6) + 1;
-
     this.currentRoll.push( result );
   };
 
@@ -117,12 +107,12 @@ Dice.prototype.countArrows= function(){
 
 //// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 
-Dice.prototype.cantRoll = function(){
-  result = false;
-  if(this.rolls === 0) return true;
-  if(this.saved.length === 5) return true;
-  if(this.threeDynamite()) return true;
-}
+Dice.prototype.canRoll = function(){
+  if(this.rolls === 0) return false;
+  if(this.saved.length === 5) return false;
+  if(this.threeDynamite()) return false;
+  return true;
+};
 
 
 module.exports = Dice;

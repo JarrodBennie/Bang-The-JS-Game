@@ -36,10 +36,12 @@ window.onload = function(){
   // EVENT LISTENERS
   // BUTTONS
   var dice = new Dice(diceElements);
+
   rollDiceButton.onclick = function(){
+    console.log("dice.canRoll:", dice.canRoll());
     diceClickEnable();
-    rollDice(dice);
-    if(dice.rolls === 0 || dice.threeDynamite()){
+    rollDice(dice, diceElements);
+    if(!dice.canRoll){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     }
@@ -135,16 +137,20 @@ window.onload = function(){
 }
 
 // ROLL DICE BUTTON
-var rollDice = function(dice){
+var rollDice = function(dice, diceElements){
   var counter = 0;
   // DISPLAY SAVED DICE
   for (var i = 0; i < dice.saved.length; i++) {
     var currentDice = document.getElementById('dice-'+(counter + 1));
     currentDice.src = dice.imageUrl[dice.saved[i]];
+    diceElements[i].onclick = null;
+    diceElements[i].style.opacity = 0.5;
     counter++
   }
+
   // ROLL DICE
-  dice.roll();
+  if(dice.canRoll()) dice.roll();
+
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
@@ -191,7 +197,7 @@ var endGame = function(gameResult){
 }
 
 var savedDiceFull = function(dice, diceElements, rollDiceButton){
-  if(dice.cantRoll()){
+  if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++){
       diceElements[i].style.opacity = 1;
     }
