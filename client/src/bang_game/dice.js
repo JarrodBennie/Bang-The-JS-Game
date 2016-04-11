@@ -6,6 +6,12 @@ var Dice = function(){
   this.all = [];
   this.arrowsRolled = 0;
 
+//// INFO ABOUT ABOVE:
+//// this.currentRoll - the result of the dice from the player's last roll
+//// this.saved - the dice that the player will not re-roll
+//// this.all - an array that is the same as the dice that are being displayed in the browser. It is made of the dice the player didnt re-roll and the remaining dice after they have been rolled. ( this.saved + this.currentRoll after new numbers have been generated)  Used for event listener so can use index position. the dice that are being displayed in the browser come from looping through 2 arrays(saved and currentRoll- so that saved dice wont spin) so dont have proper index positions without this.all
+
+
   this.meaningOf = {
     1: "Shoot 1",
     2: "Shoot 2",
@@ -34,10 +40,10 @@ Dice.prototype.reset = function(){
 }
 
 Dice.prototype.roll = function(){
-  for( item of this.saved){
-    this.all.push( item );
-  }
   this.currentRoll = [];
+  for( var dice of this.saved){
+    this.all.push( dice );
+  };
   var numberOfDiceToRoll = 5 - this.saved.length;
   for( var i=0; i < numberOfDiceToRoll; i++){
     var result = Math.floor(Math.random() * 6) + 1;
@@ -49,7 +55,7 @@ Dice.prototype.roll = function(){
   this.countArrows();
   return this.currentRoll;
 };
-//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save(player1) seems a bit ugly but would allow us to check player special card.
+//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
 
 Dice.prototype.save = function( index ){
   this.saved.push( this.currentRoll[ index ]);
@@ -108,7 +114,5 @@ Dice.prototype.countArrows= function(){
 
 //// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 
-
-//// 
 
 module.exports = Dice;
