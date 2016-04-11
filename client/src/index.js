@@ -49,6 +49,7 @@ window.onload = function(){
   }
   // DICE
   dice1.onclick = function(){
+    
     console.log('You clicked on dice 1!');
   }
   dice2.onclick = function(){
@@ -139,4 +140,9 @@ var targetPlayer = function(selection){
     selection.setAttribute('class', 'collection-item avatar player');
     healthBar.setAttribute('class', 'progress red lighten-4');
   }
+}
+
+var endGame = function(gameResult){
+  // TRIGGER END GAME MODAL
+  // DISABLE BUTTONS
 }

@@ -41,16 +41,19 @@ Dice.prototype.reset = function(){
 
 Dice.prototype.roll = function(){
   this.currentRoll = [];
-  for( var dice of this.saved){
-    this.all.push( dice );
-  };
+  // for( var dice of this.saved){
+  //   this.all.push( dice );
+  // };
   var numberOfDiceToRoll = 5 - this.saved.length;
   for( var i=0; i < numberOfDiceToRoll; i++){
     var result = Math.floor(Math.random() * 6) + 1;
 
     this.currentRoll.push( result );
-    this.all.push( result );
+    // this.all.push( result );
   };
+
+  this.all = this.saved.concat(this.currentRoll)
+  console.log("dice.all", this.all)
   this.saveDynamite();
   this.countArrows();
   return this.currentRoll;
