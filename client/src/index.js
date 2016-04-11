@@ -55,34 +55,50 @@ window.onload = function(){
   }
   // DICE
   var diceClickEnable = function(){
+    dice1.style.opacity = 1;
+    dice2.style.opacity = 1;
+    dice3.style.opacity = 1;
+    dice4.style.opacity = 1;
+    dice5.style.opacity = 1;
+
     dice1.onclick = function(){
       var dice1Value = dice.all[0];
       if(dice1Value != 5) dice.save(dice1Value);
       dice1.onclick = null;
+      dice1.style.opacity = 0.5;
+      savedDiceFull(dice, diceElements, rollDiceButton);
       console.log('You clicked on dice 1!');
     }
     dice2.onclick = function(){
       var dice2Value = dice.all[1];
       if(dice2Value != 5) dice.save(dice2Value);
       dice2.onclick = null;
+      dice2.style.opacity = 0.5;
+      savedDiceFull(dice, diceElements, rollDiceButton);
       console.log('You clicked on dice 2!');
     }
     dice3.onclick = function(){
       var dice3Value = dice.all[2];
       if(dice3Value != 5) dice.save(dice3Value);
       dice3.onclick = null;
+      dice3.style.opacity = 0.5;
+      savedDiceFull(dice, diceElements, rollDiceButton);
       console.log('You clicked on dice 3!');
     }
     dice4.onclick = function(){
       var dice4Value = dice.all[3];
       if(dice4Value != 5) dice.save(dice4Value);
       dice4.onclick = null;
+      dice4.style.opacity = 0.5;
+      savedDiceFull(dice, diceElements, rollDiceButton);
       console.log('You clicked on dice 4!');
     }
     dice5.onclick = function(){
       var dice5Value = dice.all[4];
       if(dice5Value != 5) dice.save(dice5Value);
       dice5.onclick = null;
+      dice5.style.opacity = 0.5;
+      savedDiceFull(dice, diceElements, rollDiceButton);
       console.log('You clicked on dice 5!');
     }
   }
@@ -132,6 +148,8 @@ var rollDice = function(dice){
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
     currentDice.src = dice.imageUrl[dice.currentRoll[i]];
+    if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
+    if(dice.saved.length === 5) currentDice.style.opacity = 1;
     counter++
   }
   // DEBUGGING
@@ -171,14 +189,11 @@ var endGame = function(gameResult){
   // DISABLE BUTTONS
 }
 
-
-var saveDice = function(dice, index){
-  dice.save(dice.all[index]);
-  // currentClick1 = unsaveDice(index);
-
-};
-
-// var unsaveDice1 = function(index){
-//   dice.unsave(dice.all[index]);
-//   currentClick1 = saveDice(index);
-// };
+var savedDiceFull = function(dice, diceElements, rollDiceButton){
+  if(dice.saved.length === 5){
+    for (var i = 0; i < diceElements.length; i++){
+      diceElements[i].style.opacity = 1;
+    }
+    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  }
+}

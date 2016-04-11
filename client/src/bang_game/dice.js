@@ -49,6 +49,7 @@ Dice.prototype.roll = function(){
 
   for (var i = 0; i < this.saved.length; i++) {
     this.diceElements[i].onclick = null;
+    this.diceElements[i].style.opacity = 0.5;
   }
   this.currentRoll = [];
 
