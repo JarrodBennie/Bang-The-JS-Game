@@ -1,8 +1,10 @@
-var Game = function(players){
+var Game = function(players, dice){
   this.players = players;
   this.allPlayers = [];
   this.characters = [];
-  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"]
+  this.totalArrows = 9;
+  this.dice = dice;
+  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"];
 
   var character1 = {
     name: "Jesse Jones",
@@ -299,6 +301,23 @@ Game.prototype.winCheck = function(){
   }
   return null;
 };
+
+
+Game.prototype.updateArrows = function(){
+  this.players[0].arrows += dice.arrowsRolled;
+  this.totalArrows -= dice.arrowsRolled;
+  if( this.totalArrows <= 0 ){
+    this.arrowsDamage() /// see below//  would need to loop all players and do player.health - player.arrows;
+    this.totalArrows = 9;  /// put arrows back in middle.
+  }
+};
+Game.prototype.arrowsDamage = function(){
+  for( player of this.players){
+    player.removeHealthPerArrow();
+  }
+}
+
+
 
 module.exports = Game;
 module.exports.randomElement = getUniqueRandomElement;
