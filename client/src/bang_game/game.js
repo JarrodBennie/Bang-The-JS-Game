@@ -1,6 +1,7 @@
 var Game = function(players){
   this.players = players;
-  this.characters = []
+  this.allPlayers = [];
+  this.characters = [];
   this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"]
 
   var character1 = {
@@ -134,6 +135,12 @@ var getUniqueRandomElement = function(array){
   return choice;
 };
 
+Game.prototype.savePlayers = function(){
+  if (this.players.length === 8) {
+    this.allPlayers = this.players.slice();
+  };
+};
+
 Game.prototype.assignRoles = function(){
   for (var i = 0; i < this.players.length; i++){
     this.players[i].role = getUniqueRandomElement(this.roles);
@@ -262,6 +269,8 @@ Game.prototype.winCheck = function(){
   else if (outlawCheckResult){
     return outlawCheckResult;
   }
+
+  return null;
 
 };
 
