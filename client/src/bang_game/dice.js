@@ -1,10 +1,12 @@
 var _ = require('lodash');
 
-var Dice = function(){
+var Dice = function(diceElements){
   this.currentRoll = [];
   this.saved = [];
   this.all = [];
   this.arrowsRolled = 0;
+  this.diceElements = diceElements;
+  this.rolls = 3;
 
 //// INFO ABOUT ABOVE:
 //// this.currentRoll - the result of the dice from the player's last roll
@@ -40,22 +42,30 @@ Dice.prototype.reset = function(){
 }
 
 Dice.prototype.roll = function(){
+  if(this.rolls === 0){
+    console.log("You can't roll the dice any more!")
+    return;
+  }
+
+  for (var i = 0; i < this.saved.length; i++) {
+    this.diceElements[i].onclick = null;
+    this.diceElements[i].style.opacity = 0.5;
+  }
   this.currentRoll = [];
-  // for( var dice of this.saved){
-  //   this.all.push( dice );
-  // };
+
   var numberOfDiceToRoll = 5 - this.saved.length;
   for( var i = 0; i < numberOfDiceToRoll; i++){
     var result = Math.floor(Math.random() * 6) + 1;
 
     this.currentRoll.push( result );
-    // this.all.push( result );
   };
 
   this.all = this.saved.concat(this.currentRoll)
   console.log("dice.all", this.all)
   this.saveDynamite();
   this.countArrows();
+  this.rolls--;
+
   return this.currentRoll;
 };
 //// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
@@ -73,22 +83,12 @@ Dice.prototype.saveDynamite = function(){
 };
 //// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 Dice.prototype.threeDynamite = function(){
-  var result = false;
   var counter = 0;
-  for( var number of this.currentRoll){
-    if( number === 5){
-      counter ++;
-    };
-  };
-  for( var number of this.saved){
-    if( number === 5){
-      counter ++;
-    };
-  };
-  if( counter >= 3){
-    result = true;
-  };
-  return result;
+  for( var number of this.all){
+    if( number === 5) counter ++;
+  }
+  if( counter >= 3) return true;
+  return false;
 };
 
 Dice.prototype.threeGatling = function(){
