@@ -39,6 +39,10 @@ window.onload = function(){
   rollDiceButton.onclick = function(){
     diceClickEnable();
     rollDice(dice);
+    if(dice.rolls === 0 || dice.threeDynamite()){
+      this.onclick = null;
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    }
   }
   healButton.onclick = function(){
     console.log('You clicked on the heal button!');
