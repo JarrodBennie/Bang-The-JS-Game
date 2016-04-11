@@ -16282,7 +16282,6 @@
 	  };
 	
 	  this.all = this.saved.concat(this.currentRoll)
-	  console.log("dice.all", this.all)
 	  this.saveDynamite();
 	  this.countArrows();
 	  this.rolls--;
