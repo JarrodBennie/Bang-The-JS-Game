@@ -1,10 +1,11 @@
 var _ = require('lodash');
 
-var Dice = function(){
+var Dice = function(diceElements){
   this.currentRoll = [];
   this.saved = [];
   this.all = [];
   this.arrowsRolled = 0;
+  this.diceElements = diceElements;
 
 //// INFO ABOUT ABOVE:
 //// this.currentRoll - the result of the dice from the player's last roll
@@ -40,6 +41,9 @@ Dice.prototype.reset = function(){
 }
 
 Dice.prototype.roll = function(){
+  for (var i = 0; i < this.saved.length; i++) {
+    this.diceElements[i].onclick = null;
+  }
   this.currentRoll = [];
   // for( var dice of this.saved){
   //   this.all.push( dice );
