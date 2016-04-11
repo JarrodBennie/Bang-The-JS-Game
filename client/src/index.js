@@ -49,19 +49,33 @@ window.onload = function(){
   }
   // DICE
   dice1.onclick = function(){
-    
+    var dice1Value = dice.all[0];
+    if(dice1Value != 5) dice.save(dice1Value);
+    dice1.onclick = null;
     console.log('You clicked on dice 1!');
   }
   dice2.onclick = function(){
+    var dice2Value = dice.all[1];
+    if(dice2Value != 5) dice.save(dice2Value);
+    dice2.onclick = null;
     console.log('You clicked on dice 2!');
   }
   dice3.onclick = function(){
+    var dice3Value = dice.all[2];
+    if(dice3Value != 5) dice.save(dice3Value);
+    dice3.onclick = null;
     console.log('You clicked on dice 3!');
   }
   dice4.onclick = function(){
+    var dice4Value = dice.all[3];
+    if(dice4Value != 5) dice.save(dice4Value);
+    dice4.onclick = null;
     console.log('You clicked on dice 4!');
   }
   dice5.onclick = function(){
+    var dice5Value = dice.all[4];
+    if(dice5Value != 5) dice.save(dice5Value);
+    dice5.onclick = null;
     console.log('You clicked on dice 5!');
   }
   // PLAYER LIST
@@ -146,3 +160,15 @@ var endGame = function(gameResult){
   // TRIGGER END GAME MODAL
   // DISABLE BUTTONS
 }
+
+
+var saveDice = function(dice, index){
+  dice.save(dice.all[index]);
+  // currentClick1 = unsaveDice(index);
+
+};
+
+// var unsaveDice1 = function(index){
+//   dice.unsave(dice.all[index]);
+//   currentClick1 = saveDice(index);
+// };
