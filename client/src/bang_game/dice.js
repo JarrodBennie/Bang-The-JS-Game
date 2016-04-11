@@ -45,7 +45,7 @@ Dice.prototype.roll = function(){
     this.all.push( dice );
   };
   var numberOfDiceToRoll = 5 - this.saved.length;
-  for( var i=0; i < numberOfDiceToRoll; i++){
+  for( var i = 0; i < numberOfDiceToRoll; i++){
     var result = Math.floor(Math.random() * 6) + 1;
 
     this.currentRoll.push( result );
