@@ -43,6 +43,7 @@ window.onload = function(){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     }
+    savedDiceFull(dice, diceElements, rollDiceButton);
   }
   healButton.onclick = function(){
     console.log('You clicked on the heal button!');
@@ -190,7 +191,7 @@ var endGame = function(gameResult){
 }
 
 var savedDiceFull = function(dice, diceElements, rollDiceButton){
-  if(dice.saved.length === 5){
+  if(dice.cantRoll()){
     for (var i = 0; i < diceElements.length; i++){
       diceElements[i].style.opacity = 1;
     }

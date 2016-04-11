@@ -112,9 +112,17 @@ Dice.prototype.countArrows= function(){
     };
   };
 };
+
 //// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
 
 //// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
+
+Dice.prototype.cantRoll = function(){
+  result = false;
+  if(this.rolls === 0) return true;
+  if(this.saved.length === 5) return true;
+  if(this.threeDynamite()) return true;
+}
 
 
 module.exports = Dice;
