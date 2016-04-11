@@ -137,7 +137,7 @@ var getUniqueRandomElement = function(array){
 Game.prototype.assignRoles = function(){
   for (var i = 0; i < this.players.length; i++){
     this.players[i].role = getUniqueRandomElement(this.roles);
-  }
+  };
 };
 
 

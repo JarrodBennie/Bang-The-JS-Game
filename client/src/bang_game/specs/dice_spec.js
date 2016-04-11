@@ -82,5 +82,4 @@ describe('Dice', function(){
     assert.equal(typeof(dice.all[3]), "number");
   });
 
-
 });
