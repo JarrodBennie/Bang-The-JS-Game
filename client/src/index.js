@@ -175,8 +175,10 @@ window.onload = function(){
     if(dice.canRoll === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
     }
-    savedDiceFull(dice, diceElements, rollDiceButton);
+
+    savedDiceFull(dice, diceElements, rollDiceButton, game);
     console.log(dice.all)
   }
 
@@ -202,47 +204,39 @@ window.onload = function(){
       if(dice1Value != 5) dice.save(dice1Value);
       dice1.onclick = null;
       dice1.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice2.onclick = function(){
       var dice2Value = dice.all[1];
       if(dice2Value != 5) dice.save(dice2Value);
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice3.onclick = function(){
       var dice3Value = dice.all[2];
       if(dice3Value != 5) dice.save(dice3Value);
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice4.onclick = function(){
       var dice4Value = dice.all[3];
       if(dice4Value != 5) dice.save(dice4Value);
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice5.onclick = function(){
       var dice5Value = dice.all[4];
       if(dice5Value != 5) dice.save(dice5Value);
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
   }
   diceClickEnable();  
 
-  var checkRangeToTarget = function(){
-    if (game.players[0].actionCounters["1"]){
-      game.canShoot(1)
-    }
-    if (game.players[0].actionCounters["2"]){
-      game.canShoot(2)
-    }
-  }
 
   // PLAYER LIST
   player1.onclick = function(){
@@ -252,8 +246,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
-
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player2.onclick = function(){
     if(game.players[0].target === game.allPlayers[1]){
@@ -262,7 +256,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -271,7 +266,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -280,7 +276,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -289,7 +286,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -298,7 +296,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -307,7 +306,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -316,8 +316,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
-    checkRangeToTarget();
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
+
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')
   }
@@ -393,10 +395,11 @@ var endGame = function(gameResult){
   // DISABLE BUTTONS
 }
 
-var savedDiceFull = function(dice, diceElements, rollDiceButton){
+var savedDiceFull = function(dice, diceElements, rollDiceButton, game){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
   }
 }
 
