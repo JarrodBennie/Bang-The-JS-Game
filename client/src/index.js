@@ -163,13 +163,7 @@ window.onload = function(){
   var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
-  // DISPLAY ARROWS
-  for( var i=0; i < 9; i++ ){
-    var currentArrow = document.getElementById('arrow-' + (i+1));
-    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
-    currentArrow.style.visibility = "visible";
-    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
-  }
+  drawArrows(game);
 
   // EVENT LISTENERS
   // BUTTONS
@@ -329,6 +323,7 @@ var rollDice = function(dice, diceElements, game){
   // ROLL DICE
   dice.roll();
   game.resolveArrows();
+  drawArrows(game);
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
@@ -336,6 +331,16 @@ var rollDice = function(dice, diceElements, game){
     if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
     if(dice.saved.length === 5) currentDice.style.opacity = 1;
     counter++
+  }
+}
+
+// DRAW ARROWS
+var drawArrows = function(game){
+  for( var i=0; i < 9; i++ ){
+    var currentArrow = document.getElementById('arrow-' + (i+1));
+    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+    currentArrow.style.visibility = "visible";
+    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
   }
 }
 
