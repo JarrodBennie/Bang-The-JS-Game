@@ -52,13 +52,24 @@ window.onload = function(){
   var currentPlayerCharacter = document.getElementById('current-player-character');
   var currentPlayerAbility = document.getElementById('current-player-ability');
   var sheriffIcon = document.getElementById('sheriff-icon');
-  
+  var currentPlayerHealth = document.getElementById('current-player-health');
+
   currentPlayerAvatar.src = game.players[0].character.imgUrl;
   currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
-  currentPlayerCharacter.innerText = game.players[0].character.name;
+  currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
 
-  if(game.players[0].role.name === "Sheriff")sheriffIcon.innerText = "brightness_high";
+  for (var i = 0; i < game.players[0].health; i++) {
+    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
+  }
+
+  for (var i = 0; i < game.players[0].healthDifference(); i++) {
+    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
+  }
+
+  if(game.players[0].role.name === "Sheriff"){
+    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons right sheriff-icon"></i>';
+  }
 
   // POPULATE PLAYER 1
   var player1Name = document.getElementById('player-1-name');
@@ -152,13 +163,7 @@ window.onload = function(){
   var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
-  // DISPLAY ARROWS
-  for( var i=0; i < 9; i++ ){
-    var currentArrow = document.getElementById('arrow-' + (i+1));
-    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
-    currentArrow.style.visibility = "visible";
-    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
-  }
+  drawArrows(game);
 
   // EVENT LISTENERS
   // BUTTONS
@@ -170,8 +175,10 @@ window.onload = function(){
     if(dice.canRoll === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
     }
-    savedDiceFull(dice, diceElements, rollDiceButton);
+
+    savedDiceFull(dice, diceElements, rollDiceButton, game);
     console.log(dice.all)
   }
 
@@ -197,55 +204,60 @@ window.onload = function(){
       if(dice1Value != 5) dice.save(dice1Value);
       dice1.onclick = null;
       dice1.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice2.onclick = function(){
       var dice2Value = dice.all[1];
       if(dice2Value != 5) dice.save(dice2Value);
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice3.onclick = function(){
       var dice3Value = dice.all[2];
       if(dice3Value != 5) dice.save(dice3Value);
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice4.onclick = function(){
       var dice4Value = dice.all[3];
       if(dice4Value != 5) dice.save(dice4Value);
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
     dice5.onclick = function(){
       var dice5Value = dice.all[4];
       if(dice5Value != 5) dice.save(dice5Value);
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton);
+      savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
   }
-  diceClickEnable();
+  diceClickEnable();  
+
 
   // PLAYER LIST
   player1.onclick = function(){
-    targetPlayer(this, game);
     if(game.players[0].target === game.allPlayers[0]){
       game.players[0].target = null;
     }else{
       game.players[0].target = game.allPlayers[0];
     }
+    targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player2.onclick = function(){
-    targetPlayer(this, game);
     if(game.players[0].target === game.allPlayers[1]){
       game.players[0].target = null;
     }else{
       game.players[0].target = game.allPlayers[1];
     }
+    targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -254,6 +266,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -262,6 +276,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -270,6 +286,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -278,6 +296,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -286,6 +306,8 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -294,7 +316,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
+    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
+    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
   }
+
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')
   }
@@ -318,6 +343,7 @@ var rollDice = function(dice, diceElements, game){
   // ROLL DICE
   dice.roll();
   game.resolveArrows();
+  drawArrows(game);
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
@@ -325,6 +351,16 @@ var rollDice = function(dice, diceElements, game){
     if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
     if(dice.saved.length === 5) currentDice.style.opacity = 1;
     counter++
+  }
+}
+
+// DRAW ARROWS
+var drawArrows = function(game){
+  for( var i=0; i < 9; i++ ){
+    var currentArrow = document.getElementById('arrow-' + (i+1));
+    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+    currentArrow.style.visibility = "visible";
+    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
   }
 }
 
@@ -359,10 +395,11 @@ var endGame = function(gameResult){
   // DISABLE BUTTONS
 }
 
-var savedDiceFull = function(dice, diceElements, rollDiceButton){
+var savedDiceFull = function(dice, diceElements, rollDiceButton, game){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
   }
 }
 

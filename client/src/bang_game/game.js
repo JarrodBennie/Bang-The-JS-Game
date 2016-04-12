@@ -323,3 +323,63 @@ module.exports.randomElement = getUniqueRandomElement;
 // set of numbers of probability, one for each player being on each team based on actions
 //requires log / stats class to check other players actions
 // decisions - manually trigger click events
+
+
+/// 2 - work out how far away other players are from you game.players.length -1 & game.players.length -2 for index 6 & 7.
+
+
+Game.prototype.addToActionCounters = function(){
+  this.players[0].actionCounters = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
+  for( var i of this.dice.all){
+    this.players[0].actionCounters[i.toString()] += 1;
+  };
+};
+///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
+
+
+//// function to know if we should light up/make clickable the shoot button
+
+// var checkRangeToTarget = function(){
+//   if (game.players[0].actionCounters["1"]){
+//     game.canShoot(1)
+//   }
+//   if (game.players[0].actionCounters["2"]){
+//     game.canShoot(2)
+//   }
+// }
+
+Game.prototype.canShoot1 = function(){
+  if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
+    return true; 
+  }
+  else{
+    return false;
+  }
+}
+
+Game.prototype.canShoot2 = function(){
+  if ( this.players[0].actionCounters["2"] > 0 && (this.players[0].target === this.players[2] || this.players[0].target === this.players[this.players.length - 2] ) ){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+
+  // if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
+  //   return true;
+  // }
+  // else{
+  //   return false;
+  // }
+  // if ( this.players[0].actionCounters["2"] > 0 && (this.players[0].target === this.players[2] || this.players[0].target === this.players[this.players.length - 2] ) ) {
+  //   return true;
+  // }
+  // else{
+  //   return false;
+  // }
+
+
+
+
