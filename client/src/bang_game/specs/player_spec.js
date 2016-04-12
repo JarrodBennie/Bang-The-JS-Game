@@ -88,7 +88,16 @@ describe('Player', function(){
     assert.equal(player1.arrows, 0);
   });
 
+  it("should return a players remaining health as a percentage of their max health", function(){
+    player1.health = 5;
+    player1.maxHealth = 10;
+    assert.equal(player1.healthAsPercentage(), 50);
+  });
 
-
+  it("should return health percentage in a string for display eg- width: x %", function(){
+      player1.health = 5;
+      player1.maxHealth = 10;
+      assert.equal(player1.healthAsPercentageDisplay(), "width: 50%");
+    });
 
 });
