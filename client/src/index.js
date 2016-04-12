@@ -74,93 +74,169 @@ window.onload = function(){
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons right sheriff-icon"></i>';
   }
 
-  // POPULATE PLAYER 1
-  var player1Name = document.getElementById('player-1-name');
-  var player1Avatar = document.getElementById('player-1-avatar');
-  var player1Character = document.getElementById('player-1-character');
-  var player1HealthBar = document.getElementById('player-1-health-bar');
+  var populatePlayerList = function(){
+    // POPULATE PLAYER 1
+    var player1Name = document.getElementById('player-1-name');
+    var player1Avatar = document.getElementById('player-1-avatar');
+    var player1Character = document.getElementById('player-1-character');
+    var player1HealthBar = document.getElementById('player-1-health-bar');
 
-  player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>";
-  player1Avatar.src = game.allPlayers[0].character.imgUrl;
-  player1Character.innerText = game.allPlayers[0].character.name;
-  player1HealthBar.style.width = game.allPlayers[0].healthAsPercentage() + "%"
+    if(game.allPlayers[0] == game.players[0]){
+      player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[0] == game.players[game.players.length - 1]){
+      player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[0] == game.players[1]){
+      player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - NEXT';
+    }else{
+      player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>";
+    }
 
-  // POPULATE PLAYER 2
-  var player2Name = document.getElementById('player-2-name');
-  var player2Avatar = document.getElementById('player-2-avatar');
-  var player2Character = document.getElementById('player-2-character');
-  var player2HealthBar = document.getElementById('player-2-health-bar');
+    player1Avatar.src = game.allPlayers[0].character.imgUrl;
+    player1Character.innerText = game.allPlayers[0].character.name;
+    player1HealthBar.style.width = game.allPlayers[0].healthAsPercentage() + "%"
 
-  player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>";
-  player2Avatar.src = game.allPlayers[1].character.imgUrl;
-  player2Character.innerText = game.allPlayers[1].character.name;
-  player2HealthBar.style.width = game.allPlayers[1].healthAsPercentage() + "%"
+    // POPULATE PLAYER 2
+    var player2Name = document.getElementById('player-2-name');
+    var player2Avatar = document.getElementById('player-2-avatar');
+    var player2Character = document.getElementById('player-2-character');
+    var player2HealthBar = document.getElementById('player-2-health-bar');
 
-  // POPULATE PLAYER 3
-  var player3Name = document.getElementById('player-3-name');
-  var player3Avatar = document.getElementById('player-3-avatar');
-  var player3Character = document.getElementById('player-3-character');
-  var player3HealthBar = document.getElementById('player-3-health-bar');
+    if(game.allPlayers[1] == game.players[0]){
+      player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[1] == game.players[game.players.length - 1]){
+      player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[1] == game.players[1]){
+      player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>" + ' - NEXT';
+    }else{
+      player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>";
+    }
 
-  player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>";
-  player3Avatar.src = game.allPlayers[2].character.imgUrl;
-  player3Character.innerText = game.allPlayers[2].character.name;
-  player3HealthBar.style.width = game.allPlayers[2].healthAsPercentage() + "%"
+    player2Avatar.src = game.allPlayers[1].character.imgUrl;
+    player2Character.innerText = game.allPlayers[1].character.name;
+    player2HealthBar.style.width = game.allPlayers[1].healthAsPercentage() + "%"
 
-  // POPULATE PLAYER 4
-  var player4Name = document.getElementById('player-4-name');
-  var player4Avatar = document.getElementById('player-4-avatar');
-  var player4Character = document.getElementById('player-4-character');
-  var player4HealthBar = document.getElementById('player-4-health-bar');
+    // POPULATE PLAYER 3
+    var player3Name = document.getElementById('player-3-name');
+    var player3Avatar = document.getElementById('player-3-avatar');
+    var player3Character = document.getElementById('player-3-character');
+    var player3HealthBar = document.getElementById('player-3-health-bar');
 
-  player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>";
-  player4Avatar.src = game.allPlayers[3].character.imgUrl;
-  player4Character.innerText = game.allPlayers[3].character.name;
-  player4HealthBar.style.width = game.allPlayers[3].healthAsPercentage() + "%"
+    if(game.allPlayers[2] == game.players[0]){
+      player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[2] == game.players[game.players.length - 1]){
+      player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[2] == game.players[1]){
+      player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - NEXT';
+    }else{
+      player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>";
+    }
 
-  // POPULATE PLAYER 5
-  var player5Name = document.getElementById('player-5-name');
-  var player5Avatar = document.getElementById('player-5-avatar');
-  var player5Character = document.getElementById('player-5-character');
-  var player5HealthBar = document.getElementById('player-5-health-bar');
+    player3Avatar.src = game.allPlayers[2].character.imgUrl;
+    player3Character.innerText = game.allPlayers[2].character.name;
+    player3HealthBar.style.width = game.allPlayers[2].healthAsPercentage() + "%"
 
-  player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>";
-  player5Avatar.src = game.allPlayers[4].character.imgUrl;
-  player5Character.innerText = game.allPlayers[4].character.name;
-  player5HealthBar.style.width = game.allPlayers[4].healthAsPercentage() + "%"
+    // POPULATE PLAYER 4
+    var player4Name = document.getElementById('player-4-name');
+    var player4Avatar = document.getElementById('player-4-avatar');
+    var player4Character = document.getElementById('player-4-character');
+    var player4HealthBar = document.getElementById('player-4-health-bar');
 
-  // POPULATE PLAYER 6
-  var player6Name = document.getElementById('player-6-name');
-  var player6Avatar = document.getElementById('player-6-avatar');
-  var player6Character = document.getElementById('player-6-character');
-  var player6HealthBar = document.getElementById('player-6-health-bar');
+    if(game.allPlayers[3] == game.players[0]){
+      player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[3] == game.players[game.players.length - 1]){
+      player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[3] == game.players[1]){
+      player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>" + ' - NEXT';
+    }else{
+      player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>";
+    }
 
-  player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>";
-  player6Avatar.src = game.allPlayers[5].character.imgUrl;
-  player6Character.innerText = game.allPlayers[5].character.name;
-  player6HealthBar.style.width = game.allPlayers[5].healthAsPercentage() + "%"
+    player4Avatar.src = game.allPlayers[3].character.imgUrl;
+    player4Character.innerText = game.allPlayers[3].character.name;
+    player4HealthBar.style.width = game.allPlayers[3].healthAsPercentage() + "%"
 
-  // POPULATE PLAYER 7
-  var player7Name = document.getElementById('player-7-name');
-  var player7Avatar = document.getElementById('player-7-avatar');
-  var player7Character = document.getElementById('player-7-character');
-  var player7HealthBar = document.getElementById('player-7-health-bar');
+    // POPULATE PLAYER 5
+    var player5Name = document.getElementById('player-5-name');
+    var player5Avatar = document.getElementById('player-5-avatar');
+    var player5Character = document.getElementById('player-5-character');
+    var player5HealthBar = document.getElementById('player-5-health-bar');
 
-  player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>";
-  player7Avatar.src = game.allPlayers[6].character.imgUrl;
-  player7Character.innerText = game.allPlayers[6].character.name;
-  player7HealthBar.style.width = game.allPlayers[6].healthAsPercentage() + "%"
+    if(game.allPlayers[4] == game.players[0]){
+      player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[4] == game.players[game.players.length - 1]){
+      player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[4] == game.players[1]){
+      player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>" + ' - NEXT';
+    }else{
+      player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>";
+    }
 
-  // POPULATE PLAYER 8
-  var player8Name = document.getElementById('player-8-name');
-  var player8Avatar = document.getElementById('player-8-avatar');
-  var player8Character = document.getElementById('player-8-character');
-  var player8HealthBar = document.getElementById('player-8-health-bar');
+    player5Avatar.src = game.allPlayers[4].character.imgUrl;
+    player5Character.innerText = game.allPlayers[4].character.name;
+    player5HealthBar.style.width = game.allPlayers[4].healthAsPercentage() + "%"
 
-  player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>";
-  player8Avatar.src = game.allPlayers[7].character.imgUrl;
-  player8Character.innerText = game.allPlayers[7].character.name;
-  player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
+    // POPULATE PLAYER 6
+    var player6Name = document.getElementById('player-6-name');
+    var player6Avatar = document.getElementById('player-6-avatar');
+    var player6Character = document.getElementById('player-6-character');
+    var player6HealthBar = document.getElementById('player-6-health-bar');
+
+    if(game.allPlayers[5] == game.players[0]){
+      player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[5] == game.players[game.players.length - 1]){
+      player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[5] == game.players[1]){
+      player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - NEXT';
+    }else{
+      player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>";
+    }
+
+    player6Avatar.src = game.allPlayers[5].character.imgUrl;
+    player6Character.innerText = game.allPlayers[5].character.name;
+    player6HealthBar.style.width = game.allPlayers[5].healthAsPercentage() + "%"
+
+    // POPULATE PLAYER 7
+    var player7Name = document.getElementById('player-7-name');
+    var player7Avatar = document.getElementById('player-7-avatar');
+    var player7Character = document.getElementById('player-7-character');
+    var player7HealthBar = document.getElementById('player-7-health-bar');
+
+    if(game.allPlayers[6] == game.players[0]){
+      player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[6] == game.players[game.players.length - 1]){
+      player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[6] == game.players[1]){
+      player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>" + ' - NEXT';
+    }else{
+      player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>";
+    }
+
+    player7Avatar.src = game.allPlayers[6].character.imgUrl;
+    player7Character.innerText = game.allPlayers[6].character.name;
+    player7HealthBar.style.width = game.allPlayers[6].healthAsPercentage() + "%"
+
+    // POPULATE PLAYER 8
+    var player8Name = document.getElementById('player-8-name');
+    var player8Avatar = document.getElementById('player-8-avatar');
+    var player8Character = document.getElementById('player-8-character');
+    var player8HealthBar = document.getElementById('player-8-health-bar');
+
+    if(game.allPlayers[7] == game.players[0]){
+      player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>" + ' - PLAYING';
+    }else if(game.allPlayers[7] == game.players[game.players.length - 1]){
+      player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>" + ' - PREVIOUS';
+    }else if(game.allPlayers[7] == game.players[1]){
+      player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>" + ' - NEXT';
+    }else{
+      player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>";
+    }
+
+    player8Avatar.src = game.allPlayers[7].character.imgUrl;
+    player8Character.innerText = game.allPlayers[7].character.name;
+    player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
+  }
+
+  populatePlayerList();
 
   // HINT CARD
   var hintElement = document.getElementById('hint');
@@ -420,7 +496,7 @@ var savedDiceFull = function(dice, diceElements, rollDiceButton, game){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      game.addToActionCounters();
+    game.addToActionCounters();
   }
 }
 
