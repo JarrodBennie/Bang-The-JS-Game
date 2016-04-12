@@ -58,7 +58,7 @@ window.onload = function(){
   currentPlayerCharacter.innerText = game.players[0].character.name;
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
 
-  if(game.players[0].role === "Sheriff")sheriffIcon.innerText = "brightness_high";
+  if(game.players[0].role.name === "Sheriff")sheriffIcon.innerText = "brightness_high";
 
   // POPULATE PLAYER 1
   var player1Name = document.getElementById('player-1-name');

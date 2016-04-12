@@ -4,7 +4,7 @@ var Game = function(dice, players){
   this.characters = [];
   this.totalArrows = 9;
   this.dice = dice;
-  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"];
+  this.roles = [{name:"Sheriff", imgUrl: "http://i.imgur.com/yYT038yb.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}];
 
   var character1 = {
     name: "Jesse Jones",
@@ -128,7 +128,7 @@ Game.prototype.setup = function(){
 Game.prototype.rotateSheriffToFirst = function(){
   var sheriffIndex;
   for (var i = 0; i < this.players.length; i++){
-    if (this.players[i].role === "Sheriff"){
+    if (this.players[i].role.name === "Sheriff"){
       sheriffIndex = i;
     }
   }
@@ -143,7 +143,7 @@ Game.prototype.setAllHealth = function(){
 
 Game.prototype.assignRoles = function(){
   for (var i = 0; i < this.players.length; i++){
-    this.players[i].role = getUniqueRandomElement(this.roles);
+    this.players[i].role.name = getUniqueRandomElement(this.roles);
   };
 };
 
@@ -226,7 +226,7 @@ Game.prototype.winCheckOutlaws = function(){
     return "Outlaws win!"
   };
   for (var i = 0; i < this.players.length; i++){
-    if (this.players[i].role === "Sheriff") {
+    if (this.players[i].role.name === "Sheriff") {
       return null;
     }
     else{
@@ -240,13 +240,13 @@ Game.prototype.winCheckSheriff = function(){
   var outlawsDead = true;
   var renegadesDead = true;
   for (var i = 0; i < this.players.length;i++){
-    if (this.players[i].role === "Sheriff"){
+    if (this.players[i].role.name === "Sheriff"){
       var sheriffLives = true;
     }
-    else if (this.players[i].role === "Outlaw"){
+    else if (this.players[i].role.name === "Outlaw"){
       outlawsDead = false;
     }
-    else if (this.players[i].role === "Renegade"){
+    else if (this.players[i].role.name === "Renegade"){
       renegadesDead = false;
     }
   };// loop end
@@ -260,7 +260,7 @@ Game.prototype.winCheckSheriff = function(){
 };
 
 Game.prototype.winCheckRenegade = function(){
-  if (this.players.length === 1 && this.players[0].role === "Renegade") {
+  if (this.players.length === 1 && this.players[0].role.name === "Renegade") {
     return "Renegade wins!"
   }
   else{

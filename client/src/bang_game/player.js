@@ -17,7 +17,7 @@ var Player = function(name){
 // setHealth: run after characters and roles assigned in game model- sets health and max health from value on character card + 2 extra if sheriff.
 Player.prototype.setHealth = function(){
   this.maxHealth = this.character.health;
-  if( this.role === "Sheriff"){
+  if( this.role.name === "Sheriff"){
     this.maxHealth += 2
   };
   this.health = this.maxHealth;
