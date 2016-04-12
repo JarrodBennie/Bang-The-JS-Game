@@ -11,6 +11,15 @@ var dice = new Dice;
 var hint = new Hint;
 
 window.onload = function(){
+  var players = new Array(8);
+
+  for (var i = 0; i < players.length; i++){
+    players.push(new Player("Player " + (i+1) ) )
+  }
+
+  var dice = new Dice();
+  var game = new Game(dice, players)
+  
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -41,6 +50,9 @@ window.onload = function(){
   hintElement.innerHTML = _.sample(hint.all);
 
   // EVENT LISTENERS
+
+  // BUTTONS
+
   // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
     diceClickEnable();
@@ -136,7 +148,7 @@ window.onload = function(){
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')
   }
-}
+}; // window.load [end]
 
 // ROLL DICE BUTTON
 var rollDice = function(dice, diceElements){
