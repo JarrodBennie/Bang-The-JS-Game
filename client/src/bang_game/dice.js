@@ -104,3 +104,4 @@ Dice.prototype.canRoll = function(){
 };
 
 module.exports = Dice;
+

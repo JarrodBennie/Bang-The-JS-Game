@@ -1,6 +1,7 @@
 var assert = require('chai').assert;
 var Game = require('../game.js');
 var Player = require('../player.js');
+var Player = require('../dice.js');
 var getUniqueRandomElement = require('../game.js').randomElement;
 
 var game;
@@ -10,7 +11,7 @@ var player6; // this player must be a global var in spec file to make the test f
 
 describe('Game', function(){
   beforeEach(function(){
-    var dice = {};
+    var dice = new Dice;
     player3 = new Player("Craig");
     player6 = new Player("Parkyn")
     game = new Game(dice, [{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
@@ -75,6 +76,10 @@ describe('Game', function(){
     }
     game.players[0].role = "Renegade";
     assert.equal(game.winCheck(), "Renegade wins!");
+  });
+
+  it("should add each dice result from dice.all to the players action counters", function(){
+    assert.equal(player, expected);
   });
 
 });

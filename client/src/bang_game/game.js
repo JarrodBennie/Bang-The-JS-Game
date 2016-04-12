@@ -310,3 +310,15 @@ module.exports.randomElement = getUniqueRandomElement;
 // set of numbers of probability, one for each player being on each team based on actions
 //requires log / stats class to check other players actions
 // decisions - manually trigger click events
+
+
+
+
+/// 1st step - calculate how many of each thing
+/// 2 - work out how far away other players are from you game.players.length -1 & game.players.length -2 for index 6 & 7.
+
+Game.prototype.addToActionCounters = function(){
+  for( i of this.dice.all){
+    this.players[0].actionCounters[i] += 1;
+  };
+};

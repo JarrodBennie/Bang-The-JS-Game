@@ -8,7 +8,9 @@ var Player = function(name){
   this.maxHealth = null;
   this.dead = false;
   this.target = null;
+  this.actionCounters = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
 };
+
 
 /// add method for player health as a percentage.
 /// add guard to stop health going below 0.
@@ -29,7 +31,7 @@ Player.prototype.heal = function(){
   };
 };
 
-Player.prototype.shoot = function(){
+Player.prototype.shootTarget = function(){
   this.health -= 1;
   if( this.health < 0 ){
     this.health = 0;
