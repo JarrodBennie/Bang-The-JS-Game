@@ -4,12 +4,13 @@ var Player = require('../player.js');
 var getUniqueRandomElement = require('../game.js').randomElement;
 
 var game;
+var player3;
 var player6; // this player must be a global var in spec file to make the test for rotating to a given index pass - as Array.prototype.indexOf() function uses strict comparison (===) intenally - so the object you search for the index of must be the exact same object, so we can't new up an identical object and treat it as the same object when using array.indexOf()
 // the test would pass fine without this if you were passing the index itself as an integer - but it's nice if you can use indexOf to get the index of the player object as well - so I wanted to test for that.
 
 describe('Game', function(){
   beforeEach(function(){
-    var player3 = new Player("Craig");
+    player3 = new Player("Craig");
     player6 = new Player("Parkyn")
     game = new Game([{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
   });
@@ -53,6 +54,7 @@ describe('Game', function(){
   });
   it("should check all players for dead players and remove them from the game", function(){
     var startLength = game.players.length
+    player3.health = 8;
     player6.health = 0;
     game.checkForDeaths();
     assert.equal(game.players.length, startLength - 1);

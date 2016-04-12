@@ -150,7 +150,7 @@ var rollDice = function(dice, diceElements){
     counter++
   }
   // ROLL DICE
-  if(dice.canRoll()) dice.roll();
+  dice.roll();
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
