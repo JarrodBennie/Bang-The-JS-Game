@@ -1,4 +1,4 @@
-var Game = function(players, dice){
+var Game = function(dice, players){
   this.players = players;
   this.allPlayers = [];
   this.characters = [];
@@ -324,3 +324,12 @@ Game.prototype.arrowsDamage = function(){
 
 module.exports = Game;
 module.exports.randomElement = getUniqueRandomElement;
+
+
+
+// create players and game before players have name, add names from form (on first turn?)
+// API class to get char (+ role?) + statsData from DB/ our API
+// AI - array of players suspected of being on its team - based on who heals / shoots the sheriff
+// set of numbers of probability, one for each player being on each team based on actions
+//requires log / stats class to check other players actions
+// decisions - manually trigger click events
