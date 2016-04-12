@@ -194,16 +194,24 @@ window.onload = function(){
   endTurnButton.onclick = function(){
     console.log('You clicked on the end turn button!');
   }
-  roleButton.onclick = function(){
+
+  var roleButtonDefault = function(){
+    roleButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    roleButton.onclick = null;
+
     Materialize.toast('For your eyes only...', 2000,'',function(){
       currentPlayerAvatarReveal.src = game.players[0].role.imgUrl;
       currentPlayerCharacter.innerHTML = game.players[0].role.name + '<i class="material-icons right">close</i>';
       setTimeout(function(){
         currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
         currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
-      }, 5000);
+        roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
+        roleButton.onclick = roleButtonDefault;
+      }, 2000);
     });
   }
+  roleButton.onclick = roleButtonDefault;
+
   // DICE
   var diceClickEnable = function(){
     dice1.style.opacity = 1;
