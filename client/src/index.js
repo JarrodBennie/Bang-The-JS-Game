@@ -18,7 +18,8 @@ window.onload = function(){
   }
 
   var dice = new Dice();
-  var game = new Game(dice, players)
+  var game = new Game(dice, players);
+  console.log(game.totalArrows);
   
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
@@ -61,10 +62,10 @@ window.onload = function(){
   hintElement.innerHTML = _.sample(hint.all);
 
   // DISPLAY ARROWS
-  // for( var i=0; i < game.totalArrows.length - 1; i++ ){
-  //   var currentArrow = document.getElementById('arrow-' + i+1)
-  //   currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
-  // }
+  for( var i=0; i < game.totalArrows; i++ ){
+    var currentArrow = document.getElementById('arrow-' + (i+1));
+    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+  }
 
   // EVENT LISTENERS
   // BUTTONS
