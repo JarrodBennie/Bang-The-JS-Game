@@ -94,7 +94,7 @@ var Game = function(dice, players){
     name: "Lucky Duke",
     health: 8,
     imgUrl: "http://i.imgur.com/F6GioiG.png",
-    abilityDescription: "You may mae one extra re-roll"
+    abilityDescription: "You may make one extra re-roll"
   };
   var character16 = {
     name: "Willy the Kid",

@@ -26,6 +26,7 @@ window.onload = function(){
   healButton = document.getElementById('heal-button'),
   shootButton = document.getElementById('shoot-button'),
   endTurnButton = document.getElementById('end-turn-button');
+  roleButton = document.getElementById('role-button');
 
   // TARGET DICE IMAGES
   var dice1 = document.getElementById('dice-1') || document.getElementById('hidden'),
@@ -48,6 +49,7 @@ window.onload = function(){
 
   // POPULATE CURRENT PLAYER
   var currentPlayerAvatar = document.getElementById('current-player-avatar');
+  var currentPlayerAvatarReveal = document.getElementById('current-player-avatar-reveal');
   var currentPlayerNameRole = document.getElementById('current-player-name-character');
   var currentPlayerCharacter = document.getElementById('current-player-character');
   var currentPlayerAbility = document.getElementById('current-player-ability');
@@ -55,6 +57,7 @@ window.onload = function(){
   var currentPlayerHealth = document.getElementById('current-player-health');
 
   currentPlayerAvatar.src = game.players[0].character.imgUrl;
+  currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
   currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
   currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
@@ -190,6 +193,16 @@ window.onload = function(){
   }
   endTurnButton.onclick = function(){
     console.log('You clicked on the end turn button!');
+  }
+  roleButton.onclick = function(){
+    Materialize.toast('For your eyes only...', 2000,'',function(){
+      currentPlayerAvatarReveal.src = game.players[0].role.imgUrl;
+      currentPlayerCharacter.innerHTML = game.players[0].role.name + '<i class="material-icons right">close</i>';
+      setTimeout(function(){
+        currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
+        currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
+      }, 5000);
+    });
   }
   // DICE
   var diceClickEnable = function(){
