@@ -31,7 +31,10 @@ Player.prototype.heal = function(){
   };
 };
 
-Player.prototype.shootTarget = function(){
+//////////////////////////////////////////////
+///    SHOOT NEEDS REFACTORED - I THINK  /////
+//////////////////////////////////////////////
+Player.prototype.shoot = function(){
   this.health -= 1;
   if( this.health < 0 ){
     this.health = 0;

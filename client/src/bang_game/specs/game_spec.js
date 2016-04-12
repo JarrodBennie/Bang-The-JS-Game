@@ -4,7 +4,9 @@ var Player = require('../player.js');
 var Dice = require('../dice.js');
 var getUniqueRandomElement = require('../game.js').randomElement;
 
+var dice;
 var game;
+var player1;
 var player3;
 var player6; // this player must be a global var in spec file to make the test for rotating to a given index pass - as Array.prototype.indexOf() function uses strict comparison (===) intenally - so the object you search for the index of must be the exact same object, so we can't new up an identical object and treat it as the same object when using array.indexOf()
 // the test would pass fine without this if you were passing the index itself as an integer - but it's nice if you can use indexOf to get the index of the player object as well - so I wanted to test for that.
@@ -12,10 +14,12 @@ var player6; // this player must be a global var in spec file to make the test f
 describe('Game', function(){
 
   beforeEach(function(){
-   var dice = new Dice();
+   dice = new Dice();
+
+   player1 = new Player("Adam");
    player3 = new Player("Craig");
    player6 = new Player("Parkyn")
-   game = new Game(dice, [{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
+   game = new Game(dice, [player1, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
  });
 
   it("should construct with an array of 8 players", function(){
@@ -57,6 +61,7 @@ describe('Game', function(){
     var startLength = game.players.length
     player3.health = 8;
     player6.health = 0;
+    player1.health = 3;
     game.checkForDeaths();
     assert.equal(game.players.length, startLength - 1);
   });
@@ -80,8 +85,10 @@ describe('Game', function(){
     assert.equal(game.winCheck(), "Renegade wins!");
   });
 
-  // it("should add each dice result from dice.all to the players action counters", function(){
-  //   assert.equal(player, expected);
-  // });
+  it("should add each dice result from dice.all to the players action counters", function(){
+    dice.all = [ 2, 3, 2, 5, 6 ]
+    game.addToActionCounters();
+    assert.deepEqual(game.players[0].actionCounters, { "1": 0, "2": 2, "3": 1, "4": 0, "5": 1, "6": 1});
+  });
 
 });

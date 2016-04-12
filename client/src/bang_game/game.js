@@ -318,7 +318,10 @@ module.exports.randomElement = getUniqueRandomElement;
 /// 2 - work out how far away other players are from you game.players.length -1 & game.players.length -2 for index 6 & 7.
 
 Game.prototype.addToActionCounters = function(){
-  for( i of this.dice.all){
-    this.players[0].actionCounters[i] += 1;
+  for( var i of this.dice.all){
+    this.players[0].actionCounters[i.toString()] += 1;
   };
 };
+///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
+
+
