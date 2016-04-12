@@ -14,7 +14,7 @@ window.onload = function(){
   var players = new Array(8);
 
   for (var i = 0; i < players.length; i++){
-    players.push(new Player("Player " + (i+1) ) )
+    players[i] = new Player("Player " + (i+1) )
   }
 
   var dice = new Dice();
@@ -25,6 +25,17 @@ window.onload = function(){
   healButton = document.getElementById('heal-button'),
   shootButton = document.getElementById('shoot-button'),
   endTurnButton = document.getElementById('end-turn-button');
+
+  // TARGET ARROW IMAGES
+  // var arrow1 = document.getElementById('arrow-1'),
+  //   arrow2 = document.getElementById('arrow-2'),
+  //   arrow3 = document.getElementById('arrow-3'),
+  //   arrow4 = document.getElementById('arrow-4'),
+  //   arrow5 = document.getElementById('arrow-5'),
+  //   arrow6 = document.getElementById('arrow-6'),
+  //   arrow7 = document.getElementById('arrow-7'),
+  //   arrow8 = document.getElementById('arrow-8'),
+  //   arrow9 = document.getElementById('arrow-9');
 
   // TARGET DICE IMAGES
   var dice1 = document.getElementById('dice-1') || document.getElementById('hidden'),
@@ -49,10 +60,14 @@ window.onload = function(){
   var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
+  // DISPLAY ARROWS
+  // for( var i=0; i < game.totalArrows.length - 1; i++ ){
+  //   var currentArrow = document.getElementById('arrow-' + i+1)
+  //   currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+  // }
+
   // EVENT LISTENERS
-
   // BUTTONS
-
   // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
     diceClickEnable();
@@ -207,7 +222,7 @@ var endGame = function(gameResult){
 var savedDiceFull = function(dice, diceElements, rollDiceButton){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
-    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   }
 }
 
