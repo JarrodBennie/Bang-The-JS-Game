@@ -143,7 +143,7 @@ Game.prototype.setAllHealth = function(){
 
 Game.prototype.assignRoles = function(){
   for (var i = 0; i < this.players.length; i++){
-    this.players[i].role.name = getUniqueRandomElement(this.roles);
+    this.players[i].role = getUniqueRandomElement(this.roles);
   };
 };
 
