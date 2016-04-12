@@ -10,97 +10,97 @@ var Game = function(dice, players){
     name: "Jesse Jones",
     health: 9,
     imgUrl: "http://i.imgur.com/bRkKXmX.png",
-    ability_description: "If you have four life points or less, you gain two if you use [Beer] for yourself."
+    abilityDescription: "If you have four life points or less, you gain two if you use [Beer] for yourself."
   };
   var character2 = {
     name: "Kit Carlson",
     health: 7,
     imgUrl: "http://i.imgur.com/BZIfBge.png",
-    ability_description: "For each [Gatling] you may discard one arrow from any player."
+    abilityDescription: "For each [Gatling] you may discard one arrow from any player."
   };
   var character3 = {
     name: "Black Jack",
     health: 8,
     imgUrl: "http://i.imgur.com/KUrKkis.png",
-    ability_description: "You may re-roll [Dynamite]. (Not if you roll three or more!)"
+    abilityDescription: "You may re-roll [Dynamite]. (Not if you roll three or more!)"
   };
   var character4 = {
     name: "Rose Doolan",
     health: 9,
     imgUrl: "http://i.imgur.com/Hdcp0p1.png",
-    ability_description: "You may use [Shoot 1] or [Shoot 2] for players sitting one place further."
+    abilityDescription: "You may use [Shoot 1] or [Shoot 2] for players sitting one place further."
   };
   var character5 = {
     name: "Pedro Ramirez",
     health: 8,
     imgUrl: "http://i.imgur.com/WcU2f2w.png",
-    ability_description: "Each time you lose a life point, you may discard one of your arrows."
+    abilityDescription: "Each time you lose a life point, you may discard one of your arrows."
   };
   var character6 = {
     name: "El Gringo",
     health: 7,
     imgUrl: "http://i.imgur.com/OF8OH13.png",
-    ability_description: "When a player makes you lose one or more life points, they must take an arrow."
+    abilityDescription: "When a player makes you lose one or more life points, they must take an arrow."
   };
   var character7 = {
     name: "Bart Cassidy",
     health: 8,
     imgUrl: "http://i.imgur.com/e8oZGYx.png",
-    ability_description: "You may take an arrow instead of losing a life point (except to Arrows or Dynamite)."
+    abilityDescription: "You may take an arrow instead of losing a life point (except to Arrows or Dynamite)."
   };
   var character8 = {
     name: "Vulture Sam",
     health: 9,
     imgUrl: "http://i.imgur.com/1HkWchT.png",
-    ability_description: "Each time another player is eliminated, you gain two life points."
+    abilityDescription: "Each time another player is eliminated, you gain two life points."
   };
   var character9 = {
     name: "Calamity Janet",
     health: 8,
     imgUrl: "http://i.imgur.com/OY1CiiX.png",
-    ability_description: "You can use [Shoot 1] as [Shoot 2] and vice-versa."
+    abilityDescription: "You can use [Shoot 1] as [Shoot 2] and vice-versa."
   };
   var character10 = {
     name: "Jourdonnais",
     health: 7,
     imgUrl: "http://i.imgur.com/tXiiB6L.png",
-    ability_description: "You never lose more than one life point to Arrows."
+    abilityDescription: "You never lose more than one life point to Arrows."
   };
   var character11 = {
     name: "Slab the Killer",
     health: 8,
     imgUrl: "http://i.imgur.com/hlVk73M.png",
-    ability_description: "Once per turn, you can use a [Beer] to double a [Shoot 1] or [Shoot 2]."
+    abilityDescription: "Once per turn, you can use a [Beer] to double a [Shoot 1] or [Shoot 2]."
   };
   var character12 = {
     name: "Sid Ketchum",
     health: 8,
     imgUrl: "http://i.imgur.com/cXVoKTA.png",
-    ability_description: "At the beginning of your turn, any player of your choice gains one life point."
+    abilityDescription: "At the beginning of your turn, any player of your choice gains one life point."
   };
   var character13 = {
     name: "Suzy Lafayette",
     health: 8,
     imgUrl: "http://i.imgur.com/KfiWFxk.png",
-    ability_description: "If you didn't roll any [Shoot 1] or [Shoot 2] you gain two life points."
+    abilityDescription: "If you didn't roll any [Shoot 1] or [Shoot 2] you gain two life points."
   };
   var character14 = {
     name: "Paul Regret",
     health: 9,
     imgUrl: "http://i.imgur.com/UFADg9e.png",
-    ability_description: "You never lose life points to the Gatling Gun."
+    abilityDescription: "You never lose life points to the Gatling Gun."
   };
   var character15 = {
     name: "Lucky Duke",
     health: 8,
     imgUrl: "http://i.imgur.com/F6GioiG.png",
-    ability_description: "You may mae one extra re-roll"
+    abilityDescription: "You may mae one extra re-roll"
   };
   var character16 = {
     name: "Willy the Kid",
     health: 8,
     imgUrl: "http://i.imgur.com/580j9rS.png",
-    ability_description: "You only need 2x [Gatling] to use the Gatling Gun."
+    abilityDescription: "You only need 2x [Gatling] to use the Gatling Gun."
   };
   this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];
 

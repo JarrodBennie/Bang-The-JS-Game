@@ -46,13 +46,27 @@ window.onload = function(){
   player8 = document.getElementById('player-8') || document.getElementById('hidden'),
   currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
 
+  // POPULATE CURRENT PLAYER
+  var currentPlayerAvatar = document.getElementById('current-player-avatar');
+  var currentPlayerNameRole = document.getElementById('current-player-name-character');
+  var currentPlayerCharacter = document.getElementById('current-player-character');
+  var currentPlayerAbility = document.getElementById('current-player-ability');
+  var sheriffIcon = document.getElementById('sheriff-icon');
+  
+  currentPlayerAvatar.src = game.players[0].character.imgUrl;
+  currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
+  currentPlayerCharacter.innerText = game.players[0].character.name;
+  currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
+
+  if(game.players[0].role === "Sheriff")sheriffIcon.innerText = "brightness_high";
+
   // POPULATE PLAYER 1
   var player1Name = document.getElementById('player-1-name');
   var player1Avatar = document.getElementById('player-1-avatar');
   var player1Character = document.getElementById('player-1-character');
   var player1Health = document.getElementById('player-1-health');
 
-  player1Name.innerText = game.allPlayers[0].name;
+  player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>";
   player1Avatar.src = game.allPlayers[0].character.imgUrl;
   player1Character.innerText = game.allPlayers[0].character.name;
 
@@ -62,7 +76,7 @@ window.onload = function(){
   var player2Character = document.getElementById('player-2-character');
   var player2Health = document.getElementById('player-2-health');
 
-  player2Name.innerText = game.allPlayers[1].name;
+  player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>";
   player2Avatar.src = game.allPlayers[1].character.imgUrl;
   player2Character.innerText = game.allPlayers[1].character.name;
 
@@ -72,7 +86,7 @@ window.onload = function(){
   var player3Character = document.getElementById('player-3-character');
   var player3Health = document.getElementById('player-3-health');
 
-  player3Name.innerText = game.allPlayers[2].name;
+  player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>";
   player3Avatar.src = game.allPlayers[2].character.imgUrl;
   player3Character.innerText = game.allPlayers[2].character.name;
 
@@ -82,7 +96,7 @@ window.onload = function(){
   var player4Character = document.getElementById('player-4-character');
   var player4Health = document.getElementById('player-4-health');
 
-  player4Name.innerText = game.allPlayers[3].name;
+  player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>";
   player4Avatar.src = game.allPlayers[3].character.imgUrl;
   player4Character.innerText = game.allPlayers[3].character.name;
 
@@ -92,7 +106,7 @@ window.onload = function(){
   var player5Character = document.getElementById('player-5-character');
   var player5Health = document.getElementById('player-5-health');
 
-  player5Name.innerText = game.allPlayers[4].name;
+  player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>";
   player5Avatar.src = game.allPlayers[4].character.imgUrl;
   player5Character.innerText = game.allPlayers[4].character.name;
 
@@ -102,7 +116,7 @@ window.onload = function(){
   var player6Character = document.getElementById('player-6-character');
   var player6Health = document.getElementById('player-6-health');
 
-  player6Name.innerText = game.allPlayers[5].name;
+  player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>";
   player6Avatar.src = game.allPlayers[5].character.imgUrl;
   player6Character.innerText = game.allPlayers[5].character.name;
 
@@ -112,7 +126,7 @@ window.onload = function(){
   var player7Character = document.getElementById('player-7-character');
   var player7Health = document.getElementById('player-7-health');
 
-  player7Name.innerText = game.allPlayers[6].name;
+  player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>";
   player7Avatar.src = game.allPlayers[6].character.imgUrl;
   player7Character.innerText = game.allPlayers[6].character.name;
 
@@ -122,7 +136,7 @@ window.onload = function(){
   var player8Character = document.getElementById('player-8-character');
   var player8Health = document.getElementById('player-8-health');
 
-  player8Name.innerText = game.allPlayers[7].name;
+  player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>";
   player8Avatar.src = game.allPlayers[7].character.imgUrl;
   player8Character.innerText = game.allPlayers[7].character.name;
 
@@ -150,6 +164,7 @@ window.onload = function(){
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     }
     savedDiceFull(dice, diceElements, rollDiceButton);
+    console.log(dice.all)
   }
 
   healButton.onclick = function(){
