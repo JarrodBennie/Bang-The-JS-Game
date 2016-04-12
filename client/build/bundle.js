@@ -45,10 +45,10 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	_ = __webpack_require__(1);
-	Game = __webpack_require__(5);
-	Player = __webpack_require__(6);
-	Dice = __webpack_require__(3);
-	Hint = __webpack_require__(4);
+	Game = __webpack_require__(3);
+	Player = __webpack_require__(4);
+	Dice = __webpack_require__(5);
+	Hint = __webpack_require__(6);
 	
 	// NEWING UP OBJECTS
 	// var game = new Game();
@@ -57,11 +57,31 @@
 	var hint = new Hint;
 	
 	window.onload = function(){
+	  var players = new Array(8);
+	
+	  for (var i = 0; i < players.length; i++){
+	    players[i] = new Player("Player " + (i+1) )
+	  }
+	
+	  var dice = new Dice();
+	  var game = new Game(dice, players)
+	  
 	  // TARGET BUTTONS
 	  var rollDiceButton = document.getElementById('roll-dice-button'),
 	  healButton = document.getElementById('heal-button'),
 	  shootButton = document.getElementById('shoot-button'),
 	  endTurnButton = document.getElementById('end-turn-button');
+	
+	  // TARGET ARROW IMAGES
+	  // var arrow1 = document.getElementById('arrow-1'),
+	  //   arrow2 = document.getElementById('arrow-2'),
+	  //   arrow3 = document.getElementById('arrow-3'),
+	  //   arrow4 = document.getElementById('arrow-4'),
+	  //   arrow5 = document.getElementById('arrow-5'),
+	  //   arrow6 = document.getElementById('arrow-6'),
+	  //   arrow7 = document.getElementById('arrow-7'),
+	  //   arrow8 = document.getElementById('arrow-8'),
+	  //   arrow9 = document.getElementById('arrow-9');
 	
 	  // TARGET DICE IMAGES
 	  var dice1 = document.getElementById('dice-1') || document.getElementById('hidden'),
@@ -86,7 +106,14 @@
 	  var hintElement = document.getElementById('hint');
 	  hintElement.innerHTML = _.sample(hint.all);
 	
+	  // DISPLAY ARROWS
+	  // for( var i=0; i < game.totalArrows.length - 1; i++ ){
+	  //   var currentArrow = document.getElementById('arrow-' + i+1)
+	  //   currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+	  // }
+	
 	  // EVENT LISTENERS
+	  // BUTTONS
 	  // ROLL DICE BUTTON
 	  rollDiceButton.onclick = function(){
 	    diceClickEnable();
@@ -182,7 +209,7 @@
 	  currentPlayer.onclick = function(){
 	    console.log('You clicked on the current player!')
 	  }
-	}
+	}; // window.load [end]
 	
 	// ROLL DICE BUTTON
 	var rollDice = function(dice, diceElements){
@@ -241,7 +268,7 @@
 	var savedDiceFull = function(dice, diceElements, rollDiceButton){
 	  if(dice.canRoll() === false){
 	    for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
-	    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+	      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	  }
 	}
 	
@@ -16226,147 +16253,9 @@
 
 /***/ },
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var _ = __webpack_require__( 1 );
-	
-	var Dice = function(){
-	  this.currentRoll = [];
-	  this.saved = [];
-	  this.all = [];
-	  this.arrowsRolled = 0;
-	  this.rolls = 3;
-	
-	//// INFO ABOUT ABOVE:
-	//// this.currentRoll - the result of the dice from the player's last roll
-	//// this.saved - the dice that the player will not re-roll
-	//// this.all - an array that is the same as the dice that are being displayed in the browser. It is made of the dice the player didnt re-roll and the remaining dice after they have been rolled. ( this.saved + this.currentRoll after new numbers have been generated)  Used for event listener so can use index position. the dice that are being displayed in the browser come from looping through 2 arrays(saved and currentRoll- so that saved dice wont spin) so dont have proper index positions without this.all
-	
-	  this.meaningOf = {
-	    1: "Shoot 1",
-	    2: "Shoot 2",
-	    3: "Beer",
-	    4: "Gatling",
-	    5: "Dynamite",
-	    6: "Arrow"
-	  };
-	
-	  this.imageUrl = {
-	    1: "http://i.imgur.com/j32ofq3.png",
-	    2: "http://i.imgur.com/AR0V71o.png",
-	    3: "http://i.imgur.com/TWQYd4q.png",
-	    4: "http://i.imgur.com/0q1hvpf.png",
-	    5: "http://i.imgur.com/ygbg1Fg.png",
-	    6: "http://i.imgur.com/pUn7Uru.png"
-	  }; 
-	};
-	
-	//// Will need to reset the dice between change of player turn - use reset below.
-	Dice.prototype.reset = function(){
-	  this.saved = [];
-	  this.arrowsRolled = 0;
-	}
-	
-	Dice.prototype.roll = function(){
-	  this.currentRoll = [];
-	  var numberOfDiceToRoll = 5 - this.saved.length;
-	
-	  if( this.canRoll() === false ) return;
-	
-	  for( var i=0; i < numberOfDiceToRoll; i++ ){
-	    var result = Math.floor( Math.random() * 6 ) + 1;
-	    this.currentRoll.push( result );
-	  };
-	
-	  this.all = this.saved.concat( this.currentRoll )
-	  this.saveDynamite();
-	  this.countArrows();
-	  this.rolls--;
-	
-	  return this.currentRoll;
-	};
-	//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
-	
-	Dice.prototype.save = function( value ){
-	  this.saved.push( value );
-	};
-	
-	Dice.prototype.saveDynamite = function(){
-	  for( var item of this.currentRoll ){
-	    if( item === 5 ) this.save( 5 );
-	  };
-	};
-	//// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
-	Dice.prototype.threeDynamite = function(){
-	  var counter = 0;
-	  for( var number of this.all ){
-	    if( number === 5 ) counter ++;
-	  }
-	  return ( counter >= 3 ) ? true : false
-	};
-	
-	Dice.prototype.threeGatling = function(){
-	  var counter = 0;
-	  for( item of this.saved ){
-	    if( item === 4 ) counter++;
-	  }
-	  return ( counter >= 3 ) ? true : false
-	};
-	
-	Dice.prototype.countArrows= function(){
-	  for( item of this.currentRoll ){
-	    if( item === 6 ) this.arrowsRolled += 1;
-	  }
-	};
-	
-	//// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
-	//// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
-	
-	Dice.prototype.canRoll = function(){
-	  if( this.rolls === 0 ) return false;
-	  if( this.saved.length === 5 ) return false;
-	  if( this.threeDynamite() ) return false;
-	  return true;
-	};
-	
-	module.exports = Dice;
-
-/***/ },
-/* 4 */
 /***/ function(module, exports) {
 
-	var Hint = function(){
-	  this.all = [
-	    "<b>Hint</b>: Don't believe Tony's lies.",
-	    "<b>Hint</b>: Beware of the Erik special.",
-	    "<b>Hint</b>: Remember to utilise your character's special ability!",
-	    "<b>Hint</b>: Arrow damage is not dealt until the last arrow is taken and the Indians attack.",
-	    "<b>Hint</b>: A Renegade wins by being the last character in play.",
-	    "<b>Hint</b>: Dynamite cannot be re-rolled.",
-	    "<b>Hint</b>: Arrows must be resolved immediately after each roll.",
-	    "<b>Hint</b>: Rolling 3 Gatling deals 1 damage to all players.",
-	    "<b>Hint</b>: If a player's life points reach 0 they are eliminated from the game.",
-	    "<b>Hint</b>: If all players are eliminated at the same time, the Outlaws win!",
-	    "<b>Hint</b>: Deputies must help and protect the Sherrif.",
-	    "<b>Hint</b>: Rolling 3 Dynamite deals 1 damage and ends your turn.",
-	    "<b>Hint</b>: Outlaws must eliminate the Sheriff.",
-	    "<b>Hint</b>: The Sheriff must eliminate all Outlaws and Renegades.",
-	    "<b>Hint</b>: If you are eliminated but your teammates win, you win too!",
-	    "<b>Hint</b>: If the Sheriff is confronted by 2 Renegades and the Sheriff dies first, the Outlaws win!",
-	    "<b>Hint</b>: Click on a die to save it and prevent it from re-rolling.",
-	    "<b>Hint</b>: If you aren't satisfied with your roll, you can re-roll up to twice.",
-	    "<b>Hint</b>: Click the heal button with no player targeted to heal yourself.",
-	    "<b>Hint</b>: The Sheriff always takes the first turn."
-	  ]
-	}
-	
-	module.exports = Hint;
-
-/***/ },
-/* 5 */
-/***/ function(module, exports) {
-
-	var Game = function(players, dice){
+	var Game = function(dice, players){
 	  this.players = players;
 	  this.allPlayers = [];
 	  this.characters = [];
@@ -16555,7 +16444,7 @@
 	  // rotates the array the number of times that is passed as an argument
 	  // if no argument is passed, the OR operator will set loops to 1 as numSteps will be undefined, which is falsey
 	  var loops = numSteps || 1;
-	  // ^ this could have been written: 
+	  // ^ this could have been written:
 	  // - which might be better - passing 0 in deliberately would cause the loops to be set to 1, not 0, when using the OR operator method above - but there's no need to ever rotate the players array 0 times
 	  // if (numSteps === undefined){
 	  //   var loops = 1;
@@ -16692,13 +16581,22 @@
 	
 	module.exports = Game;
 	module.exports.randomElement = getUniqueRandomElement;
+	
+	
+	
+	// create players and game before players have name, add names from form (on first turn?)
+	// API class to get char (+ role?) + statsData from DB/ our API
+	// AI - array of players suspected of being on its team - based on who heals / shoots the sheriff
+	// set of numbers of probability, one for each player being on each team based on actions
+	//requires log / stats class to check other players actions
+	// decisions - manually trigger click events
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports) {
 
 	var Player = function(name){
-	  this.name = name;
+	  this.name = name || "";
 	  this.character = null;
 	//player role is set in game model by function 'assign roles' & player character is set in game model by 'assign character'.
 	  this.role = null;
@@ -16737,6 +16635,10 @@
 	  this.arrows = 0;
 	};
 	
+	Player.prototype.addName = function(name){
+	  this.name = name;
+	}
+	
 	
 	
 	
@@ -16752,6 +16654,144 @@
 	// FRONT END: when player dies must display role card
 	
 	module.exports = Player;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var _ = __webpack_require__( 1 );
+	
+	var Dice = function(){
+	  this.currentRoll = [];
+	  this.saved = [];
+	  this.all = [];
+	  this.arrowsRolled = 0;
+	  this.rolls = 3;
+	
+	//// INFO ABOUT ABOVE:
+	//// this.currentRoll - the result of the dice from the player's last roll
+	//// this.saved - the dice that the player will not re-roll
+	//// this.all - an array that is the same as the dice that are being displayed in the browser. It is made of the dice the player didnt re-roll and the remaining dice after they have been rolled. ( this.saved + this.currentRoll after new numbers have been generated)  Used for event listener so can use index position. the dice that are being displayed in the browser come from looping through 2 arrays(saved and currentRoll- so that saved dice wont spin) so dont have proper index positions without this.all
+	
+	  this.meaningOf = {
+	    1: "Shoot 1",
+	    2: "Shoot 2",
+	    3: "Beer",
+	    4: "Gatling",
+	    5: "Dynamite",
+	    6: "Arrow"
+	  };
+	
+	  this.imageUrl = {
+	    1: "http://i.imgur.com/j32ofq3.png",
+	    2: "http://i.imgur.com/AR0V71o.png",
+	    3: "http://i.imgur.com/TWQYd4q.png",
+	    4: "http://i.imgur.com/0q1hvpf.png",
+	    5: "http://i.imgur.com/ygbg1Fg.png",
+	    6: "http://i.imgur.com/pUn7Uru.png"
+	  }; 
+	};
+	
+	//// Will need to reset the dice between change of player turn - use reset below.
+	Dice.prototype.reset = function(){
+	  this.saved = [];
+	  this.arrowsRolled = 0;
+	}
+	
+	Dice.prototype.roll = function(){
+	  this.currentRoll = [];
+	  var numberOfDiceToRoll = 5 - this.saved.length;
+	
+	  if( this.canRoll() === false ) return;
+	
+	  for( var i=0; i < numberOfDiceToRoll; i++ ){
+	    var result = Math.floor( Math.random() * 6 ) + 1;
+	    this.currentRoll.push( result );
+	  };
+	
+	  this.all = this.saved.concat( this.currentRoll )
+	  this.saveDynamite();
+	  this.countArrows();
+	  this.rolls--;
+	
+	  return this.currentRoll;
+	};
+	//// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
+	
+	Dice.prototype.save = function( value ){
+	  this.saved.push( value );
+	};
+	
+	Dice.prototype.saveDynamite = function(){
+	  for( var item of this.currentRoll ){
+	    if( item === 5 ) this.save( 5 );
+	  };
+	};
+	//// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
+	Dice.prototype.threeDynamite = function(){
+	  var counter = 0;
+	  for( var number of this.all ){
+	    if( number === 5 ) counter ++;
+	  }
+	  return ( counter >= 3 ) ? true : false
+	};
+	
+	Dice.prototype.threeGatling = function(){
+	  var counter = 0;
+	  for( item of this.saved ){
+	    if( item === 4 ) counter++;
+	  }
+	  return ( counter >= 3 ) ? true : false
+	};
+	
+	Dice.prototype.countArrows= function(){
+	  for( item of this.currentRoll ){
+	    if( item === 6 ) this.arrowsRolled += 1;
+	  }
+	};
+	
+	//// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
+	//// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
+	
+	Dice.prototype.canRoll = function(){
+	  if( this.rolls === 0 ) return false;
+	  if( this.saved.length === 5 ) return false;
+	  if( this.threeDynamite() ) return false;
+	  return true;
+	};
+	
+	module.exports = Dice;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	var Hint = function(){
+	  this.all = [
+	    "<b>Hint</b>: Don't believe Tony's lies.",
+	    "<b>Hint</b>: Beware of the Erik special.",
+	    "<b>Hint</b>: Remember to utilise your character's special ability!",
+	    "<b>Hint</b>: Arrow damage is not dealt until the last arrow is taken and the Indians attack.",
+	    "<b>Hint</b>: A Renegade wins by being the last character in play.",
+	    "<b>Hint</b>: Dynamite cannot be re-rolled.",
+	    "<b>Hint</b>: Arrows must be resolved immediately after each roll.",
+	    "<b>Hint</b>: Rolling 3 Gatling deals 1 damage to all players.",
+	    "<b>Hint</b>: If a player's life points reach 0 they are eliminated from the game.",
+	    "<b>Hint</b>: If all players are eliminated at the same time, the Outlaws win!",
+	    "<b>Hint</b>: Deputies must help and protect the Sherrif.",
+	    "<b>Hint</b>: Rolling 3 Dynamite deals 1 damage and ends your turn.",
+	    "<b>Hint</b>: Outlaws must eliminate the Sheriff.",
+	    "<b>Hint</b>: The Sheriff must eliminate all Outlaws and Renegades.",
+	    "<b>Hint</b>: If you are eliminated but your teammates win, you win too!",
+	    "<b>Hint</b>: If the Sheriff is confronted by 2 Renegades and the Sheriff dies first, the Outlaws win!",
+	    "<b>Hint</b>: Click on a die to save it and prevent it from re-rolling.",
+	    "<b>Hint</b>: If you aren't satisfied with your roll, you can re-roll up to twice.",
+	    "<b>Hint</b>: Click the heal button with no player targeted to heal yourself.",
+	    "<b>Hint</b>: The Sheriff always takes the first turn."
+	  ]
+	}
+	
+	module.exports = Hint;
 
 /***/ }
 /******/ ]);
