@@ -187,7 +187,7 @@ Game.prototype.rotatePlayers = function(numSteps){
   // rotates the array the number of times that is passed as an argument
   // if no argument is passed, the OR operator will set loops to 1 as numSteps will be undefined, which is falsey
   var loops = numSteps || 1;
-  // ^ this could have been written: 
+  // ^ this could have been written:
   // - which might be better - passing 0 in deliberately would cause the loops to be set to 1, not 0, when using the OR operator method above - but there's no need to ever rotate the players array 0 times
   // if (numSteps === undefined){
   //   var loops = 1;
