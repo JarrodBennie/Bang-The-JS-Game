@@ -38,6 +38,10 @@ Dice.prototype.reset = function(){
 }
 
 Dice.prototype.roll = function(){
+  if(this.rolls === 0){
+    console.log("You can't roll the dice any more!")
+    return;
+  }
   this.currentRoll = [];
   var numberOfDiceToRoll = 5 - this.saved.length;
 
