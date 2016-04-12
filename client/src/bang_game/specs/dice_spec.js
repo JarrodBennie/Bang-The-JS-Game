@@ -29,13 +29,13 @@ describe('Dice', function(){
   });
 
   it("should return array of 3 random numbers if 2 numbers saved before roll", function(){
-    dice.saved = [ 2, 4 ]
+    dice.saved = [ 2, 4 ];
     assert.equal(dice.roll().length, 3);
   });
 
-  it("should save dice at index 2", function(){
+  it("should save dice number 2", function(){
     dice.save(2);
-    assert.deepEqual( dice.saved, [ 3 ] );
+    assert.deepEqual( dice.saved, [ 2 ] );
   });
 
   it("should save dynamite automatically from dice current roll", function(){
@@ -44,21 +44,22 @@ describe('Dice', function(){
   });
 
   it("should return true if 3 or more dynamite in current roll", function(){
-    dice.currentRoll = [ 5, 5, 1, 5, 2 ];
+    dice.all = [ 5, 5, 1, 5, 2 ];
     assert.equal(dice.threeDynamite(), true);
   });
 
   it("should return true if 3 or more dynamite combined between current roll and saved", function(){
-    dice.save(3);
-    dice.currentRoll = [ 5, 1, 2, 3, 5 ];
+    dice.save(5);
+    dice.save(5);
+    dice.save(5);
+    dice.roll();
     assert.equal(dice.threeDynamite(), true);
   });
 
   it("should return true if 3 or more gatling saved", function(){
-    dice.currentRoll = [ 4, 4, 4, 1, 2 ];
-    dice.save(0);
-    dice.save(1);
-    dice.save(2);
+    dice.save(4);
+    dice.save(4);
+    dice.save(4);
     assert.equal(dice.threeGatling(), true);
   });
 
