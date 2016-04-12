@@ -205,24 +205,36 @@ window.onload = function(){
       savedDiceFull(dice, diceElements, rollDiceButton);
     }
   }
-  diceClickEnable();
+  diceClickEnable();  
+
+  var checkRangeToTarget = function(){
+    if (game.players[0].actionCounters["1"]){
+      game.canShoot(1)
+    }
+    if (game.players[0].actionCounters["2"]){
+      game.canShoot(2)
+    }
+  }
 
   // PLAYER LIST
   player1.onclick = function(){
-    targetPlayer(this, game);
     if(game.players[0].target === game.allPlayers[0]){
       game.players[0].target = null;
     }else{
       game.players[0].target = game.allPlayers[0];
     }
+    targetPlayer(this, game);
+    checkRangeToTarget();
+
   }
   player2.onclick = function(){
-    targetPlayer(this, game);
     if(game.players[0].target === game.allPlayers[1]){
       game.players[0].target = null;
     }else{
       game.players[0].target = game.allPlayers[1];
     }
+    targetPlayer(this, game);
+    checkRangeToTarget();
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -231,6 +243,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
+    checkRangeToTarget();
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -239,6 +252,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
+    checkRangeToTarget();
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -247,6 +261,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
+    checkRangeToTarget();
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -255,6 +270,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
+    checkRangeToTarget();
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -263,6 +279,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
+    checkRangeToTarget();
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -271,6 +288,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
+    checkRangeToTarget();
   }
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')

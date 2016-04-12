@@ -312,10 +312,8 @@ module.exports.randomElement = getUniqueRandomElement;
 // decisions - manually trigger click events
 
 
-
-
-/// 1st step - calculate how many of each thing
 /// 2 - work out how far away other players are from you game.players.length -1 & game.players.length -2 for index 6 & 7.
+
 
 Game.prototype.addToActionCounters = function(){
   for( var i of this.dice.all){
@@ -324,4 +322,17 @@ Game.prototype.addToActionCounters = function(){
 };
 ///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
 
+
+//// function to know if we should light up/make clickable the shoot button
+Game.prototype.canShoot = function(distance){
+  if (game.players[0].target === game.players[distance] || game.players[0].target === game.players[game.players.length - distance]){
+    console.log("shoot button should light up");
+    return true;
+  }
+  else{
+    console.log("you can't reach that player!")
+    return false;
+  }
+  // return (game.players[0].target === game.players[distance] || game.players[0].target === game.players[game.players.length - distance]) ? true : false;
+}
 
