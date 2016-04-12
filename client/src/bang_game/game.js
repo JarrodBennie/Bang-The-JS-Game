@@ -323,3 +323,29 @@ module.exports.randomElement = getUniqueRandomElement;
 // set of numbers of probability, one for each player being on each team based on actions
 //requires log / stats class to check other players actions
 // decisions - manually trigger click events
+
+
+/// 2 - work out how far away other players are from you game.players.length -1 & game.players.length -2 for index 6 & 7.
+
+
+Game.prototype.addToActionCounters = function(){
+  for( var i of this.dice.all){
+    this.players[0].actionCounters[i.toString()] += 1;
+  };
+};
+///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
+
+
+//// function to know if we should light up/make clickable the shoot button
+Game.prototype.canShoot = function(distance){
+  if (game.players[0].target === game.players[distance] || game.players[0].target === game.players[game.players.length - distance]){
+    console.log("shoot button should light up");
+    return true;
+  }
+  else{
+    console.log("you can't reach that player!")
+    return false;
+  }
+  // return (game.players[0].target === game.players[distance] || game.players[0].target === game.players[game.players.length - distance]) ? true : false;
+}
+
