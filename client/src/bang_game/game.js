@@ -307,15 +307,15 @@ Game.prototype.winCheck = function(){
 
 
 Game.prototype.updateArrows = function(){
-  this.players[0].arrows += dice.arrowsRolled;
-  this.totalArrows -= dice.arrowsRolled;
+  this.players[0].arrows += this.dice.arrowsRolled;
+  this.totalArrows -= this.dice.arrowsRolled;
   if( this.totalArrows <= 0 ){
     this.arrowsDamage() /// see below//  would need to loop all players and do player.health - player.arrows;
     this.totalArrows = 9;  /// put arrows back in middle.
   }
 };
 Game.prototype.arrowsDamage = function(){
-  for( player of this.players){
+  for( var player of this.players){
     player.removeHealthPerArrow();
   }
 }
