@@ -29,13 +29,13 @@ describe('Dice', function(){
   });
 
   it("should return array of 3 random numbers if 2 numbers saved before roll", function(){
-    dice.saved = [ 2, 4 ]
+    dice.saved = [ 2, 4 ];
     assert.equal(dice.roll().length, 3);
   });
 
-  it("should save a dice with the value 3", function(){
-    dice.save( 3 );
-    assert.deepEqual( dice.saved, [ 3 ] );
+  it("should save dice number 2", function(){
+    dice.save(2);
+    assert.deepEqual( dice.saved, [ 2 ] );
   });
 
   it("should save dynamite automatically from dice current roll", function(){

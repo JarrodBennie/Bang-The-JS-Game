@@ -70,6 +70,7 @@ describe('Player', function(){
     player1.setHealth();
     player1.shoot();
     assert.equal(player1.health, 8);
+    assert.equal(player1.maxHealth, 9);
   });
 
   it("should return dead equals true when player health becomes 0", function(){
