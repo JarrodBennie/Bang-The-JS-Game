@@ -48,6 +48,14 @@ Player.prototype.addName = function(name){
   this.name = name;
 }
 
+Player.prototype.healthAsPercentage = function(){
+  return ( (this.health/this.maxHealth) * 100);
+}
+
+Player.prototype.healthAsPercentageDisplay = function(){
+  var insert = this.healthAsPercentage();
+  return "width: " + insert + "%";
+}
 
 
 
