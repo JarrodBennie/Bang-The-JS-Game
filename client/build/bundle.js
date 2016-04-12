@@ -45,8 +45,16 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	_ = __webpack_require__(1);
+	Game = __webpack_require__(5);
+	Player = __webpack_require__(6);
 	Dice = __webpack_require__(3);
 	Hint = __webpack_require__(4);
+	
+	// NEWING UP OBJECTS
+	// var game = new Game();
+	// var player = new Player();
+	var dice = new Dice;
+	var hint = new Hint;
 	
 	window.onload = function(){
 	  // TARGET BUTTONS
@@ -74,21 +82,17 @@
 	  player8 = document.getElementById('player-8') || document.getElementById('hidden'),
 	  currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
 	
-	  // DISPLAY HINT CARD
-	  var hint = new Hint,
-	  hintElement = document.getElementById('hint');
+	  // HINT CARD
+	  var hintElement = document.getElementById('hint');
 	  hintElement.innerHTML = _.sample(hint.all);
 	
 	  // EVENT LISTENERS
-	  // BUTTONS
-	  var dice = new Dice(diceElements);
-	
 	  // ROLL DICE BUTTON
 	  rollDiceButton.onclick = function(){
 	    diceClickEnable();
 	    rollDice(dice, diceElements);
 	    
-	    if(!dice.canRoll){
+	    if(dice.canRoll === false){
 	      this.onclick = null;
 	      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	    }
@@ -241,6 +245,11 @@
 	    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	  }
 	}
+	
+	///////////////////////////////////////////////////////
+	// 'dice.unsave(dice.all[indexOf(dice.all[index])])' //
+	//   -Craig                                          //
+	///////////////////////////////////////////////////////
 
 /***/ },
 /* 1 */
@@ -16220,7 +16229,7 @@
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(1);
+	var _ = __webpack_require__( 1 );
 	
 	var Dice = function(){
 	  this.currentRoll = [];
@@ -16261,15 +16270,16 @@
 	
 	Dice.prototype.roll = function(){
 	  this.currentRoll = [];
-	  if(!this.canRoll()) return;
-	
 	  var numberOfDiceToRoll = 5 - this.saved.length;
+	
+	  if( this.canRoll() === false ) return;
+	
 	  for( var i=0; i < numberOfDiceToRoll; i++ ){
 	    var result = Math.floor( Math.random() * 6 ) + 1;
 	    this.currentRoll.push( result );
 	  };
 	
-	  this.all = this.saved.concat(this.currentRoll)
+	  this.all = this.saved.concat( this.currentRoll )
 	  this.saveDynamite();
 	  this.countArrows();
 	  this.rolls--;
@@ -16284,43 +16294,41 @@
 	
 	Dice.prototype.saveDynamite = function(){
 	  for( var item of this.currentRoll ){
-	    if( item === 5 ){
-	      this.save( 5 );
-	    };
+	    if( item === 5 ) this.save( 5 );
 	  };
 	};
 	//// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 	Dice.prototype.threeDynamite = function(){
 	  var counter = 0;
-	  for( var number of this.all ) if( number === 5 ) counter ++;
+	  for( var number of this.all ){
+	    if( number === 5 ) counter ++;
+	  }
 	  return ( counter >= 3 ) ? true : false
 	};
 	
 	Dice.prototype.threeGatling = function(){
 	  var counter = 0;
-	  for( item of this.saved ) if( item === 4 ) counter++;
+	  for( item of this.saved ){
+	    if( item === 4 ) counter++;
+	  }
 	  return ( counter >= 3 ) ? true : false
 	};
 	
 	Dice.prototype.countArrows= function(){
-	  for( item of this.currentRoll){
-	    if( item === 6){
-	      this.arrowsRolled += 1;
-	    };
-	  };
+	  for( item of this.currentRoll ){
+	    if( item === 6 ) this.arrowsRolled += 1;
+	  }
 	};
 	
 	//// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
-	
 	//// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 	
 	Dice.prototype.canRoll = function(){
-	  if(this.rolls === 0) return false;
-	  if(this.saved.length === 5) return false;
-	  if(this.threeDynamite()) return false;
+	  if( this.rolls === 0 ) return false;
+	  if( this.saved.length === 5 ) return false;
+	  if( this.threeDynamite() ) return false;
 	  return true;
 	};
-	
 	
 	module.exports = Dice;
 
@@ -16354,6 +16362,397 @@
 	}
 	
 	module.exports = Hint;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	var Game = function(players, dice){
+	  this.players = players;
+	  this.allPlayers = [];
+	  this.characters = [];
+	  this.totalArrows = 9;
+	  this.dice = dice;
+	  this.roles = ["Sheriff", "Deputy", "Deputy", "Outlaw", "Outlaw", "Outlaw", "Renegade", "Renegade"];
+	
+	  var character1 = {
+	    name: "Jesse Jones",
+	    health: 9,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "If you have four life points or less, you gain two if you use [Beer] for yourself."
+	  };
+	  var character2 = {
+	    name: "Kit Carlson",
+	    health: 7,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "For each [Gatling] you may discard one arrow from any player."
+	  };
+	  var character3 = {
+	    name: "Black Jack",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You may re-roll [Dynamite]. (Not if you roll three or more!)"
+	  };
+	  var character4 = {
+	    name: "Rose Doolan",
+	    health: 9,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You may use [Shoot 1] or [Shoot 2] for players sitting one place further."
+	  };
+	  var character5 = {
+	    name: "Pedro Ramirez",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "Each time you lose a life point, you may discard one of your arrows."
+	  };
+	  var character6 = {
+	    name: "El Gringo",
+	    health: 7,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "When a player makes you lose one or more life points, they must take an arrow."
+	  };
+	  var character6 = {
+	    name: "El Gringo",
+	    health: 7,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "When a player makes you lose one or more life points, they must take an arrow."
+	  };
+	  var character7 = {
+	    name: "Bart Cassidy",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You may take an arrow instead of losing a life point (except to Arrows or Dynamite)."
+	  };
+	  var character8 = {
+	    name: "Vulture Sam",
+	    health: 9,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "Each time another player is eliminated, you gain two life points."
+	  };
+	  var character9 = {
+	    name: "Calamity Janet",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You can use [Shoot 1] as [Shoot 2] and vice-versa."
+	  };
+	  var character10 = {
+	    name: "Jourdonnais",
+	    health: 7,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You never lose more than one life point to Arrows."
+	  };
+	  var character11 = {
+	    name: "Slab the Killer",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "Once per turn, you can use a [Beer] to double a [Shoot 1] or [Shoot 2]."
+	  };
+	  var character12 = {
+	    name: "Sid Ketchum",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "At the beginning of your turn, any player of your choice gains one life point."
+	  };
+	  var character13 = {
+	    name: "Suzy Lafayette",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "If you didn't roll any [Shoot 1] or [Shoot 2] you gain two life points."
+	  };
+	  var character14 = {
+	    name: "Paul Regret",
+	    health: 9,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You never lose life points to the Gatling Gun."
+	  };
+	  var character15 = {
+	    name: "Lucky Duke",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You may mae one extra re-roll"
+	  };
+	  var character16 = {
+	    name: "Willy the Kid",
+	    health: 8,
+	    img_small: "",
+	    img_large: "",
+	    ability_description: "You only need 2x [Gatling] to use the Gatling Gun."
+	  };
+	  this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];
+	
+	
+	};
+	
+	var getUniqueRandomElement = function(array){
+	  var index = Math.floor((Math.random()*array.length));
+	  var choice = array[index];
+	  array.splice(index, 1);
+	  return choice;
+	};
+	
+	
+	
+	
+	Game.prototype.setup = function(){
+	  this.assignRoles();
+	  this.assignCharacters();
+	  this.setAllHealth();
+	  this.savePlayers();
+	  this.rotateSheriffToFirst();
+	};
+	
+	Game.prototype.rotateSheriffToFirst = function(){
+	  var sheriffIndex;
+	  for (var i = 0; i < this.players.length; i++){
+	    if (this.players[i].role === "Sheriff"){
+	      sheriffIndex = i;
+	    }
+	  }
+	  this.rotatePlayers(sheriffIndex);
+	};
+	
+	Game.prototype.setAllHealth = function(){
+	  for (var i = 0; i < this.players.length; i++){
+	    this.players[i].setHealth();
+	  }
+	};
+	
+	Game.prototype.assignRoles = function(){
+	  for (var i = 0; i < this.players.length; i++){
+	    this.players[i].role = getUniqueRandomElement(this.roles);
+	  };
+	};
+	
+	
+	Game.prototype.assignCharacters = function(){
+	  for (var i = 0; i < this.players.length; i++){
+	    this.players[i].character = getUniqueRandomElement(this.characters);
+	  };//loop
+	};
+	
+	Game.prototype.savePlayers = function(){
+	  if (this.players.length === 8) {
+	    this.allPlayers = this.players.slice();
+	  };
+	};
+	
+	Game.prototype.rotatePlayers = function(numSteps){
+	  // rotates the array the number of times that is passed as an argument
+	  // if no argument is passed, the OR operator will set loops to 1 as numSteps will be undefined, which is falsey
+	  var loops = numSteps || 1;
+	  // ^ this could have been written: 
+	  // - which might be better - passing 0 in deliberately would cause the loops to be set to 1, not 0, when using the OR operator method above - but there's no need to ever rotate the players array 0 times
+	  // if (numSteps === undefined){
+	  //   var loops = 1;
+	  // }
+	  // else{
+	  //   var loops = numSteps;
+	  // };
+	
+	  for (var i = 0; i < loops; i++){
+	    //2nd array item becomes first - first becomes last:
+	    this.players.push(this.players.shift());
+	    // alternative to rotate the other way:
+	    // last array item becomes first - first becomes 2nd:
+	    // this.players.unshift(this.players.pop());
+	  };
+	};
+	
+	Game.prototype.nextTurn = function(){
+	
+	  ////////////////////////////////////////////////////
+	  // Adam has stuff to add to this function         //
+	  ////////////////////////////////////////////////////
+	
+	  this.checkForDeaths();
+	  if(this.winCheck()){
+	    this.end(this.winCheck());
+	    endGame();
+	  }
+	  this.dice.reset();
+	  this.rotatePlayers();
+	  // add any other function calls for stuff that needs to happen every time a new turn starts
+	};
+	
+	// checks if any players have 0 health - and call the game.removePlayer(player) function on them if so
+	Game.prototype.checkForDeaths = function(){
+	  for (var i = 0; i < this.players.length; i++){
+	    if (this.players[i].health <= 0){
+	      this.removePlayer(this.players[i]);
+	    }// "if health is 0" conditional [end]
+	  };// for loop [end]
+	  return this.players;
+	};
+	
+	Game.prototype.removePlayer = function(player){
+	  this.players.splice(this.players.indexOf(player), 1);
+	  return this.players;
+	};
+	
+	Game.prototype.winCheckOutlaws = function(){
+	  if (this.players.length === 0){
+	    console.log("game.players.length is 0 - winCheckOutlaws is returning an Outlaw victory");
+	    return "Outlaws win!"
+	  };
+	  for (var i = 0; i < this.players.length; i++){
+	    if (this.players[i].role === "Sheriff") {
+	      return null;
+	    }
+	    else{
+	      return "Outlaws win!"
+	    };// if else any player is Sheriff [end]
+	  }//for loop [end]
+	};// winConditionOutlaw [end]
+	
+	Game.prototype.winCheckSheriff = function(){
+	  var sheriffLives = false;
+	  var outlawsDead = true;
+	  var renegadesDead = true;
+	  for (var i = 0; i < this.players.length;i++){
+	    if (this.players[i].role === "Sheriff"){
+	      var sheriffLives = true;
+	    }
+	    else if (this.players[i].role === "Outlaw"){
+	      outlawsDead = false;
+	    }
+	    else if (this.players[i].role === "Renegade"){
+	      renegadesDead = false;
+	    }
+	  };// loop end
+	  if (sheriffLives && outlawsDead && renegadesDead){
+	    return "Sheriff wins!";
+	  }
+	  else{
+	    return null;
+	  }
+	
+	};
+	
+	Game.prototype.winCheckRenegade = function(){
+	  if (this.players.length === 1 && this.players[0].role === "Renegade") {
+	    return "Renegade wins!"
+	  }
+	  else{
+	    return null;
+	  };
+	};
+	
+	Game.prototype.winCheck = function(){
+	  //all win conditions checked in appropriate order
+	
+	  // the if else if statement for renegade and outlaw is important, as if the sheriff is dead, the winCheckOutlaws function returns and outlaws win - this is often correct - but if a single renegade is alive, and just killed the sheriff - then the renegade wins - so we have to check if the renegade should win first, before reverting to checking if outlaws should win in the far more common case that the renegade is not the only player left alive.
+	
+	  if (this.winCheckSheriff()){
+	    return this.winCheckSheriff();
+	  };
+	
+	  var outlawCheckResult = this.winCheckOutlaws()
+	  var renegadeCheckResult = this.winCheckRenegade();
+	
+	  if (renegadeCheckResult){
+	    return renegadeCheckResult;
+	  }
+	  else if (outlawCheckResult){
+	    return outlawCheckResult;
+	  }
+	  return null;
+	};
+	
+	
+	Game.prototype.updateArrows = function(){
+	  this.players[0].arrows += dice.arrowsRolled;
+	  this.totalArrows -= dice.arrowsRolled;
+	  if( this.totalArrows <= 0 ){
+	    this.arrowsDamage() /// see below//  would need to loop all players and do player.health - player.arrows;
+	    this.totalArrows = 9;  /// put arrows back in middle.
+	  }
+	};
+	Game.prototype.arrowsDamage = function(){
+	  for( player of this.players){
+	    player.removeHealthPerArrow();
+	  }
+	}
+	
+	
+	
+	module.exports = Game;
+	module.exports.randomElement = getUniqueRandomElement;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	var Player = function(name){
+	  this.name = name;
+	  this.character = null;
+	//player role is set in game model by function 'assign roles' & player character is set in game model by 'assign character'.
+	  this.role = null;
+	  this.arrows = 0;
+	  this.health = null;
+	  this.maxHealth = null;
+	  this.dead = false;
+	};
+	
+	
+	
+	// setHealth: run after characters and roles assigned in game model- sets health and max health from value on character card + 2 extra if sheriff.
+	Player.prototype.setHealth = function(){
+	  this.maxHealth = this.character.health;
+	  if( this.role === "Sheriff"){
+	    this.maxHealth += 2
+	  };
+	  this.health = this.maxHealth;
+	};
+	
+	Player.prototype.heal = function(){
+	  if( this.health < this.maxHealth){
+	    this.health += 1;
+	  };
+	};
+	
+	Player.prototype.shoot = function(){
+	  this.health -= 1;
+	  if( this.health <= 0){
+	    this.dead = true;
+	  };
+	};
+	
+	Player.prototype.removeHealthPerArrow = function(){
+	  this.health -= this.arrows;
+	  this.arrows = 0;
+	};
+	
+	
+	
+	
+	
+	//////   IDEAS FOR GAME MODEL - didnt want to risk merge conflicts so I just wrote my ideas here until we catch up as a team.
+	
+	// should be a function in game that runs at end of each turn that adds dice.arrowsRolled to player.arrows, and takes dice.arrowsRolled away from total arrows in game( then an if statement: if total arrows in game <= 0: run function to take life off all players with arrows, then reset total arrows in game eg = 10). (see game.updateArrows below - to be run after every roll) 
+	// if move code above to game model, need to change 'game.' to 'this.'
+	
+	////// at end of each turn in game do loop of players and check if player.dead = true. if so cut out of game some how - pop/splice from array?
+	
+	
+	// FRONT END: when player dies must display role card
+	
+	module.exports = Player;
 
 /***/ }
 /******/ ]);

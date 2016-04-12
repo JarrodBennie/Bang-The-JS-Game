@@ -1,4 +1,4 @@
-var _ = require('lodash');
+var _ = require( 'lodash' );
 
 var Dice = function(){
   this.currentRoll = [];
@@ -39,15 +39,16 @@ Dice.prototype.reset = function(){
 
 Dice.prototype.roll = function(){
   this.currentRoll = [];
-  if(!this.canRoll()) return;
-
   var numberOfDiceToRoll = 5 - this.saved.length;
+
+  if( this.canRoll() === false ) return;
+
   for( var i=0; i < numberOfDiceToRoll; i++ ){
     var result = Math.floor( Math.random() * 6 ) + 1;
     this.currentRoll.push( result );
   };
 
-  this.all = this.saved.concat(this.currentRoll)
+  this.all = this.saved.concat( this.currentRoll )
   this.saveDynamite();
   this.countArrows();
   this.rolls--;
@@ -62,42 +63,40 @@ Dice.prototype.save = function( value ){
 
 Dice.prototype.saveDynamite = function(){
   for( var item of this.currentRoll ){
-    if( item === 5 ){
-      this.save( 5 );
-    };
+    if( item === 5 ) this.save( 5 );
   };
 };
 //// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 Dice.prototype.threeDynamite = function(){
   var counter = 0;
-  for( var number of this.all ) if( number === 5 ) counter ++;
+  for( var number of this.all ){
+    if( number === 5 ) counter ++;
+  }
   return ( counter >= 3 ) ? true : false
 };
 
 Dice.prototype.threeGatling = function(){
   var counter = 0;
-  for( item of this.saved ) if( item === 4 ) counter++;
+  for( item of this.saved ){
+    if( item === 4 ) counter++;
+  }
   return ( counter >= 3 ) ? true : false
 };
 
 Dice.prototype.countArrows= function(){
-  for( item of this.currentRoll){
-    if( item === 6){
-      this.arrowsRolled += 1;
-    };
-  };
+  for( item of this.currentRoll ){
+    if( item === 6 ) this.arrowsRolled += 1;
+  }
 };
 
 //// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
-
 //// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.
 
 Dice.prototype.canRoll = function(){
-  if(this.rolls === 0) return false;
-  if(this.saved.length === 5) return false;
-  if(this.threeDynamite()) return false;
+  if( this.rolls === 0 ) return false;
+  if( this.saved.length === 5 ) return false;
+  if( this.threeDynamite() ) return false;
   return true;
 };
-
 
 module.exports = Dice;

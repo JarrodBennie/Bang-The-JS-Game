@@ -34,7 +34,7 @@ describe('Dice', function(){
   });
 
   it("should save a dice with the value 3", function(){
-    dice.save(3);
+    dice.save( 3 );
     assert.deepEqual( dice.saved, [ 3 ] );
   });
 

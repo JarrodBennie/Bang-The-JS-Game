@@ -1,6 +1,14 @@
 _ = require('lodash');
+Game = require('./bang_game/game');
+Player = require('./bang_game/player');
 Dice = require('./bang_game/dice');
 Hint = require('./bang_game/hint');
+
+// NEWING UP OBJECTS
+// var game = new Game();
+// var player = new Player();
+var dice = new Dice;
+var hint = new Hint;
 
 window.onload = function(){
   // TARGET BUTTONS
@@ -28,21 +36,17 @@ window.onload = function(){
   player8 = document.getElementById('player-8') || document.getElementById('hidden'),
   currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
 
-  // DISPLAY HINT CARD
-  var hint = new Hint,
-  hintElement = document.getElementById('hint');
+  // HINT CARD
+  var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
   // EVENT LISTENERS
-  // BUTTONS
-  var dice = new Dice(diceElements);
-
   // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
     diceClickEnable();
     rollDice(dice, diceElements);
     
-    if(!dice.canRoll){
+    if(dice.canRoll === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     }
@@ -195,3 +199,8 @@ var savedDiceFull = function(dice, diceElements, rollDiceButton){
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   }
 }
+
+///////////////////////////////////////////////////////
+// 'dice.unsave(dice.all[indexOf(dice.all[index])])' //
+//   -Craig                                          //
+///////////////////////////////////////////////////////
