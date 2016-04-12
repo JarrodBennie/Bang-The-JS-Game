@@ -46,10 +46,11 @@ Dice.prototype.roll = function(){
     console.log("You can't roll the dice any more!")
     return;
   }
-
-  for (var i = 0; i < this.saved.length; i++) {
-    this.diceElements[i].onclick = null;
-    this.diceElements[i].style.opacity = 0.5;
+  if (this.diceElements){
+    for (var i = 0; i < this.saved.length; i++) {
+      this.diceElements[i].onclick = null;
+      this.diceElements[i].style.opacity = 0.5;
+    }
   }
   this.currentRoll = [];
 
