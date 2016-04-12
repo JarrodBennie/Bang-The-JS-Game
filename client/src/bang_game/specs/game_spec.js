@@ -1,7 +1,7 @@
 var assert = require('chai').assert;
 var Game = require('../game.js');
 var Player = require('../player.js');
-var Player = require('../dice.js');
+var Dice = require('../dice.js');
 var getUniqueRandomElement = require('../game.js').randomElement;
 
 var game;
@@ -10,12 +10,14 @@ var player6; // this player must be a global var in spec file to make the test f
 // the test would pass fine without this if you were passing the index itself as an integer - but it's nice if you can use indexOf to get the index of the player object as well - so I wanted to test for that.
 
 describe('Game', function(){
+
   beforeEach(function(){
-    var dice = new Dice;
-    player3 = new Player("Craig");
-    player6 = new Player("Parkyn")
-    game = new Game(dice, [{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
-  });
+   var dice = new Dice();
+   player3 = new Player("Craig");
+   player6 = new Player("Parkyn")
+   game = new Game(dice, [{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
+ });
+
   it("should construct with an array of 8 players", function(){
     assert.equal(game.players.length, 8);
   });
@@ -78,8 +80,8 @@ describe('Game', function(){
     assert.equal(game.winCheck(), "Renegade wins!");
   });
 
-  it("should add each dice result from dice.all to the players action counters", function(){
-    assert.equal(player, expected);
-  });
+  // it("should add each dice result from dice.all to the players action counters", function(){
+  //   assert.equal(player, expected);
+  // });
 
 });
