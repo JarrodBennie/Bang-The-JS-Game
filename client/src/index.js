@@ -3,6 +3,15 @@ Dice = require('./bang_game/dice');
 Hint = require('./bang_game/hint');
 
 window.onload = function(){
+  var players = new Array(8);
+
+  for (var i = 0; i < players.length; i++){
+    players.push(new Player("Player " + (i+1) ) )
+  }
+
+  var dice = new Dice();
+  var game = new Game(dice, players)
+  
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -35,7 +44,6 @@ window.onload = function(){
 
   // EVENT LISTENERS
   // BUTTONS
-  var dice = new Dice(diceElements);
   rollDiceButton.onclick = function(){
     diceClickEnable();
     rollDice(dice);
@@ -131,7 +139,7 @@ window.onload = function(){
   currentPlayer.onclick = function(){
     console.log('You clicked on the current player!')
   }
-}
+}; // window.load [end]
 
 // ROLL DICE BUTTON
 var rollDice = function(dice){

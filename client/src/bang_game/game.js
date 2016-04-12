@@ -1,4 +1,4 @@
-var Game = function(dice){
+var Game = function(dice, players){
   this.players = players;
   this.allPlayers = [];
   this.characters = [];
