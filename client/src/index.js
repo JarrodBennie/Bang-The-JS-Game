@@ -66,11 +66,11 @@ window.onload = function(){
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
   }
 
-  for (var i = 0; i < game.players[0].healthDifference; i++) {
+  for (var i = 0; i < game.players[0].healthDifference(); i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
   }
 
-  if(game.players[0].role === "Sheriff"){
+  if(game.players[0].role.name === "Sheriff"){
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons right sheriff-icon"></i>';
   }
 
