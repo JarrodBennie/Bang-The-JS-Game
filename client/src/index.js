@@ -52,13 +52,24 @@ window.onload = function(){
   var currentPlayerCharacter = document.getElementById('current-player-character');
   var currentPlayerAbility = document.getElementById('current-player-ability');
   var sheriffIcon = document.getElementById('sheriff-icon');
-  
+  var currentPlayerHealth = document.getElementById('current-player-health');
+
   currentPlayerAvatar.src = game.players[0].character.imgUrl;
   currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
-  currentPlayerCharacter.innerText = game.players[0].character.name;
+  currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
 
-  if(game.players[0].role === "Sheriff")sheriffIcon.innerText = "brightness_high";
+  for (var i = 0; i < game.players[0].health; i++) {
+    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
+  }
+
+  for (var i = 0; i < game.players[0].healthDifference; i++) {
+    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
+  }
+
+  if(game.players[0].role === "Sheriff"){
+    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons right sheriff-icon"></i>';
+  }
 
   // POPULATE PLAYER 1
   var player1Name = document.getElementById('player-1-name');
