@@ -1,5 +1,5 @@
 var Player = function(name){
-  this.name = name;
+  this.name;
   this.character = null;
 //player role is set in game model by function 'assign roles' & player character is set in game model by 'assign character'.
   this.role = null;
