@@ -8,8 +8,7 @@ describe('Dice', function(){
   var testRoll;
   beforeEach(function(){
     dice = new Dice();
-    // dice.diceElements = [{},{},{},{},{}]
-    // dice.currentRoll = [ 1, 2, 3, 5, 6 ]
+    dice.currentRoll = [ 1, 2, 3, 5, 6 ]
   });
 
   it("should have an array of saved Dice", function(){
@@ -45,21 +44,23 @@ describe('Dice', function(){
   });
 
   it("should return true if 3 or more dynamite in current roll", function(){
-    dice.currentRoll = [ 5, 5, 1, 5, 2 ];
+    dice.all = [ 5, 5, 1, 5, 2 ];
     assert.equal(dice.threeDynamite(), true);
   });
 
+  // threeDynamite uses dice.all now, not saved & current. Test is obsolete
   it("should return true if 3 or more dynamite combined between current roll and saved", function(){
-    dice.save(3);
-    dice.currentRoll = [ 5, 1, 2, 5 ];
+    dice.save(5);
+    dice.save(5);
+    dice.save(5);
+    dice.roll();
     assert.equal(dice.threeDynamite(), true);
   });
 
   it("should return true if 3 or more gatling saved", function(){
-    dice.currentRoll = [ 4, 4, 4, 1, 2 ];
-    dice.save(0);
-    dice.save(1);
-    dice.save(2);
+    dice.save(4);
+    dice.save(4);
+    dice.save(4);
     assert.equal(dice.threeGatling(), true);
   });
 
