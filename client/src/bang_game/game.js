@@ -163,7 +163,10 @@ Game.prototype.savePlayers = function(){
 Game.prototype.rotatePlayers = function(numSteps){
   // rotates the array the number of times that is passed as an argument
   // if no argument is passed, the OR operator will set loops to 1 as numSteps will be undefined, which is falsey
-  var loops = numSteps || 1;
+  var loops = numSteps;
+  if (numSteps === undefined) {
+    loops = 1;
+  }
   // ^ this could have been written:
   // - which might be better - passing 0 in deliberately would cause the loops to be set to 1, not 0, when using the OR operator method above - but there's no need to ever rotate the players array 0 times
   // if (numSteps === undefined){
@@ -191,12 +194,16 @@ Game.prototype.nextTurn = function(){
   this.checkForDeaths();
   if(this.winCheck()){
     this.end(this.winCheck());
-    endGame();
   }
   this.dice.reset();
   this.rotatePlayers();
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
+
+Game.prototype.end = function(){
+
+};
+
 
 // checks if any players have 0 health - and call the game.removePlayer(player) function on them if so
 Game.prototype.checkForDeaths = function(){
@@ -283,19 +290,25 @@ Game.prototype.winCheck = function(){
 };
 
 
-Game.prototype.updateArrows = function(){
-  this.players[0].arrows += this.dice.arrowsRolled;
-  this.totalArrows -= this.dice.arrowsRolled;
-  if( this.totalArrows <= 0 ){
-    this.arrowsDamage() /// see below//  would need to loop all players and do player.health - player.arrows;
-    this.totalArrows = 9;  /// put arrows back in middle.
-  }
+Game.prototype.resolveArrows = function(){
+  for (var i = 0; i < this.dice.arrowsRolled; i++){
+    this.players[0].arrows += 1;
+    this.totalArrows -= 1;
+    console.log("you got an arrow");
+    if (this.totalArrows === 0){
+      this.removeHealthAndArrows();
+      this.totalArrows = 9;
+      console.log("arrows in!");
+    }
+    
+  };
+
 };
-Game.prototype.arrowsDamage = function(){
-  for( var player of this.players){
-    player.removeHealthPerArrow();
-  }
-}
+
+Game.prototype.removeHealthAndArrows = function(){
+  this.health -= this.arrows;
+  this.arrows = 0;
+};
 
 
 
