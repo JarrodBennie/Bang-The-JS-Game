@@ -51,7 +51,9 @@ describe('Dice', function(){
   // threeDynamite uses dice.all now, not saved & current. Test is obsolete
   it("should return true if 3 or more dynamite combined between current roll and saved", function(){
     dice.save(5);
-    dice.currentRoll = [ 5, 1, 2, 5 ];
+    dice.save(5);
+    dice.save(5);
+    dice.roll();
     assert.equal(dice.threeDynamite(), true);
   });
 

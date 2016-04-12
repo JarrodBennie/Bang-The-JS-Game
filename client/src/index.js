@@ -161,7 +161,6 @@ var rollDice = function(dice, diceElements){
   }
 }
 
-
 // SELECT PLAYER FROM LIST
 var targetPlayer = function(selection){
   // TARGET HEALTH BAR OF SELECTED PLAYER
