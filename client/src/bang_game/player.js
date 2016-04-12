@@ -43,11 +43,6 @@ Player.prototype.shoot = function(){
   };
 };
 
-Player.prototype.removeHealthPerArrow = function(){
-  this.health -= this.arrows;
-  this.arrows = 0;
-};
-
 Player.prototype.addName = function(name){
   this.name = name;
 }

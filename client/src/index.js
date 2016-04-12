@@ -165,7 +165,7 @@ window.onload = function(){
   // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
     diceClickEnable();
-    rollDice(dice, diceElements);
+    rollDice(dice, diceElements, game);
     
     if(dice.canRoll === false){
       this.onclick = null;
@@ -305,7 +305,7 @@ window.onload = function(){
 /////////////////////////////
 
 // ROLL DICE BUTTON
-var rollDice = function(dice, diceElements){
+var rollDice = function(dice, diceElements, game){
   var counter = 0;
   // DISPLAY SAVED DICE
   for (var i = 0; i < dice.saved.length; i++) {
@@ -317,6 +317,7 @@ var rollDice = function(dice, diceElements){
   }
   // ROLL DICE
   dice.roll();
+  game.resolveArrows();
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
