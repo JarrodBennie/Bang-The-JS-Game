@@ -10,15 +10,14 @@ var player6; // this player must be a global var in spec file to make the test f
 
 describe('Game', function(){
   beforeEach(function(){
+    var dice = {};
     player3 = new Player("Craig");
     player6 = new Player("Parkyn")
-    game = new Game([{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
+    game = new Game(dice, [{name: "Adam"}, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
   });
-
   it("should construct with an array of 8 players", function(){
     assert.equal(game.players.length, 8);
   });
-
   it("should have a utility function to select a random array element - and remove it to ensure each element is only selected once", function(){
     var array = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p"]
     var times = array.length
@@ -27,7 +26,6 @@ describe('Game', function(){
     }
     assert.deepEqual(array, []);
   });
-
   it("should add roles to all players", function(){
     game.assignRoles();
     assert.isOk(game.players[7].role);
