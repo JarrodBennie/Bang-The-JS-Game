@@ -1,2 +1,4 @@
 node_modules/
 client/node_modules
+build/client/bundle.js
+build/client/bundle.js.map
