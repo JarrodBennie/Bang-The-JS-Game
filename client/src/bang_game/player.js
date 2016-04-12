@@ -23,6 +23,10 @@ Player.prototype.setHealth = function(){
   this.health = this.maxHealth;
 };
 
+Player.prototype.healthDifference = function(){
+  return this.maxHealth - this.health;
+}
+
 Player.prototype.heal = function(){
   if( this.health < this.maxHealth){
     this.health += 1;
