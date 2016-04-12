@@ -37,6 +37,10 @@ img {
   margin-left: 250px;
 }
 
+#default-logo {
+  margin-left: 10px;
+}
+
 .sheriff-icon {
   color: #ffc107;
 }

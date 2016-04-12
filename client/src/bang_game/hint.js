@@ -18,7 +18,8 @@ var Hint = function(){
     "<b>Hint</b>: If the Sheriff is confronted by 2 Renegades and the Sheriff dies first, the Outlaws win!",
     "<b>Hint</b>: Click on a die to save it and prevent it from re-rolling.",
     "<b>Hint</b>: If you aren't satisfied with your roll, you can re-roll up to twice.",
-    "<b>Hint</b>: Click the heal button with no player targeted to heal yourself."
+    "<b>Hint</b>: Click the heal button with no player targeted to heal yourself.",
+    "<b>Hint</b>: The Sheriff always takes the first turn."
   ]
 }
 
