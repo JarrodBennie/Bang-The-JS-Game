@@ -7,6 +7,7 @@ var Player = function(name){
   this.health = null;
   this.maxHealth = null;
   this.dead = false;
+  this.target = null;
 };
 
 

@@ -65,24 +65,13 @@
 	
 	  var dice = new Dice();
 	  var game = new Game(dice, players);
-	  console.log(game.totalArrows);
+	  game.setup();
 	  
 	  // TARGET BUTTONS
 	  var rollDiceButton = document.getElementById('roll-dice-button'),
 	  healButton = document.getElementById('heal-button'),
 	  shootButton = document.getElementById('shoot-button'),
 	  endTurnButton = document.getElementById('end-turn-button');
-	
-	  // TARGET ARROW IMAGES
-	  // var arrow1 = document.getElementById('arrow-1'),
-	  //   arrow2 = document.getElementById('arrow-2'),
-	  //   arrow3 = document.getElementById('arrow-3'),
-	  //   arrow4 = document.getElementById('arrow-4'),
-	  //   arrow5 = document.getElementById('arrow-5'),
-	  //   arrow6 = document.getElementById('arrow-6'),
-	  //   arrow7 = document.getElementById('arrow-7'),
-	  //   arrow8 = document.getElementById('arrow-8'),
-	  //   arrow9 = document.getElementById('arrow-9');
 	
 	  // TARGET DICE IMAGES
 	  var dice1 = document.getElementById('dice-1') || document.getElementById('hidden'),
@@ -103,14 +92,96 @@
 	  player8 = document.getElementById('player-8') || document.getElementById('hidden'),
 	  currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
 	
+	  // POPULATE PLAYER 1
+	  var player1Name = document.getElementById('player-1-name');
+	  var player1Avatar = document.getElementById('player-1-avatar');
+	  var player1Character = document.getElementById('player-1-character');
+	  var player1Health = document.getElementById('player-1-health');
+	
+	  player1Name.innerText = game.allPlayers[0].name;
+	  player1Avatar.src = game.allPlayers[0].character.imgUrl;
+	  player1Character.innerText = game.allPlayers[0].character.name;
+	
+	  // POPULATE PLAYER 2
+	  var player2Name = document.getElementById('player-2-name');
+	  var player2Avatar = document.getElementById('player-2-avatar');
+	  var player2Character = document.getElementById('player-2-character');
+	  var player2Health = document.getElementById('player-2-health');
+	
+	  player2Name.innerText = game.allPlayers[1].name;
+	  player2Avatar.src = game.allPlayers[1].character.imgUrl;
+	  player2Character.innerText = game.allPlayers[1].character.name;
+	
+	  // POPULATE PLAYER 3
+	  var player3Name = document.getElementById('player-3-name');
+	  var player3Avatar = document.getElementById('player-3-avatar');
+	  var player3Character = document.getElementById('player-3-character');
+	  var player3Health = document.getElementById('player-3-health');
+	
+	  player3Name.innerText = game.allPlayers[2].name;
+	  player3Avatar.src = game.allPlayers[2].character.imgUrl;
+	  player3Character.innerText = game.allPlayers[2].character.name;
+	
+	  // POPULATE PLAYER 4
+	  var player4Name = document.getElementById('player-4-name');
+	  var player4Avatar = document.getElementById('player-4-avatar');
+	  var player4Character = document.getElementById('player-4-character');
+	  var player4Health = document.getElementById('player-4-health');
+	
+	  player4Name.innerText = game.allPlayers[3].name;
+	  player4Avatar.src = game.allPlayers[3].character.imgUrl;
+	  player4Character.innerText = game.allPlayers[3].character.name;
+	
+	  // POPULATE PLAYER 5
+	  var player5Name = document.getElementById('player-5-name');
+	  var player5Avatar = document.getElementById('player-5-avatar');
+	  var player5Character = document.getElementById('player-5-character');
+	  var player5Health = document.getElementById('player-5-health');
+	
+	  player5Name.innerText = game.allPlayers[4].name;
+	  player5Avatar.src = game.allPlayers[4].character.imgUrl;
+	  player5Character.innerText = game.allPlayers[4].character.name;
+	
+	  // POPULATE PLAYER 6
+	  var player6Name = document.getElementById('player-6-name');
+	  var player6Avatar = document.getElementById('player-6-avatar');
+	  var player6Character = document.getElementById('player-6-character');
+	  var player6Health = document.getElementById('player-6-health');
+	
+	  player6Name.innerText = game.allPlayers[5].name;
+	  player6Avatar.src = game.allPlayers[5].character.imgUrl;
+	  player6Character.innerText = game.allPlayers[5].character.name;
+	
+	  // POPULATE PLAYER 7
+	  var player7Name = document.getElementById('player-7-name');
+	  var player7Avatar = document.getElementById('player-7-avatar');
+	  var player7Character = document.getElementById('player-7-character');
+	  var player7Health = document.getElementById('player-7-health');
+	
+	  player7Name.innerText = game.allPlayers[6].name;
+	  player7Avatar.src = game.allPlayers[6].character.imgUrl;
+	  player7Character.innerText = game.allPlayers[6].character.name;
+	
+	  // POPULATE PLAYER 8
+	  var player8Name = document.getElementById('player-8-name');
+	  var player8Avatar = document.getElementById('player-8-avatar');
+	  var player8Character = document.getElementById('player-8-character');
+	  var player8Health = document.getElementById('player-8-health');
+	
+	  player8Name.innerText = game.allPlayers[7].name;
+	  player8Avatar.src = game.allPlayers[7].character.imgUrl;
+	  player8Character.innerText = game.allPlayers[7].character.name;
+	
 	  // HINT CARD
 	  var hintElement = document.getElementById('hint');
 	  hintElement.innerHTML = _.sample(hint.all);
 	
 	  // DISPLAY ARROWS
-	  for( var i=0; i < game.totalArrows; i++ ){
+	  for( var i=0; i < 9; i++ ){
 	    var currentArrow = document.getElementById('arrow-' + (i+1));
 	    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+	    currentArrow.style.visibility = "visible";
+	    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
 	  }
 	
 	  // EVENT LISTENERS
@@ -184,33 +255,57 @@
 	
 	  // PLAYER LIST
 	  player1.onclick = function(){
-	    targetPlayer(this);
+	    targetPlayer(this, game);
+	    if(game.players[0].target === game.allPlayers[0]){
+	      game.players[0].target = null;
+	    }else{
+	      game.players[0].target = game.allPlayers[0];
+	    }
+	    console.log(game.players[0].target)
 	  }
 	  player2.onclick = function(){
-	    targetPlayer(this);
+	    targetPlayer(this, game);
+	    game.players[0].target = game.allPlayers[1];
+	    console.log(game.players[0].target)
 	  }
 	  player3.onclick = function(){
-	    targetPlayer(this);
+	    game.players[0].target = game.allPlayers[2];
+	    targetPlayer(this, game);
+	    console.log(game.players[0].target)
 	  }
 	  player4.onclick = function(){
-	    targetPlayer(this);
+	    game.players[0].target = game.allPlayers[3];
+	    targetPlayer(this, game);
+	    console.log(game.players[0].target)
 	  }
 	  player5.onclick = function(){
-	    targetPlayer(this);
+	    game.players[0].target = game.allPlayers[4];
+	    targetPlayer(this, game);
+	    console.log(game.players[0].target)
 	  }
 	  player6.onclick = function(){
-	    targetPlayer(this);
+	    game.players[0].target = game.allPlayers[5];
+	    targetPlayer(this, game);
+	    console.log(game.players[0].target)
 	  }
 	  player7.onclick = function(){
-	    targetPlayer(this);
+	    game.players[0].target = game.allPlayers[6];
+	    targetPlayer(this, game);
+	    console.log(game.players[0].target)
 	  }
 	  player8.onclick = function(){
-	    targetPlayer(this);
+	    game.players[0].target = game.allPlayers[7];
+	    targetPlayer(this, game);
+	    console.log(game.players[0].target)
 	  }
 	  currentPlayer.onclick = function(){
 	    console.log('You clicked on the current player!')
 	  }
-	}; // window.load [end]
+	};
+	
+	/////////////////////////////
+	// WINDOW ONLOAD ENDS HERE //
+	/////////////////////////////
 	
 	// ROLL DICE BUTTON
 	var rollDice = function(dice, diceElements){
@@ -236,7 +331,7 @@
 	}
 	
 	// SELECT PLAYER FROM LIST
-	var targetPlayer = function(selection){
+	var targetPlayer = function(selection, game){
 	  // TARGET HEALTH BAR OF SELECTED PLAYER
 	  var healthBar = selection.getElementsByClassName('progress')[0];
 	  // TARGET PREVIOUSLY SELECTED PLAYER
@@ -16267,120 +16362,97 @@
 	  var character1 = {
 	    name: "Jesse Jones",
 	    health: 9,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/bRkKXmX.png",
 	    ability_description: "If you have four life points or less, you gain two if you use [Beer] for yourself."
 	  };
 	  var character2 = {
 	    name: "Kit Carlson",
 	    health: 7,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/BZIfBge.png",
 	    ability_description: "For each [Gatling] you may discard one arrow from any player."
 	  };
 	  var character3 = {
 	    name: "Black Jack",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/KUrKkis.png",
 	    ability_description: "You may re-roll [Dynamite]. (Not if you roll three or more!)"
 	  };
 	  var character4 = {
 	    name: "Rose Doolan",
 	    health: 9,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/Hdcp0p1.png",
 	    ability_description: "You may use [Shoot 1] or [Shoot 2] for players sitting one place further."
 	  };
 	  var character5 = {
 	    name: "Pedro Ramirez",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/WcU2f2w.png",
 	    ability_description: "Each time you lose a life point, you may discard one of your arrows."
 	  };
 	  var character6 = {
 	    name: "El Gringo",
 	    health: 7,
-	    img_small: "",
-	    img_large: "",
-	    ability_description: "When a player makes you lose one or more life points, they must take an arrow."
-	  };
-	  var character6 = {
-	    name: "El Gringo",
-	    health: 7,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/OF8OH13.png",
 	    ability_description: "When a player makes you lose one or more life points, they must take an arrow."
 	  };
 	  var character7 = {
 	    name: "Bart Cassidy",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/e8oZGYx.png",
 	    ability_description: "You may take an arrow instead of losing a life point (except to Arrows or Dynamite)."
 	  };
 	  var character8 = {
 	    name: "Vulture Sam",
 	    health: 9,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/1HkWchT.png",
 	    ability_description: "Each time another player is eliminated, you gain two life points."
 	  };
 	  var character9 = {
 	    name: "Calamity Janet",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/OY1CiiX.png",
 	    ability_description: "You can use [Shoot 1] as [Shoot 2] and vice-versa."
 	  };
 	  var character10 = {
 	    name: "Jourdonnais",
 	    health: 7,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/tXiiB6L.png",
 	    ability_description: "You never lose more than one life point to Arrows."
 	  };
 	  var character11 = {
 	    name: "Slab the Killer",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/hlVk73M.png",
 	    ability_description: "Once per turn, you can use a [Beer] to double a [Shoot 1] or [Shoot 2]."
 	  };
 	  var character12 = {
 	    name: "Sid Ketchum",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/cXVoKTA.png",
 	    ability_description: "At the beginning of your turn, any player of your choice gains one life point."
 	  };
 	  var character13 = {
 	    name: "Suzy Lafayette",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/KfiWFxk.png",
 	    ability_description: "If you didn't roll any [Shoot 1] or [Shoot 2] you gain two life points."
 	  };
 	  var character14 = {
 	    name: "Paul Regret",
 	    health: 9,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/UFADg9e.png",
 	    ability_description: "You never lose life points to the Gatling Gun."
 	  };
 	  var character15 = {
 	    name: "Lucky Duke",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/F6GioiG.png",
 	    ability_description: "You may mae one extra re-roll"
 	  };
 	  var character16 = {
 	    name: "Willy the Kid",
 	    health: 8,
-	    img_small: "",
-	    img_large: "",
+	    imgUrl: "http://i.imgur.com/580j9rS.png",
 	    ability_description: "You only need 2x [Gatling] to use the Gatling Gun."
 	  };
 	  this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];
@@ -16605,6 +16677,7 @@
 	  this.health = null;
 	  this.maxHealth = null;
 	  this.dead = false;
+	  this.target = null;
 	};
 	
 	
