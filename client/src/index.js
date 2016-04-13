@@ -29,23 +29,23 @@ window.onload = function(){
   roleButton = document.getElementById('role-button');
 
   // TARGET DICE IMAGES
-  var dice1 = document.getElementById('dice-1') || document.getElementById('hidden'),
-  dice2 = document.getElementById('dice-2') || document.getElementById('hidden'),
-  dice3 = document.getElementById('dice-3') || document.getElementById('hidden'),
-  dice4 = document.getElementById('dice-4') || document.getElementById('hidden'),
-  dice5 = document.getElementById('dice-5') || document.getElementById('hidden'),
+  var dice1 = document.getElementById('dice-1'),
+  dice2 = document.getElementById('dice-2'),
+  dice3 = document.getElementById('dice-3'),
+  dice4 = document.getElementById('dice-4'),
+  dice5 = document.getElementById('dice-5'),
   diceElements = [dice1, dice2, dice3, dice4, dice5];
   
   // TARGET PLAYER LIST
-  var player1 = document.getElementById('player-1') || document.getElementById('hidden'),
-  player2 = document.getElementById('player-2') || document.getElementById('hidden'),
-  player3 = document.getElementById('player-3') || document.getElementById('hidden'),
-  player4 = document.getElementById('player-4') || document.getElementById('hidden'),
-  player5 = document.getElementById('player-5') || document.getElementById('hidden'),
-  player6 = document.getElementById('player-6') || document.getElementById('hidden'),
-  player7 = document.getElementById('player-7') || document.getElementById('hidden'),
-  player8 = document.getElementById('player-8') || document.getElementById('hidden'),
-  currentPlayer = document.getElementById('current-player') || document.getElementById('hidden');
+  var player1 = document.getElementById('player-1'),
+  player2 = document.getElementById('player-2'),
+  player3 = document.getElementById('player-3'),
+  player4 = document.getElementById('player-4'),
+  player5 = document.getElementById('player-5'),
+  player6 = document.getElementById('player-6'),
+  player7 = document.getElementById('player-7'),
+  player8 = document.getElementById('player-8'),
+  currentPlayer = document.getElementById('current-player');
 
   // POPULATE CURRENT PLAYER
   var currentPlayerAvatar = document.getElementById('current-player-avatar');
@@ -81,9 +81,15 @@ window.onload = function(){
     var player1Avatar = document.getElementById('player-1-avatar');
     var player1Character = document.getElementById('player-1-character');
     var player1HealthBar = document.getElementById('player-1-health-bar');
+    var player1HealthDiv = document.getElementById('player-1-health-div');
+    var player1CpDiv = document.getElementById('player-1-cp-div');
+
+    player1CpDiv.style.display = "none";
 
     if(game.allPlayers[0] == game.players[0]){
-      player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - PLAYING';
+      player1Name.innerHTML = "<b>" + game.allPlayers[0].name;
+      player1CpDiv.style.display = "inline";
+      player1HealthDiv.style.display = "none";
     }else if(game.allPlayers[0] == game.players[game.players.length - 1]){
       player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[0] == game.players[1]){
@@ -101,9 +107,15 @@ window.onload = function(){
     var player2Avatar = document.getElementById('player-2-avatar');
     var player2Character = document.getElementById('player-2-character');
     var player2HealthBar = document.getElementById('player-2-health-bar');
+    var player2HealthDiv = document.getElementById('player-2-health-div');
+    var player2CpDiv = document.getElementById('player-2-cp-div');
+
+    player2CpDiv.style.display = "none";
 
     if(game.allPlayers[1] == game.players[0]){
-      player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>" + ' - PLAYING';
+      player2Name.innerHTML = "<b>" + game.allPlayers[1].name;
+      player2CpDiv.style.display = "inline";
+      player2HealthDiv.style.display = "none";
     }else if(game.allPlayers[1] == game.players[game.players.length - 1]){
       player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[1] == game.players[1]){
@@ -121,9 +133,15 @@ window.onload = function(){
     var player3Avatar = document.getElementById('player-3-avatar');
     var player3Character = document.getElementById('player-3-character');
     var player3HealthBar = document.getElementById('player-3-health-bar');
+    var player3HealthDiv = document.getElementById('player-3-health-div');
+    var player3CpDiv = document.getElementById('player-3-cp-div');
+
+    player3CpDiv.style.display = "none";
 
     if(game.allPlayers[2] == game.players[0]){
-      player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - PLAYING';
+      player3Name.innerHTML = "<b>" + game.allPlayers[2].name;
+      player3CpDiv.style.display = "inline";
+      player3HealthDiv.style.display = "none";
     }else if(game.allPlayers[2] == game.players[game.players.length - 1]){
       player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[2] == game.players[1]){
@@ -141,9 +159,15 @@ window.onload = function(){
     var player4Avatar = document.getElementById('player-4-avatar');
     var player4Character = document.getElementById('player-4-character');
     var player4HealthBar = document.getElementById('player-4-health-bar');
+    var player4HealthDiv = document.getElementById('player-4-health-div');
+    var player4CpDiv = document.getElementById('player-4-cp-div');
+
+    player4CpDiv.style.display = "none";
 
     if(game.allPlayers[3] == game.players[0]){
-      player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>" + ' - PLAYING';
+      player4Name.innerHTML = "<b>" + game.allPlayers[3].name;
+      player4CpDiv.style.display = "inline";
+      player4HealthDiv.style.display = "none";
     }else if(game.allPlayers[3] == game.players[game.players.length - 1]){
       player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[3] == game.players[1]){
@@ -161,9 +185,15 @@ window.onload = function(){
     var player5Avatar = document.getElementById('player-5-avatar');
     var player5Character = document.getElementById('player-5-character');
     var player5HealthBar = document.getElementById('player-5-health-bar');
+    var player5HealthDiv = document.getElementById('player-5-health-div');
+    var player5CpDiv = document.getElementById('player-5-cp-div');
+
+    player5CpDiv.style.display = "none";
 
     if(game.allPlayers[4] == game.players[0]){
-      player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>" + ' - PLAYING';
+      player5Name.innerHTML = "<b>" + game.allPlayers[4].name;
+      player5CpDiv.style.display = "inline";
+      player5HealthDiv.style.display = "none";
     }else if(game.allPlayers[4] == game.players[game.players.length - 1]){
       player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[4] == game.players[1]){
@@ -181,10 +211,16 @@ window.onload = function(){
     var player6Avatar = document.getElementById('player-6-avatar');
     var player6Character = document.getElementById('player-6-character');
     var player6HealthBar = document.getElementById('player-6-health-bar');
+    var player6HealthDiv = document.getElementById('player-6-health-div');
+    var player6CpDiv = document.getElementById('player-6-cp-div');
+
+    player6CpDiv.style.display = "none";
 
     if(game.allPlayers[5] == game.players[0]){
-      player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - PLAYING';
-    }else if(game.allPlayers[5] == game.players[game.players.length - 1]){
+      player6Name.innerHTML = "<b>" + game.allPlayers[5].name;
+      player6CpDiv.style.display = "inline";
+      player6HealthDiv.style.display = "none";
+}else if(game.allPlayers[5] == game.players[game.players.length - 1]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[5] == game.players[1]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - NEXT';
@@ -201,9 +237,15 @@ window.onload = function(){
     var player7Avatar = document.getElementById('player-7-avatar');
     var player7Character = document.getElementById('player-7-character');
     var player7HealthBar = document.getElementById('player-7-health-bar');
+    var player7HealthDiv = document.getElementById('player-7-health-div');
+    var player7CpDiv = document.getElementById('player-7-cp-div');
+
+    player7CpDiv.style.display = "none";
 
     if(game.allPlayers[6] == game.players[0]){
-      player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>" + ' - PLAYING';
+      player7Name.innerHTML = "<b>" + game.allPlayers[6].name;
+      player7CpDiv.style.display = "inline";
+      player7HealthDiv.style.display = "none";
     }else if(game.allPlayers[6] == game.players[game.players.length - 1]){
       player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[6] == game.players[1]){
@@ -221,9 +263,15 @@ window.onload = function(){
     var player8Avatar = document.getElementById('player-8-avatar');
     var player8Character = document.getElementById('player-8-character');
     var player8HealthBar = document.getElementById('player-8-health-bar');
+    var player8HealthDiv = document.getElementById('player-8-health-div');
+    var player8CpDiv = document.getElementById('player-8-cp-div');
+
+    player8CpDiv.style.display = "none";
 
     if(game.allPlayers[7] == game.players[0]){
-      player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>" + ' - PLAYING';
+      player8Name.innerHTML = "<b>" + game.allPlayers[7].name;
+      player8CpDiv.style.display = "inline";
+      player8HealthDiv.style.display = "none";
     }else if(game.allPlayers[7] == game.players[game.players.length - 1]){
       player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[7] == game.players[1]){
@@ -259,7 +307,6 @@ window.onload = function(){
     }
 
     savedDiceFull(dice, diceElements, rollDiceButton, game);
-    console.log(dice.all)
   }
 
   healButton.onclick = function(){
@@ -334,7 +381,16 @@ window.onload = function(){
       savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
   }
-  diceClickEnable();  
+
+  // DICE CLICKS DISABLED BEFORE DICE ARE ROLLED TO PREVENT ROLL DICE BUTTON LOCKOUT.
+  var diceClickDisable = function(){
+    dice1.onclick = null;
+    dice2.onclick = null;
+    dice3.onclick = null;
+    dice4.onclick = null;
+    dice5.onclick = null;
+  }
+  diceClickDisable();
 
 
   // PLAYER LIST
@@ -417,10 +473,6 @@ window.onload = function(){
     targetPlayer(this, game);
     game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
     game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
-  }
-
-  currentPlayer.onclick = function(){
-    console.log('You clicked on the current player!')
   }
 };
 

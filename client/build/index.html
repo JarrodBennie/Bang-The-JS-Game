@@ -39,6 +39,9 @@
             <div id="player-1-health-div" class="progress red lighten-4">
               <div id="player-1-health-bar" class="determinate red darken-4"></div>
             </div>
+            <div id="player-1-cp-div" class="grey-text darken-4">
+              <b>Current Player</b>
+            </div>
           </div>
         </li>
         <!-- PLAYER 2 -->
@@ -51,6 +54,9 @@
           <div id="player-2-health-div" class="progress red lighten-4">
             <div id="player-2-health-bar" class="determinate red darken-4"></div>
           </div>
+          <div id="player-2-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
+          </div>
         </li>
         <!-- PLAYER 3 -->
         <li id="player-3" class="collection-item avatar player">
@@ -61,6 +67,9 @@
           </div>
           <div id="player-3-health-div" class="progress red lighten-4">
             <div id="player-3-health-bar" class="determinate red darken-4" ></div>
+          </div>
+          <div id="player-3-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
           </div>
         </li>
         <!-- PLAYER 4 -->
@@ -73,6 +82,9 @@
           <div id="player-4-health-div" class="progress red lighten-4">
             <div id="player-4-health-bar" class="determinate red darken-4"></div>
           </div>
+          <div id="player-4-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
+          </div>
         </li>
         <!-- PLAYER 5 -->
         <li id="player-5" class="collection-item avatar player">
@@ -83,6 +95,9 @@
           </div>
           <div id="player-5-health-div" class="progress red lighten-4">
             <div id="player-5-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-5-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
           </div>
         </li>
         <!-- PLAYER 6 -->
@@ -95,6 +110,9 @@
           <div id="player-6-health-div" class="progress red lighten-4">
             <div id="player-6-health-bar" class="determinate red darken-4"></div>
           </div>
+          <div id="player-6-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
+          </div>
         </li>
         <!-- PLAYER 7 -->
         <li id="player-7" class="collection-item avatar player">
@@ -106,6 +124,9 @@
           <div id="player-7-health-div" class="progress red lighten-4">
             <div id="player-7-health-bar" class="determinate red darken-4"></div>
           </div>
+          <div id="player-7-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
+          </div>
         </li>
         <!-- PLAYER 8 -->
         <li id="player-8" class="collection-item avatar player">
@@ -116,6 +137,9 @@
           </div>
           <div id="player-8-health-div" class="progress red lighten-4">
             <div id="player-8-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-8-cp-div" class="grey-text darken-4">
+            <b>Current Player</b>
           </div>
         </li>
       </ul>
@@ -151,12 +175,14 @@
         <div class="card-image waves-effect waves-block waves-light">
         </div>
         <div class="card-content center-align">
-          <span class="card-title activator"><i class="material-icons right">keyboard_arrow_up</i></span>
-          <img width="50px" id="dice-1">
-          <img width="50px" id="dice-2">
-          <img width="50px" id="dice-3">
-          <img width="50px" id="dice-4">
-          <img width="50px" id="dice-5">
+          <span class="card-title activator">
+            <img width="50px" id="dice-1">
+            <img width="50px" id="dice-2">
+            <img width="50px" id="dice-3">
+            <img width="50px" id="dice-4">
+            <img width="50px" id="dice-5">
+            <i class="material-icons right">keyboard_arrow_up</i>
+          </span>
         </div>
         <div class="card-reveal">
           <span class="card-title grey-text text-darken-4">Arrow Pile<i class="material-icons right">close</i></span>
@@ -171,9 +197,9 @@
           <img width="50px" id="arrow-9">
         </div>
         <div class="card-action center-align">
-          <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>
-          <a id="heal-button" class="waves-effect waves-light btn disabled">heal</a>
-          <a id="shoot-button" class="waves-effect waves-light btn disabled">shoot</a>
+          <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>&nbsp;
+          <a id="heal-button" class="waves-effect waves-light btn disabled">heal</a>&nbsp;
+          <a id="shoot-button" class="waves-effect waves-light btn disabled">shoot</a>&nbsp;
           <a id="end-turn-button" class="waves-effect waves-light btn disabled">end turn</a>
         </div>
       </div>
