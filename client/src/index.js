@@ -432,7 +432,7 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-      enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      enableHealButton(healButton, endTurnButton game.players[0].target, allHealthBars, game);
 
     }
       else{
