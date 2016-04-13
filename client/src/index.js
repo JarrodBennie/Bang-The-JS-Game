@@ -558,19 +558,17 @@ var targetPlayer = function(selection, game){
   // TARGET HEALTH BAR OF SELECTED PLAYER
   var healthBar = selection.getElementsByClassName('progress')[0];
   // TARGET PREVIOUSLY SELECTED PLAYER
-  var previouslySelected = document.getElementsByClassName('collection-item avatar player red lighten-4')[0] || document.getElementsByClassName('collection-item grey darken-4 avatar player')[0];
+  var previouslySelected = document.getElementsByClassName('collection-item avatar player red lighten-4')[0] || document.getElementsByClassName('collection-item grey darken-3 avatar player')[0];
   // TARGET HEALTH BAR OF PREVIOUSLY SELECTED PLAYER
   if (previouslySelected) var targetedHealthBar = previouslySelected.getElementsByClassName('progress')[0];
 
   // RESET PREVIOUSLY SELECTED PLAYER COLOURS
   if(previouslySelected && previouslySelected != selection){
-    if(previouslySelected.className === 'collection-item grey darken-4 avatar player'){
+    if(previouslySelected.className === 'collection-item grey darken-3 avatar player'){
       previouslySelected.setAttribute('class', 'collection-item avatar red darken-4 player');
-      console.log("FUCK YEA");
     }else{
       previouslySelected.setAttribute('class', 'collection-item avatar player');
       targetedHealthBar.setAttribute('class', 'progress red lighten-4');
-      console.log("normal")
     }
   }
   // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
@@ -580,10 +578,9 @@ var targetPlayer = function(selection, game){
 
   // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
   }else if(selection.className === "collection-item avatar red darken-4 player"){
-    selection.setAttribute('class', 'collection-item grey darken-4 avatar player');
-
+    selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
   // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
-  }else if(selection.className === "collection-item grey darken-4 avatar player"){
+  }else if(selection.className === "collection-item grey darken-3 avatar player"){
     selection.setAttribute('class', 'collection-item avatar red darken-4 player');
   }
 
