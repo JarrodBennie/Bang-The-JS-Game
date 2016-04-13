@@ -16,9 +16,10 @@ describe('Game', function(){
   beforeEach(function(){
    dice = new Dice();
    player1 = new Player("Adam");
+   player2 = new Player("Bennie");
    player3 = new Player("Craig");
    player6 = new Player("Parkyn")
-   game = new Game(dice, [player1, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
+   game = new Game(dice, [player1, player2, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
  });
 
   it("should construct with an array of 8 players", function(){
@@ -61,6 +62,7 @@ describe('Game', function(){
     player3.health = 8;
     player6.health = 0;
     player1.health = 3;
+    player2.health = 5
     game.checkForDeaths();
     assert.equal(game.players.length, startLength - 1);
   });
@@ -111,5 +113,38 @@ describe('Game', function(){
     assert.equal(player3.health, 1);
     assert.equal(player6.health, 1);
   });
+
+  it("should remove 1 health from targeted player at 1 position away if have a bullseye 1 and remove 1 action counter", function(){
+    player1.actionCounters = { "1": 3};
+    player2.health = 8;
+    player2.maxHealth = 8;
+    player1.target = player2;
+    game.shootTarget();
+    assert.equal(player2.health, 7);
+    assert.equal(player2.maxHealth, 8);
+    assert.equal(player1.actionCounters["1"], 2);
+  });
+
+  it("should remove 1 health from targeted player at 2 positions away if have a bullseye 2 and remove 1 action counter", function(){
+    player1.actionCounters = { "2": 3};
+    player3.health = 8;
+    player3.maxHealth = 8;
+    player1.target = player3;
+    game.shootTarget();
+    assert.equal(player3.health, 7);
+    assert.equal(player3.maxHealth, 8);
+    assert.equal(player1.actionCounters["2"], 2);
+  });
+
+  it("should add 1 health to target when use beer on target and remove 1 action counter", function(){
+    player1.actionCounters = { "3": 3};
+    player2.maxHealth = 9;
+    player2.health = 1;
+    player1.target = player2;
+    game.beerTarget();
+    assert.equal(player2.health, 2);
+    assert.equal(player1.actionCounters["3"], 2);
+  });
+
 
 });
