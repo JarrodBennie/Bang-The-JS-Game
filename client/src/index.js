@@ -700,8 +700,10 @@ var rollDice = function(){
   // ROLL DICE
   dice.roll();
   game.resolveArrows();
-  drawArrows();
-  displayCurrentPlayerArrows();
+  game.threeGatling();
+  drawArrows(game);
+  displayCurrentPlayerArrows(game);
+
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
