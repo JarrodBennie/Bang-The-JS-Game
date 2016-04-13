@@ -57,12 +57,16 @@ window.onload = function(){
   var currentPlayerAbility = document.getElementById('current-player-ability');
   var sheriffIcon = document.getElementById('sheriff-icon');
   var currentPlayerHealth = document.getElementById('current-player-health');
+  var currentPlayerArrows = document.getElementById('current-player-arrows');
 
   currentPlayerAvatar.src = game.players[0].character.imgUrl;
   currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
   currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
   currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
+  for(var i = 0; i < game.players[0].arrows; i++){
+   currentPlayerArrows.src = "http://i.imgur.com/pUn7Uru.png";
+  }
 
   for (var i = 0; i < game.players[0].health; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
@@ -340,7 +344,7 @@ window.onload = function(){
       game.addToActionCounters();
     }
 
-    savedDiceFull(dice, diceElements, rollDiceButton, game);
+    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
 
   }
 
@@ -379,35 +383,35 @@ window.onload = function(){
       if(dice1Value != 5) dice.save(dice1Value);
       dice1.onclick = null;
       dice1.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
     }
     dice2.onclick = function(){
       var dice2Value = dice.all[1];
       if(dice2Value != 5) dice.save(dice2Value);
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
     }
     dice3.onclick = function(){
       var dice3Value = dice.all[2];
       if(dice3Value != 5) dice.save(dice3Value);
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
     }
     dice4.onclick = function(){
       var dice4Value = dice.all[3];
       if(dice4Value != 5) dice.save(dice4Value);
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
     }
     dice5.onclick = function(){
       var dice5Value = dice.all[4];
       if(dice5Value != 5) dice.save(dice5Value);
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
     }
   }
 
@@ -631,6 +635,7 @@ var rollDice = function(dice, diceElements, game){
   dice.roll();
   game.resolveArrows();
   drawArrows(game);
+  displayCurrentPlayerArrows(game);
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
@@ -648,6 +653,14 @@ var drawArrows = function(game){
     currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
     currentArrow.style.visibility = "visible";
     if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+  }
+}
+
+var displayCurrentPlayerArrows = function(game){
+  for(var i = 0; i < game.players[0].arrows; i++){
+  var currentPlayerArrows = document.getElementById('current-player-arrows');
+  currentPlayerArrows.src = "http://i.imgur.com/pUn7Uru.png";
+  console.log("you should have an arrow");
   }
 }
 
@@ -698,7 +711,7 @@ var endGame = function(gameResult){
   // DISABLE BUTTONS
 }
 
-var savedDiceFull = function(dice, diceElements, rollDiceButton, game){
+var savedDiceFull = function(dice, endTurnButton, diceElements, rollDiceButton, game){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
