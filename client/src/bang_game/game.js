@@ -21,25 +21,25 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject){
     name: "Jesse Jones",
     health: 9,
     imgUrl: "http://i.imgur.com/bRkKXmX.png",
-    abilityDescription: "If you have four life points or less, you gain two if you use [Beer] for yourself."
+    abilityDescription: "If you have four life points or less, you gain two if you use Beer for yourself."
   };
   var character2 = {
     name: "Kit Carlson",
     health: 7,
     imgUrl: "http://i.imgur.com/BZIfBge.png",
-    abilityDescription: "For each [Gatling] you may discard one arrow from any player."
+    abilityDescription: "For each Gatling you may discard one arrow from any player."
   };
   var character3 = {
     name: "Black Jack",
     health: 8,
     imgUrl: "http://i.imgur.com/KUrKkis.png",
-    abilityDescription: "You may re-roll [Dynamite]. (Not if you roll three or more!)"
+    abilityDescription: "You may re-roll Dynamite. (Unless you roll three or more!)"
   };
   var character4 = {
     name: "Rose Doolan",
     health: 9,
     imgUrl: "http://i.imgur.com/Hdcp0p1.png",
-    abilityDescription: "You may use [Shoot 1] or [Shoot 2] for players sitting one place further."
+    abilityDescription: "You may use Bullseye 1 or Bullseye 2 for players sitting one place further."
   };
   var character5 = {
     name: "Pedro Ramirez",
@@ -69,7 +69,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject){
     name: "Calamity Janet",
     health: 8,
     imgUrl: "http://i.imgur.com/OY1CiiX.png",
-    abilityDescription: "You can use [Shoot 1] as [Shoot 2] and vice-versa."
+    abilityDescription: "You can use Bullseye 1 as Bullseye 2 and vice-versa."
   };
   var character10 = {
     name: "Jourdonnais",
@@ -81,7 +81,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject){
     name: "Slab the Killer",
     health: 8,
     imgUrl: "http://i.imgur.com/hlVk73M.png",
-    abilityDescription: "Once per turn, you can use a [Beer] to double a [Shoot 1] or [Shoot 2]."
+    abilityDescription: "Once per turn, you can use a Beer to double a Bullseye 1 or Bullseye 2."
   };
   var character12 = {
     name: "Sid Ketchum",
@@ -93,7 +93,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject){
     name: "Suzy Lafayette",
     health: 8,
     imgUrl: "http://i.imgur.com/KfiWFxk.png",
-    abilityDescription: "If you didn't roll any [Shoot 1] or [Shoot 2] you gain two life points."
+    abilityDescription: "If you didn't roll any Bullseye 1 or Bullseye 2 you gain two life points."
   };
   var character14 = {
     name: "Paul Regret",
@@ -111,7 +111,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject){
     name: "Willy the Kid",
     health: 8,
     imgUrl: "http://i.imgur.com/580j9rS.png",
-    abilityDescription: "You only need 2x [Gatling] to use the Gatling Gun."
+    abilityDescription: "You only need 2 Gatling to use the Gatling Gun."
   };
   this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];
 
@@ -134,13 +134,7 @@ Game.prototype.rehydrate = function(previousObject){
   }
   this.totalArrows = previousObject.totalArrows;
   this.wonBy = previousObject.wonBy;
-
   console.log(this.players);
-
-  
-
-
-
 
   this.allPlayers = originalOrderPlayers;
 }
@@ -350,15 +344,18 @@ Game.prototype.resolveArrows = function(){
       this.totalArrows = 9;
       console.log("arrows in!");
     }
-    
+
   };
 
 };
 
 Game.prototype.removeHealthAndArrows = function(){
-  this.health -= this.arrows;
-  this.arrows = 0;
+  for (var i = 0; i < this.players.length; i++){
+    this.players[i].health -= this.players[i].arrows;
+    this.players[i].arrows = 0;
+  };
 };
+
 
 
 
@@ -384,7 +381,7 @@ Game.prototype.addToActionCounters = function(){
     this.players[0].actionCounters[i.toString()] += 1;
   };
 };
-///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
+///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters.
 
 
 //// function to know if we should light up/make clickable the shoot button
@@ -398,9 +395,20 @@ Game.prototype.addToActionCounters = function(){
 //   }
 // }
 
+Game.prototype.canHeal = function(){
+  if (this.players[0].actionCounters["3"] > 0 ) {
+    console.log("yay beer");
+    return true;
+  }
+    else {
+      console.log("boo no beer");
+      return false;
+  }
+}
+
 Game.prototype.canShoot1 = function(){
   if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
-    return true; 
+    return true;
   }
   else{
     return false;
@@ -414,6 +422,69 @@ Game.prototype.canShoot2 = function(){
   else{
     return false;
   }
+}
+
+Game.prototype.threeGatling = function(){
+  var counter = 0;
+  for( item of this.dice.all ){
+    if( item === 4 ) {
+      counter++;
+    };
+  };
+  if ( counter >= 3 ) {
+    for(var i = 1; i < this.players.length; i++){
+      this.players[i].health -= 1;
+    };
+  };
+};
+
+Game.prototype.shootTarget = function(){
+  var counterToDecrement;
+  // REFACTOR THIS - Don't use prototype method directly, filthy...
+  // possible refactor to solve this - move shootTarget to Game model - game always knows who's shooting, it's always the active player (game.players[0])
+  if (this.players[0].actionCounters["1"] > 0 && this.canShoot1()){
+      counterToDecrement = 1
+  }
+  else if(this.players[0].actionCounters["2"] > 0 && this.canShoot2()){
+    counterToDecrement = 2
+  }
+
+  if (this.players[0].target){
+    this.players[0].target.health -= 1;
+    console.log(this.players[0].name + " shot " + this.players[0].target.name)
+    this.players[0].actionCounters[counterToDecrement.toString()] -= 1;
+  }
+  else{
+    console.log("this is a bug - called shoot function but the button to do that should have been disabled!")
+  }
+
+  console.log("action counters:", this.players[0].actionCounters)
+
+};
+
+Game.prototype.beerTarget = function(){
+  if (this.players[0].target){
+    this.players[0].target.health += 1;
+    if(this.players[0].target.health > this.players[0].target.maxHealth){
+      this.players[0].target.health = this.players[0].target.maxHealth
+    }
+    this.players[0].actionCounters["3"] -= 1;
+    console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
+  }
+  else{
+    console.log("you don't have a target (who needs health) to beer!")
+  }
+};
+
+Game.prototype.checkActions = function(){
+  var counter = 0;
+  for(var i = 1; i < 4; i++){
+
+    if(this.players[0].actionCounters[i.toString()] > 0){
+      counter += this.players[0].actionCounters[i.toString()]
+    }
+  }
+    return counter;
 }
 
 

@@ -15,11 +15,11 @@ describe('Game', function(){
 
   beforeEach(function(){
    dice = new Dice();
-
    player1 = new Player("Adam");
+   player2 = new Player("Bennie");
    player3 = new Player("Craig");
    player6 = new Player("Parkyn")
-   game = new Game(dice, [player1, {name: "Bennie"}, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
+   game = new Game(dice, [player1, player2, player3, {name: "Jarrod"}, {name: "Morton"}, player6, {name: "Reid"}, {name: "Sam"}]);
  });
 
   it("should construct with an array of 8 players", function(){
@@ -62,11 +62,15 @@ describe('Game', function(){
     player3.health = 8;
     player6.health = 0;
     player1.health = 3;
+    player2.health = 5
     game.checkForDeaths();
     assert.equal(game.players.length, startLength - 1);
   });
   it("should check for and confirm a sheriff's team victory", function(){
-    player6.role.name = "Sheriff";
+    for (var i = 0; i < game.players.length; i++){
+      game.players[i].role = {name: "Deputy"}
+    }
+    player6.role = {name: "Sheriff"};
     // as none of the other objects in the game.players array will have any role based on the beforeEach function - simply adding the sheriff role to one player creates a sheriff team win state - with the sheriff being the only role left alive.
     assert.equal(game.winCheck(), "Sheriff wins!");
   });
@@ -74,14 +78,14 @@ describe('Game', function(){
     for (var i = 0; i < 7;  i++){
       game.players.pop();
     }
-    game.players[0].role = "Outlaw";
+    game.players[0].role = { name: "Outlaw"};
     assert.equal(game.winCheck(), "Outlaws win!");
   });
   it("should check for and confirm a renegade victory", function(){
     for (var i = 0; i < 7;  i++){
       game.players.pop();
     }
-    game.players[0].role = "Renegade";
+    game.players[0].role = { name: "Renegade"};
     assert.equal(game.winCheck(), "Renegade wins!");
   });
 
@@ -90,5 +94,61 @@ describe('Game', function(){
     game.addToActionCounters();
     assert.deepEqual(game.players[0].actionCounters, { "1": 0, "2": 2, "3": 1, "4": 0, "5": 1, "6": 1});
   });
+  it("should remove 1 health per arrow and reset player arrows to 0", function(){
+    player1.arrows = 4;
+    player1.health = 9;
+    game.removeHealthAndArrows();
+    assert.equal(player1.health, 5);
+    assert.equal(player1.arrows, 0);
+  });
+
+  it("should shoot everyone except the current player when gatling", function(){
+    player1.health = 2;
+    player3.health = 2;
+    player6.health = 2;
+    dice.all =[ 4, 1, 4, 1, 4 ];
+    game.threeGatling();
+    assert.equal(player1.health, 2);
+    assert.equal(player3.health, 1);
+    assert.equal(player6.health, 1);
+  });
+
+  it("should remove 1 health from targeted player at 1 position away if have a bullseye 1 and remove 1 action counter", function(){
+    player1.actionCounters = { "1": 3};
+    player2.health = 8;
+    player2.maxHealth = 8;
+    player1.target = player2;
+    game.shootTarget();
+    assert.equal(player2.health, 7);
+    assert.equal(player2.maxHealth, 8);
+    assert.equal(player1.actionCounters["1"], 2);
+  });
+
+  it("should remove 1 health from targeted player at 2 positions away if have a bullseye 2 and remove 1 action counter", function(){
+    player1.actionCounters = { "2": 3};
+    player3.health = 8;
+    player3.maxHealth = 8;
+    player1.target = player3;
+    game.shootTarget();
+    assert.equal(player3.health, 7);
+    assert.equal(player3.maxHealth, 8);
+    assert.equal(player1.actionCounters["2"], 2);
+  });
+
+  it("should add 1 health to target when use beer on target and remove 1 action counter", function(){
+    player1.actionCounters = { "3": 3};
+    player2.maxHealth = 9;
+    player2.health = 1;
+    player1.target = player2;
+    game.beerTarget();
+    assert.equal(player2.health, 2);
+    assert.equal(player1.actionCounters["3"], 2);
+  });
+
+  it("should count actions available", function(){
+    player1.actionCounters = { "1": 1, "2": 1, "3": 1, "4": 0, "5": 0, "6": 0};
+    assert.equal(game.checkActions(), 3);
+  })
+
 
 });

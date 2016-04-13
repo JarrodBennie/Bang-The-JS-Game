@@ -4,6 +4,17 @@
   display: none;
 }
 
+div#current-player-health{
+  float: left;
+}
+
+div#current-player-arrows{
+  display: inline-block;
+}
+/*div#current-player-arrows img{
+  border: none;
+}*/
+
 body {
   background-image: url("https://pixabay.com/static/uploads/photo/2015/12/03/08/50/paper-1074131_960_720.jpg")
 }

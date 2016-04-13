@@ -1,5 +1,6 @@
 var assert = require('chai').assert;
 var Player = require('../player.js');
+var Game = require('../game.js');
 
 
 describe('Player', function(){
@@ -54,12 +55,13 @@ describe('Player', function(){
     assert.equal(player2.maxHealth, 9);
   });
 
-  it("should add 1 health when heal", function(){
-    player1.setHealth();
-    player1.health = 1;
-    player1.heal();
-    assert.equal(player1.health, 2);
-  });
+  // it("should add 1 health to target when use beer on target", function(){
+  //   player1.maxHealth = 9;
+  //   player1.health = 1;
+  //   player2.target = player1;
+  //   player2.beerTarget();
+  //   assert.equal(player1.health, 2);
+  // });
 
   it("should not add health beyond max health", function(){
     player1.setHealth();
@@ -67,20 +69,12 @@ describe('Player', function(){
     assert.equal(player1.health, 9);
   });
 
-  it("should lose 1 health if shot", function(){
-    player1.setHealth();
-    player1.shoot();
-    assert.equal(player1.health, 8);
-    assert.equal(player1.maxHealth, 9);
-  });
+  // it("should remove 1 health from targeted player", function(){
 
-  it("should return dead equals true when player health becomes 0", function(){
-    player1.setHealth();
-    player1.health = 1;
-    player1.shoot();
-    assert.equal(player1.dead, true);
-  });
+  //   player3 = new Player("Sam");
+  //   player3.role = {name: "Deputy"};
 
+<<<<<<< HEAD
   // arrow damage responsibility moved to Game Object
 
   // it("should remove 1 health per arrow and reset player arrows to 0", function(){
@@ -89,6 +83,21 @@ describe('Player', function(){
   //   player1.removeHealthPerArrow();
   //   assert.equal(player1.health, 5);
   //   assert.equal(player1.arrows, 0);
+=======
+  //   player4 = new Player("Jarrod");
+  //   player4.role = {name: "Renegade"};
+  //   player1.actionCounters = { "1": 3, "2": 2, "3": 0, "4": 0, "5": 0, "6": 0}
+  //   var dice = {};
+  //   game = new Game(dice, [player1, player2, player3, player4, {name: "Morton"}, {name: "Mr6"}, {name: "Reid"}, {name: "Sam"}]);
+
+  //   console.log(game.players);
+
+  //   player2.setHealth();
+  //   player1.target = player2;
+  //   player1.shootTarget();
+  //   assert.equal(player2.health, 8);
+  //   assert.equal(player2.maxHealth, 9);
+>>>>>>> develop
   // });
 
   it("should return a players remaining health as a percentage of their max health", function(){
@@ -102,5 +111,6 @@ describe('Player', function(){
       player1.maxHealth = 10;
       assert.equal(player1.healthAsPercentageDisplay(), "width: 50%");
     });
+
 
 });
