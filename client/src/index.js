@@ -65,7 +65,7 @@ window.onload = function(){
   currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
   for(var i = 0; i < game.players[0].arrows; i++){
-   currentPlayerArrows.src = "http://i.imgur.com/pUn7Uru.png";
+   currentPlayerArrows.src = "arrowicon.png";
   }
 
   for (var i = 0; i < game.players[0].health; i++) {
@@ -658,9 +658,10 @@ var drawArrows = function(game){
 
 var displayCurrentPlayerArrows = function(game){
   for(var i = 0; i < game.players[0].arrows; i++){
-  var currentPlayerArrows = document.getElementById('current-player-arrows');
-  currentPlayerArrows.src = "http://i.imgur.com/pUn7Uru.png";
-  console.log("you should have an arrow");
+  var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
+  currentPlayerArrows.src = "arrowicon.png";
+  currentPlayerArrows.style.display = "inline-block";
+  if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
   }
 }
 
