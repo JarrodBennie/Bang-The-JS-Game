@@ -349,6 +349,17 @@ Game.prototype.addToActionCounters = function(){
 //   }
 // }
 
+Game.prototype.canHeal = function(){
+  if (this.players[0].actionCounters["3"] > 0 && this.players[0].target.health < this.players[0].target.maxHealth) {
+    console.log("yay beer");
+    return true;
+  }
+    else {
+      console.log("boo no beer");
+      return false;
+  }
+}
+
 Game.prototype.canShoot1 = function(){
   if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
     return true;
@@ -381,6 +392,40 @@ Game.prototype.threeGatling = function(){
   };
 };
 
+Game.prototype.shootTarget = function(){
+  var counterToDecrement;
+  // REFACTOR THIS - Don't use prototype method directly, filthy...
+  // possible refactor to solve this - move shootTarget to Game model - game always knows who's shooting, it's always the active player (game.players[0])
+  if (this.players[0].actionCounters["1"] > 0 && this.canShoot1()){
+      counterToDecrement = 1
+  }
+  else if(this.players[0].actionCounters["2"] > 0 && this.canShoot2()){
+    counterToDecrement = 2
+  }
+
+  if (this.players[0].target){
+    this.players[0].target.health -= 1;
+    console.log(this.players[0].name + " shot " + this.players[0].target.name)
+    this.players[0].actionCounters[counterToDecrement.toString()] -= 1;
+  }
+  else{
+    console.log("this is a bug - called shoot function but the button to do that should have been disabled!")
+  }
+
+  console.log("action counters:", this.players[0].actionCounters)
+
+};
+
+Game.prototype.beerTarget = function(){
+  if (this.players[0].target && this.players[0].target.health < this.players[0].target.maxHealth){
+    this.players[0].target.health += 1;
+    this.players[0].actionCounters["3"] -= 1;
+    console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
+  }
+  else{
+    console.log("you don't have a target (who needs health) to beer!")
+  }
+};
 
 
   // if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
