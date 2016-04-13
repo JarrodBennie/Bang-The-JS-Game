@@ -1,12 +1,9 @@
-var _ = require( 'lodash' );
-
-var Dice = function(){
+var Dice = function(previousObject){
   this.currentRoll = [];
   this.saved = [];
   this.all = [];
   this.arrowsRolled = 0;
   this.rolls = 3;
-
 //// INFO ABOUT ABOVE:
 //// this.currentRoll - the result of the dice from the player's last roll
 //// this.saved - the dice that the player will not re-roll
@@ -29,12 +26,31 @@ var Dice = function(){
     5: "http://i.imgur.com/ygbg1Fg.png",
     6: "http://i.imgur.com/pUn7Uru.png"
   }; 
+  
+  if (previousObject !== undefined) {
+    this.rehydrate(previousObject);
+  }
+
+
+
 };
+
+Dice.prototype.rehydrate = function(previousObject){
+  this.currentRoll = previousObject.currentRoll;
+  this.saved = previousObject.saved;
+  this.all = previousObject.all;
+  this.arrowsRolled = previousObject.arrowsRolled;
+  this.rolls = previousObject.rolls;
+  return this;
+}
 
 //// Will need to reset the dice between change of player turn - use reset below.
 Dice.prototype.reset = function(){
+  this.currentRoll = [];
   this.saved = [];
+  this.all = [];
   this.arrowsRolled = 0;
+  this.rolls = 3;
 }
 
 Dice.prototype.roll = function(){

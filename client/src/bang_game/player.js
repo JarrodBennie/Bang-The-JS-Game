@@ -6,7 +6,6 @@ var Player = function(name, previousObject){
   this.arrows = 0;
   this.health = null;
   this.maxHealth = null;
-  this.dead = false;
   this.target = null;
   this.actionCounters = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
   if (previousObject !== undefined) {
@@ -14,6 +13,18 @@ var Player = function(name, previousObject){
   }
 };
 
+Player.prototype.rehydrate = function(previousObject){
+    this.name = previousObject.name;
+    this.character = previousObject.character;
+  //player role is set in game model by function 'assign roles' & player character is set in game model by 'assign character'.
+    this.role = previousObject.role;
+    this.arrows = previousObject.arrows;
+    this.health = previousObject.health;
+    this.maxHealth = previousObject.maxHealth;
+    this.target = previousObject.target;
+    this.actionCounters = previousObject.actionCounters;
+  return this;
+}
 
 /// add method for player health as a percentage.
 /// add guard to stop health going below 0.
@@ -28,10 +39,6 @@ Player.prototype.setHealth = function(){
   this.health = this.maxHealth;
 };
 
-Player.prototype.rehydrate = function(previousObject){
-  this.role = previousObject.role
-  return this;
-}
 Player.prototype.healthDifference = function(){
   return this.maxHealth - this.health;
 };

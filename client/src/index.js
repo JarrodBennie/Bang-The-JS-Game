@@ -12,24 +12,29 @@ var dice = new Dice;
 var hint = new Hint;
 
 window.onload = function(){
-  var players = new Array(8);
 
+  var players = new Array(8);
   for (var i = 0; i < players.length; i++){
     players[i] = new Player("Player " + (i+1) )
   }
 
-
-
   var dice = new Dice();
-  var game = new Game(dice, players);
+
+  var characterMaxHealthValues = true;
+  
+  var game = new Game(dice, players, characterMaxHealthValues);
   game.setup();
-  // var gameState = new GameState(game);
-  // game = gameState.load();
-  var gameState = new GameState(game.players[0]);
-  var testPlayer = gameState.load();
-  console.log(testPlayer);
-  var newedUp = new Player("nameHERE", testPlayer)
-  console.log(newedUp);
+  console.log(game);
+
+  var gameState = new GameState(game);
+  game = gameState.load();
+  console.log(game);
+
+  // var gameState = new GameState(game.players[0]);
+  // var testPlayer = gameState.load();
+  // console.log(testPlayer);
+  // var newedUp = new Player("nameHERE", testPlayer)
+  // console.log(newedUp);
 
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
@@ -439,9 +444,11 @@ var targetPlayer = function(selection, game){
   }
 }
 
-var endGame = function(gameResult){
+var endGame = function(gameState){
   // TRIGGER END GAME MODAL
   // DISABLE BUTTONS
+
+  gameState.save();
 }
 
 var savedDiceFull = function(dice, diceElements, rollDiceButton, game, gameState){

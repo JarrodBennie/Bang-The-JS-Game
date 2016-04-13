@@ -1,12 +1,22 @@
-var Game = function(dice, players){
+var Player = require("./player.js");
+
+var Game = function(dice, players, characterBasedMaxHealth, previousObject){
+  this.characterBasedMaxHealth = characterBasedMaxHealth;
   this.players = players;
+  if (!characterBasedMaxHealth){
+    for (var i = 0; i < this.players.length; i++){
+      this.players.maxHealth = 8;
+    }
+  }
   this.allPlayers = [];
   this.characters = [];
   this.totalArrows = 9;
   this.dice = dice;
   this.wonBy = null;
+  if (previousObject !== undefined) {
+      this.rehydrate(previousObject);
+  }
   this.roles = [{name:"Sheriff", imgUrl: "http://i.imgur.com/yYT038yb.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}];
-
   var character1 = {
     name: "Jesse Jones",
     health: 9,
@@ -115,7 +125,25 @@ var getUniqueRandomElement = function(array){
   return choice;
 };
 
+Game.prototype.rehydrate = function(previousObject){
+  this.characterBasedMaxHealth = previousObject.characterBasedMaxHealth;
+  if (!this.characterBasedMaxHealth){
+    for (var i = 0; i < this.players.length; i++){
+      this.players[i].maxHealth = 8;
+    }
+  }
+  this.totalArrows = previousObject.totalArrows;
+  this.wonBy = previousObject.wonBy;
 
+  console.log(this.players);
+
+  
+
+
+
+
+  this.allPlayers = originalOrderPlayers;
+}
 
 
 Game.prototype.setup = function(){
@@ -165,6 +193,7 @@ Game.prototype.rotatePlayers = function(numSteps){
   // rotates the array the number of times that is passed as an argument
   // if no argument is passed, the OR operator will set loops to 1 as numSteps will be undefined, which is falsey
   var loops = numSteps;
+
   if (numSteps === undefined) {
     loops = 1;
   }
@@ -186,7 +215,13 @@ Game.prototype.rotatePlayers = function(numSteps){
   };
 };
 
-Game.prototype.nextTurn = function(){
+Game.prototype.dynamiteExplodes = function(){
+  if (this.dice.threeDynamite()){
+    this.players[0].health -= 1;
+  }
+};
+
+Game.prototype.nextTurn = function(currentPlayerDead){
 
   ////////////////////////////////////////////////////
   // Adam has stuff to add to this function         //
@@ -194,18 +229,26 @@ Game.prototype.nextTurn = function(){
 
   this.checkForDeaths();
   if(this.winCheck()){
-    this.end(this.winCheck());
+    this.end(this.winCheck()); /// this doesn't do anything
   }
+
+
+  var rotateSteps;
+  if (currentPlayerDead === undefined || currentPlayerDead === false){
+    rotateSteps = 1;
+  }
+  else {
+    rotateSteps = 0
+  }
+
   this.dice.reset();
-  this.rotatePlayers();
+  
+  this.rotatePlayers(rotateSteps);
+
   saveGame.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
   // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
 
   // add any other function calls for stuff that needs to happen every time a new turn starts
-};
-
-Game.prototype.end = function(){
-
 };
 
 
