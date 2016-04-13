@@ -85,11 +85,15 @@ window.onload = function(){
     var player1CpDiv = document.getElementById('player-1-cp-div');
 
     player1CpDiv.style.display = "none";
+    player1.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[0] == game.players[0]){
       player1Name.innerHTML = "<b>" + game.allPlayers[0].name;
+      player1Name.setAttribute("class", "title white-text");
+      player1Character.setAttribute("class", "white-text");
       player1CpDiv.style.display = "inline";
       player1HealthDiv.style.display = "none";
+      player1.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[0] == game.players[game.players.length - 1]){
       player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[0] == game.players[1]){
@@ -111,11 +115,15 @@ window.onload = function(){
     var player2CpDiv = document.getElementById('player-2-cp-div');
 
     player2CpDiv.style.display = "none";
+    player2.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[1] == game.players[0]){
       player2Name.innerHTML = "<b>" + game.allPlayers[1].name;
+      player2Name.setAttribute("class", "title white-text");
+      player2Character.setAttribute("class", "white-text");
       player2CpDiv.style.display = "inline";
       player2HealthDiv.style.display = "none";
+      player2.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[1] == game.players[game.players.length - 1]){
       player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[1] == game.players[1]){
@@ -137,11 +145,15 @@ window.onload = function(){
     var player3CpDiv = document.getElementById('player-3-cp-div');
 
     player3CpDiv.style.display = "none";
+    player3.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[2] == game.players[0]){
       player3Name.innerHTML = "<b>" + game.allPlayers[2].name;
+      player3Name.setAttribute("class", "title white-text");
+      player3Character.setAttribute("class", "white-text");
       player3CpDiv.style.display = "inline";
       player3HealthDiv.style.display = "none";
+
     }else if(game.allPlayers[2] == game.players[game.players.length - 1]){
       player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[2] == game.players[1]){
@@ -163,11 +175,15 @@ window.onload = function(){
     var player4CpDiv = document.getElementById('player-4-cp-div');
 
     player4CpDiv.style.display = "none";
+    player4.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[3] == game.players[0]){
       player4Name.innerHTML = "<b>" + game.allPlayers[3].name;
+      player4Name.setAttribute("class", "title white-text");
+      player4Character.setAttribute("class", "white-text");
       player4CpDiv.style.display = "inline";
       player4HealthDiv.style.display = "none";
+      player4.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[3] == game.players[game.players.length - 1]){
       player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[3] == game.players[1]){
@@ -189,11 +205,15 @@ window.onload = function(){
     var player5CpDiv = document.getElementById('player-5-cp-div');
 
     player5CpDiv.style.display = "none";
+    player5.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[4] == game.players[0]){
       player5Name.innerHTML = "<b>" + game.allPlayers[4].name;
+      player5Name.setAttribute("class", "title white-text");
+      player5Character.setAttribute("class", "white-text");
       player5CpDiv.style.display = "inline";
       player5HealthDiv.style.display = "none";
+      player5.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[4] == game.players[game.players.length - 1]){
       player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[4] == game.players[1]){
@@ -215,11 +235,15 @@ window.onload = function(){
     var player6CpDiv = document.getElementById('player-6-cp-div');
 
     player6CpDiv.style.display = "none";
+    player6.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[5] == game.players[0]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name;
+      player6Name.setAttribute("class", "title white-text");
+      player6Character.setAttribute("class", "white-text");
       player6CpDiv.style.display = "inline";
       player6HealthDiv.style.display = "none";
+      player6.setAttribute("class", "collection-item avatar red darken-4 player");
 }else if(game.allPlayers[5] == game.players[game.players.length - 1]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[5] == game.players[1]){
@@ -241,11 +265,15 @@ window.onload = function(){
     var player7CpDiv = document.getElementById('player-7-cp-div');
 
     player7CpDiv.style.display = "none";
+    player7.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[6] == game.players[0]){
       player7Name.innerHTML = "<b>" + game.allPlayers[6].name;
+      player7Name.setAttribute("class", "title white-text");
+      player7Character.setAttribute("class", "white-text");
       player7CpDiv.style.display = "inline";
       player7HealthDiv.style.display = "none";
+      player7.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[6] == game.players[game.players.length - 1]){
       player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[6] == game.players[1]){
@@ -267,11 +295,15 @@ window.onload = function(){
     var player8CpDiv = document.getElementById('player-8-cp-div');
 
     player8CpDiv.style.display = "none";
+    player8.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[7] == game.players[0]){
       player8Name.innerHTML = "<b>" + game.allPlayers[7].name;
+      player8Name.setAttribute("class", "title white-text");
+      player8Character.setAttribute("class", "white-text");
       player8CpDiv.style.display = "inline";
       player8HealthDiv.style.display = "none";
+      player8.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[7] == game.players[game.players.length - 1]){
       player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[7] == game.players[1]){
@@ -537,9 +569,13 @@ var targetPlayer = function(selection, game){
   if(selection.className === "collection-item avatar player"){
     selection.setAttribute('class', 'collection-item avatar player red lighten-4');
     healthBar.setAttribute('class', 'progress white');
+  }else if(selection.className === "collection-item avatar red darken-4 player"){
+    selection.setAttribute('class', 'collection-item grey darken-4 avatar player');
+  }else if(selection.className === "collection-item grey darken-4 avatar player"){
+    selection.setAttribute('class', 'collection-item avatar red darken-4 player');
   }
   // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
-  else {
+  else{
     selection.setAttribute('class', 'collection-item avatar player');
     healthBar.setAttribute('class', 'progress red lighten-4');
   }

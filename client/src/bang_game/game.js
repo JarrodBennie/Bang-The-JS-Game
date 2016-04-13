@@ -10,25 +10,25 @@ var Game = function(dice, players){
     name: "Jesse Jones",
     health: 9,
     imgUrl: "http://i.imgur.com/bRkKXmX.png",
-    abilityDescription: "If you have four life points or less, you gain two if you use [Beer] for yourself."
+    abilityDescription: "If you have four life points or less, you gain two if you use Beer for yourself."
   };
   var character2 = {
     name: "Kit Carlson",
     health: 7,
     imgUrl: "http://i.imgur.com/BZIfBge.png",
-    abilityDescription: "For each [Gatling] you may discard one arrow from any player."
+    abilityDescription: "For each Gatling you may discard one arrow from any player."
   };
   var character3 = {
     name: "Black Jack",
     health: 8,
     imgUrl: "http://i.imgur.com/KUrKkis.png",
-    abilityDescription: "You may re-roll [Dynamite]. (Not if you roll three or more!)"
+    abilityDescription: "You may re-roll Dynamite. (Unless you roll three or more!)"
   };
   var character4 = {
     name: "Rose Doolan",
     health: 9,
     imgUrl: "http://i.imgur.com/Hdcp0p1.png",
-    abilityDescription: "You may use [Shoot 1] or [Shoot 2] for players sitting one place further."
+    abilityDescription: "You may use Bullseye 1 or Bullseye 2 for players sitting one place further."
   };
   var character5 = {
     name: "Pedro Ramirez",
@@ -58,7 +58,7 @@ var Game = function(dice, players){
     name: "Calamity Janet",
     health: 8,
     imgUrl: "http://i.imgur.com/OY1CiiX.png",
-    abilityDescription: "You can use [Shoot 1] as [Shoot 2] and vice-versa."
+    abilityDescription: "You can use Bullseye 1 as Bullseye 2 and vice-versa."
   };
   var character10 = {
     name: "Jourdonnais",
@@ -70,7 +70,7 @@ var Game = function(dice, players){
     name: "Slab the Killer",
     health: 8,
     imgUrl: "http://i.imgur.com/hlVk73M.png",
-    abilityDescription: "Once per turn, you can use a [Beer] to double a [Shoot 1] or [Shoot 2]."
+    abilityDescription: "Once per turn, you can use a Beer to double a Bullseye 1 or Bullseye 2."
   };
   var character12 = {
     name: "Sid Ketchum",
@@ -82,7 +82,7 @@ var Game = function(dice, players){
     name: "Suzy Lafayette",
     health: 8,
     imgUrl: "http://i.imgur.com/KfiWFxk.png",
-    abilityDescription: "If you didn't roll any [Shoot 1] or [Shoot 2] you gain two life points."
+    abilityDescription: "If you didn't roll any Bullseye 1 or Bullseye 2 you gain two life points."
   };
   var character14 = {
     name: "Paul Regret",
@@ -100,7 +100,7 @@ var Game = function(dice, players){
     name: "Willy the Kid",
     health: 8,
     imgUrl: "http://i.imgur.com/580j9rS.png",
-    abilityDescription: "You only need 2x [Gatling] to use the Gatling Gun."
+    abilityDescription: "You only need 2 Gatling to use the Gatling Gun."
   };
   this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];
 
