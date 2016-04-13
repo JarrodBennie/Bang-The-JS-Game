@@ -86,6 +86,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player1Name.setAttribute("class", "title grey-text text-darken-4");
     player1Character.setAttribute("class", "grey-text text-darken-4");
     player1CpDiv.style.display = "none";
+    player1HealthDiv.style.display = "block";
+    player1HealthDiv.setAttribute('class', 'progress red lighten-4')
     player1.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[0] == game.players[0]){
@@ -95,6 +97,7 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player1CpDiv.style.display = "inline";
       player1HealthDiv.style.display = "none";
       player1.setAttribute("class", "collection-item avatar red darken-4 player");
+
     }else if(game.allPlayers[0] == game.players[game.players.length - 1]){
       player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[0] == game.players[1]){
@@ -118,6 +121,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player2Name.setAttribute("class", "title grey-text text-darken-4");
     player2Character.setAttribute("class", "grey-text text-darken-4");
     player2CpDiv.style.display = "none";
+    player2HealthDiv.style.display = "block";
+    player2HealthDiv.setAttribute('class', 'progress red lighten-4')
     player2.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[1] == game.players[0]){
@@ -150,6 +155,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player3Name.setAttribute("class", "title grey-text text-darken-4");
     player3Character.setAttribute("class", "grey-text text-darken-4");
     player3CpDiv.style.display = "none";
+    player3HealthDiv.style.display = "block";
+    player3HealthDiv.setAttribute('class', 'progress red lighten-4')
     player3.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[2] == game.players[0]){
@@ -182,6 +189,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player4Name.setAttribute("class", "title grey-text text-darken-4");
     player4Character.setAttribute("class", "grey-text text-darken-4");
     player4CpDiv.style.display = "none";
+    player4HealthDiv.style.display = "block";
+    player4HealthDiv.setAttribute('class', 'progress red lighten-4')
     player4.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[3] == game.players[0]){
@@ -214,6 +223,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player5Name.setAttribute("class", "title grey-text text-darken-4");
     player5Character.setAttribute("class", "grey-text text-darken-4");
     player5CpDiv.style.display = "none";
+    player5HealthDiv.style.display = "block";
+    player5HealthDiv.setAttribute('class', 'progress red lighten-4')
     player5.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[4] == game.players[0]){
@@ -246,6 +257,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player6Name.setAttribute("class", "title grey-text text-darken-4");
     player6Character.setAttribute("class", "grey-text text-darken-4");
     player6CpDiv.style.display = "none";
+    player6HealthDiv.style.display = "block";
+    player6HealthDiv.setAttribute('class', 'progress red lighten-4')
     player6.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[5] == game.players[0]){
@@ -278,6 +291,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player7Name.setAttribute("class", "title grey-text text-darken-4");
     player7Character.setAttribute("class", "grey-text text-darken-4");
     player7CpDiv.style.display = "none";
+    player7HealthDiv.style.display = "block";
+    player7HealthDiv.setAttribute('class', 'progress red lighten-4')
     player7.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[6] == game.players[0]){
@@ -310,6 +325,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
     player8Name.setAttribute("class", "title grey-text text-darken-4");
     player8Character.setAttribute("class", "grey-text text-darken-4");
     player8CpDiv.style.display = "none";
+    player8HealthDiv.style.display = "block";
+    player8HealthDiv.setAttribute('class', 'progress red lighten-4')
     player8.setAttribute("class", "collection-item avatar player");
 
     if(game.allPlayers[7] == game.players[0]){
