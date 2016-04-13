@@ -693,7 +693,7 @@ var drawArrows = function(){
     dice.roll();
     game.resolveArrows();
     game.threeGatling();
-    drawArrows(game);
+    drawArrows();
     displayCurrentPlayerArrows(game);
 
     // DISPLAY CURRENT ROLL
