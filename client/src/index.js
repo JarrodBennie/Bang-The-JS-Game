@@ -20,7 +20,7 @@ window.onload = function(){
   var dice = new Dice();
   var game = new Game(dice, players);
   game.setup();
-  
+
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -34,7 +34,7 @@ window.onload = function(){
   dice4 = document.getElementById('dice-4') || document.getElementById('hidden'),
   dice5 = document.getElementById('dice-5') || document.getElementById('hidden'),
   diceElements = [dice1, dice2, dice3, dice4, dice5];
-  
+
   // TARGET PLAYER LIST
   var player1 = document.getElementById('player-1') || document.getElementById('hidden'),
   player2 = document.getElementById('player-2') || document.getElementById('hidden'),
@@ -171,7 +171,7 @@ window.onload = function(){
   rollDiceButton.onclick = function(){
     diceClickEnable();
     rollDice(dice, diceElements, game);
-    
+
     if(dice.canRoll === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
@@ -235,7 +235,7 @@ window.onload = function(){
       savedDiceFull(dice, diceElements, rollDiceButton, game);
     }
   }
-  diceClickEnable();  
+  diceClickEnable();
 
 
   // PLAYER LIST

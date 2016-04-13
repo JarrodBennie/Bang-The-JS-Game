@@ -115,8 +115,6 @@ var getUniqueRandomElement = function(array){
 };
 
 
-
-
 Game.prototype.setup = function(){
   this.assignRoles();
   this.assignCharacters();
@@ -300,7 +298,7 @@ Game.prototype.resolveArrows = function(){
       this.totalArrows = 9;
       console.log("arrows in!");
     }
-    
+
   };
 
 };
@@ -334,7 +332,7 @@ Game.prototype.addToActionCounters = function(){
     this.players[0].actionCounters[i.toString()] += 1;
   };
 };
-///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
+///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters.
 
 
 //// function to know if we should light up/make clickable the shoot button
@@ -350,7 +348,7 @@ Game.prototype.addToActionCounters = function(){
 
 Game.prototype.canShoot1 = function(){
   if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
-    return true; 
+    return true;
   }
   else{
     return false;
