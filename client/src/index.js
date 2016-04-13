@@ -106,8 +106,14 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player1Name.innerHTML = "<b>" + game.allPlayers[0].name + "</b>";
     }
 
-    player1Avatar.src = game.allPlayers[0].character.imgUrl;
-    player1Character.innerText = game.allPlayers[0].character.name;
+    if(game.allPlayers[0].role.name === "Sheriff"){
+      player1Avatar.src = game.allPlayers[0].role.imgUrl;
+      player1Character.innerText = game.allPlayers[0].role.name;  
+    }else{
+      player1Avatar.src = game.allPlayers[0].character.imgUrl;
+      player1Character.innerText = game.allPlayers[0].character.name;
+    }
+
     player1HealthBar.style.width = game.allPlayers[0].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 2
@@ -140,8 +146,14 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player2Name.innerHTML = "<b>" + game.allPlayers[1].name + "</b>";
     }
 
-    player2Avatar.src = game.allPlayers[1].character.imgUrl;
-    player2Character.innerText = game.allPlayers[1].character.name;
+    if(game.allPlayers[1].role.name === "Sheriff"){
+      player2Avatar.src = game.allPlayers[1].role.imgUrl;
+      player2Character.innerText = game.allPlayers[1].role.name;  
+    }else{
+      player2Avatar.src = game.allPlayers[1].character.imgUrl;
+      player2Character.innerText = game.allPlayers[1].character.name;
+    }
+
     player2HealthBar.style.width = game.allPlayers[1].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 3
@@ -174,8 +186,14 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>";
     }
 
-    player3Avatar.src = game.allPlayers[2].character.imgUrl;
-    player3Character.innerText = game.allPlayers[2].character.name;
+    if(game.allPlayers[2].role.name === "Sheriff"){
+      player3Avatar.src = game.allPlayers[2].role.imgUrl;
+      player3Character.innerText = game.allPlayers[2].role.name;  
+    }else{
+      player3Avatar.src = game.allPlayers[2].character.imgUrl;
+      player3Character.innerText = game.allPlayers[2].character.name;
+    }
+
     player3HealthBar.style.width = game.allPlayers[2].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 4
@@ -208,8 +226,14 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player4Name.innerHTML = "<b>" + game.allPlayers[3].name + "</b>";
     }
 
-    player4Avatar.src = game.allPlayers[3].character.imgUrl;
-    player4Character.innerText = game.allPlayers[3].character.name;
+    if(game.allPlayers[3].role.name === "Sheriff"){
+      player4Avatar.src = game.allPlayers[3].role.imgUrl;
+      player4Character.innerText = game.allPlayers[3].role.name;  
+    }else{
+      player4Avatar.src = game.allPlayers[3].character.imgUrl;
+      player4Character.innerText = game.allPlayers[3].character.name;
+    }
+
     player4HealthBar.style.width = game.allPlayers[3].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 5
@@ -242,8 +266,13 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player5Name.innerHTML = "<b>" + game.allPlayers[4].name + "</b>";
     }
 
-    player5Avatar.src = game.allPlayers[4].character.imgUrl;
-    player5Character.innerText = game.allPlayers[4].character.name;
+    if(game.allPlayers[4].role.name === "Sheriff"){
+      player5Avatar.src = game.allPlayers[4].role.imgUrl;
+      player5Character.innerText = game.allPlayers[4].role.name;  
+    }else{
+      player5Avatar.src = game.allPlayers[4].character.imgUrl;
+      player5Character.innerText = game.allPlayers[4].character.name;
+    }
     player5HealthBar.style.width = game.allPlayers[4].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 6
@@ -276,8 +305,14 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>";
     }
 
-    player6Avatar.src = game.allPlayers[5].character.imgUrl;
-    player6Character.innerText = game.allPlayers[5].character.name;
+    if(game.allPlayers[5].role.name === "Sheriff"){
+      player6Avatar.src = game.allPlayers[5].role.imgUrl;
+      player6Character.innerText = game.allPlayers[5].role.name;  
+    }else{
+      player6Avatar.src = game.allPlayers[5].character.imgUrl;
+      player6Character.innerText = game.allPlayers[5].character.name;
+    }
+
     player6HealthBar.style.width = game.allPlayers[5].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 7
@@ -310,8 +345,13 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player7Name.innerHTML = "<b>" + game.allPlayers[6].name + "</b>";
     }
 
-    player7Avatar.src = game.allPlayers[6].character.imgUrl;
-    player7Character.innerText = game.allPlayers[6].character.name;
+    if(game.allPlayers[6].role.name === "Sheriff"){
+      player7Avatar.src = game.allPlayers[6].role.imgUrl;
+      player7Character.innerText = game.allPlayers[6].role.name;  
+    }else{
+      player7Avatar.src = game.allPlayers[6].character.imgUrl;
+      player7Character.innerText = game.allPlayers[6].character.name;
+    }
     player7HealthBar.style.width = game.allPlayers[6].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 8
@@ -344,20 +384,25 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
       player8Name.innerHTML = "<b>" + game.allPlayers[7].name + "</b>";
     }
 
+    if(game.allPlayers[7].role.name === "Sheriff"){
+      player8Avatar.src = game.allPlayers[7].role.imgUrl;
+      player8Character.innerText = game.allPlayers[7].role.name;  
+    }else{
     player8Avatar.src = game.allPlayers[7].character.imgUrl;
     player8Character.innerText = game.allPlayers[7].character.name;
+  }
     player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
   }
 
   // DRAW ARROWS
-var drawArrows = function(){
-  for( var i=0; i < 9; i++ ){
-    var currentArrow = document.getElementById('arrow-' + (i+1));
-    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
-    currentArrow.style.visibility = "visible";
-    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+  var drawArrows = function(){
+    for( var i=0; i < 9; i++ ){
+      var currentArrow = document.getElementById('arrow-' + (i+1));
+      currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+      currentArrow.style.visibility = "visible";
+      if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+    }
   }
-}
 
   populatePlayerList();
 
@@ -596,6 +641,7 @@ var drawArrows = function(){
 var updateHealthBars = function(){
   for(i = 0; i < allHealthBars.length; i++){
     allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+    if(game.allPlayers[i].health <= 0) document.getElementById("player-" + (i + 1)).onclick = null;
   }
 }
 
