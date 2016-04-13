@@ -634,6 +634,7 @@ var rollDice = function(dice, diceElements, game){
   // ROLL DICE
   dice.roll();
   game.resolveArrows();
+  game.threeGatling();
   drawArrows(game);
   displayCurrentPlayerArrows(game);
   // DISPLAY CURRENT ROLL
