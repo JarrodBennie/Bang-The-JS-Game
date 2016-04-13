@@ -341,15 +341,9 @@ window.onload = function(){
     savedDiceFull(dice, diceElements, rollDiceButton, game);
   }
 
-  healButton.onclick = function(){
-    console.log('You clicked on the heal button!');
-  }
-  shootButton.onclick = function(){
-    console.log('You clicked on the shoot button!');
-  }
-  endTurnButton.onclick = function(){
-    console.log('You clicked on the end turn button!');
-  }
+  healButton.onclick = null;
+  shootButton.onclick = null;
+  endTurnButton.onclick = null;
 
   // BIG TOAST
   var roleButtonDefault = function(){
