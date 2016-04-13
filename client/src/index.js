@@ -348,7 +348,7 @@ var drawArrows = function(){
   var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
-  drawArrows();
+  drawArrows(game);
 
   // EVENT LISTENERS
   // BUTTONS
@@ -639,6 +639,8 @@ var enableEndTurnButton = function(){
   endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   endTurnButton.onclick = function(){
     game.nextTurn();
+    displayCurrentPlayerArrows();
+    game.threeGatling();
     dispatchEvent(new Event('load'));
     endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
@@ -659,9 +661,8 @@ var rollDice = function(){
   // ROLL DICE
   dice.roll();
   game.resolveArrows();
-  game.threeGatling();
   drawArrows(game);
-  displayCurrentPlayerArrows(game);
+  displayCurrentPlayerArrows();
 
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
@@ -673,8 +674,17 @@ var rollDice = function(){
   }
 }
 
+var drawArrows = function(){
+  for( var i=0; i < 9; i++ ){
+    var currentArrow = document.getElementById('arrow-' + (i+1));
+    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+    currentArrow.style.visibility = "visible";
+    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+  }
+}
+
 var displayCurrentPlayerArrows = function(){
-  for(var i = 0; i < game.players[0].arrows; i++){
+  for(var i = 0; i < 9; i++){
     var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
     currentPlayerArrows.src = "arrowicon.png";
     currentPlayerArrows.style.display = "inline-block";
