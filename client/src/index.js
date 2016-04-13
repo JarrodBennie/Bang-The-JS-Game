@@ -153,7 +153,7 @@ window.onload = function(){
       player3Character.setAttribute("class", "white-text");
       player3CpDiv.style.display = "inline";
       player3HealthDiv.style.display = "none";
-
+      player3.setAttribute("class", "collection-item avatar red darken-4 player");
     }else if(game.allPlayers[2] == game.players[game.players.length - 1]){
       player3Name.innerHTML = "<b>" + game.allPlayers[2].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[2] == game.players[1]){
