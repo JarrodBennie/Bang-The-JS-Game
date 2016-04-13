@@ -87,13 +87,7 @@ Dice.prototype.threeDynamite = function(){
   return ( counter >= 3 ) ? true : false
 };
 
-Dice.prototype.threeGatling = function(){
-  var counter = 0;
-  for( item of this.saved ){
-    if( item === 4 ) counter++;
-  }
-  return ( counter >= 3 ) ? true : false
-};
+
 
 
 //// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.

@@ -56,13 +56,6 @@ describe('Dice', function(){
     assert.equal(dice.threeDynamite(), true);
   });
 
-  it("should return true if 3 or more gatling saved", function(){
-    dice.save(4);
-    dice.save(4);
-    dice.save(4);
-    assert.equal(dice.threeGatling(), true);
-  });
-
   it("should save number of arrows rolled over players full turn", function(){
     dice.currentRoll = [ 1, 6, 2, 6, 3]
     dice.countArrows();

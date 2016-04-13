@@ -15,7 +15,6 @@ describe('Game', function(){
 
   beforeEach(function(){
    dice = new Dice();
-
    player1 = new Player("Adam");
    player3 = new Player("Craig");
    player6 = new Player("Parkyn")
@@ -89,6 +88,24 @@ describe('Game', function(){
     dice.all = [ 2, 3, 2, 5, 6 ]
     game.addToActionCounters();
     assert.deepEqual(game.players[0].actionCounters, { "1": 0, "2": 2, "3": 1, "4": 0, "5": 1, "6": 1});
+  });
+  it("should remove 1 health per arrow and reset player arrows to 0", function(){
+    player1.arrows = 4;
+    player1.health = 9;
+    game.removeHealthAndArrows();
+    assert.equal(player1.health, 5);
+    assert.equal(player1.arrows, 0);
+  });
+
+  it("should shoot everyone except the current player when gatling", function(){
+    player1.health = 2;
+    player3.health = 2;
+    player6.health = 2;
+    dice.all =[ 4, 1, 4, 1, 4 ];
+    game.threeGatling();
+    assert.equal(player1.health, 2);
+    assert.equal(player3.health, 1);
+    assert.equal(player6.health, 1);
   });
 
 });
