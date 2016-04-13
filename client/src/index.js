@@ -74,6 +74,7 @@ window.onload = function(){
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons right sheriff-icon"></i>';
   }
 
+  // POPULATE PLAYER LIST
   var populatePlayerList = function(){
     // POPULATE PLAYER 1
     var player1Name = document.getElementById('player-1-name');
@@ -271,6 +272,7 @@ window.onload = function(){
     console.log('You clicked on the end turn button!');
   }
 
+  // BIG TOAST
   var roleButtonDefault = function(){
     roleButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     roleButton.onclick = null;
@@ -283,7 +285,7 @@ window.onload = function(){
         currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
         roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
         roleButton.onclick = roleButtonDefault;
-      }, 2000);
+      }, 1500);
     });
   }
   roleButton.onclick = roleButtonDefault;
@@ -422,9 +424,13 @@ window.onload = function(){
   }
 };
 
+
+
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
+
+
 
 // ROLL DICE BUTTON
 var rollDice = function(dice, diceElements, game){
@@ -497,10 +503,16 @@ var savedDiceFull = function(dice, diceElements, rollDiceButton, game){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     game.addToActionCounters();
+    rollDiceButton.onclick = null;
   }
 }
 
-///////////////////////////////////////////////////////
-// 'dice.unsave(dice.all[indexOf(dice.all[index])])' //
-//   -Craig                                          //
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+//    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
+//      -Craig                                            //
+////////////////////////////////////////////////////////////
+
+
+//  BONUS TOASTS    //
+// Materialize.toast('You shot ' + target.name, 2000)
+// Materialize.toast('You healed ' + target.name, 2000)

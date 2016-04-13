@@ -11,8 +11,6 @@
   <script src="bundle.js"></script>
 </head>
 <body>
-  <!-- HIDDEN -->
-  <div id="hidden"></div>
   <!-- NAVBAR -->
   <nav class="red darken-4">
     <a href="/" class="brand-logo" id="game-logo">BANG! The JS Game</a>
@@ -174,8 +172,8 @@
         </div>
         <div class="card-action center-align">
           <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>
-          <a id="heal-button" class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to heal">heal</a>
-          <a id="shoot-button" class="btn tooltipped disabled" data-position="bottom" data-delay="50" data-tooltip="Select a player to shoot">shoot</a>
+          <a id="heal-button" class="waves-effect waves-light btn disabled">heal</a>
+          <a id="shoot-button" class="waves-effect waves-light btn disabled">shoot</a>
           <a id="end-turn-button" class="waves-effect waves-light btn disabled">end turn</a>
         </div>
       </div>
@@ -183,9 +181,9 @@
     <!-- HINT -->
     <div class="row">
       <div class="col s12 m8 offset-m2">
-        <div class="card-panel red darken-4">
+        <div class="card-panel red darken-4 center-align">
           <span class="white-text">
-            <p class="center-align" id="hint"></p>
+            <p id="hint"></p>
           </span>
         </div>
       </div>
