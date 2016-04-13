@@ -29,7 +29,6 @@ window.onload = function(){
   var testPlayer = gameState.load();
   console.log(testPlayer);
   var newedUp = new Player("nameHERE", testPlayer)
-
   console.log(newedUp);
 
   // TARGET BUTTONS

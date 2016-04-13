@@ -9,9 +9,6 @@ var Player = function(name, previousObject){
   this.dead = false;
   this.target = null;
   this.actionCounters = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
-  this.healthDifference = function(){
-    return this.maxHealth - this.health;
-  };
   if (previousObject !== undefined) {
       this.rehydrate(previousObject);
   }
@@ -35,9 +32,9 @@ Player.prototype.rehydrate = function(previousObject){
   this.role = previousObject.role
   return this;
 }
-// Player.prototype.healthDifference = function(){
-//   return this.maxHealth - this.health;
-// };
+Player.prototype.healthDifference = function(){
+  return this.maxHealth - this.health;
+};
 
 Player.prototype.heal = function(){
   if( this.health < this.maxHealth){
