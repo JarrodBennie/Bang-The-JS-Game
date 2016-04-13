@@ -351,11 +351,9 @@ Game.prototype.addToActionCounters = function(){
 
 Game.prototype.canHeal = function(){
   if (this.players[0].actionCounters["3"] > 0 ) {
-    console.log("yay beer");
     return true;
   }
     else {
-      console.log("boo no beer");
       return false;
   }
 }
