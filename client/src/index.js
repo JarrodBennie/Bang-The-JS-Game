@@ -655,9 +655,10 @@ var disableHealButton = function(){
 var enableEndTurnButton = function(){
   endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   endTurnButton.onclick = function(){
+    game.threeGatling();
+    game.dynamiteExplodes();
     game.nextTurn();
     displayCurrentPlayerArrows();
-    game.threeGatling();
     dispatchEvent(new Event('load'));
     endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
