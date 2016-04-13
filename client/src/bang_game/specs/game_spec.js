@@ -65,7 +65,11 @@ describe('Game', function(){
     assert.equal(game.players.length, startLength - 1);
   });
   it("should check for and confirm a sheriff's team victory", function(){
-    player6.role = "Sheriff";
+    for (var i = 0; i < game.players.length; i++){
+      game.players[i].role = {name: "Deputy"}
+    }
+    player6.role = {name: "Sheriff"};
+    
     // as none of the other objects in the game.players array will have any role based on the beforeEach function - simply adding the sheriff role to one player creates a sheriff team win state - with the sheriff being the only role left alive.
     assert.equal(game.winCheck(), "Sheriff wins!");
   });
@@ -73,14 +77,14 @@ describe('Game', function(){
     for (var i = 0; i < 7;  i++){
       game.players.pop();
     }
-    game.players[0].role = "Outlaw";
+    game.players[0].role = { name: "Outlaw"};
     assert.equal(game.winCheck(), "Outlaws win!");
   });
   it("should check for and confirm a renegade victory", function(){
     for (var i = 0; i < 7;  i++){
       game.players.pop();
     }
-    game.players[0].role = "Renegade";
+    game.players[0].role = { name: "Renegade"};
     assert.equal(game.winCheck(), "Renegade wins!");
   });
 
