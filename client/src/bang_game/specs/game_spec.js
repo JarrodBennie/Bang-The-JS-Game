@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
-var Game = require('../game.js');
 var Player = require('../player.js');
+var Game = require('../game.js');
 var Dice = require('../dice.js');
 var getUniqueRandomElement = require('../game.js').randomElement;
 
@@ -66,7 +66,7 @@ describe('Game', function(){
     assert.equal(game.players.length, startLength - 1);
   });
   it("should check for and confirm a sheriff's team victory", function(){
-    player6.role = "Sheriff";
+    player6.role.name = "Sheriff";
     // as none of the other objects in the game.players array will have any role based on the beforeEach function - simply adding the sheriff role to one player creates a sheriff team win state - with the sheriff being the only role left alive.
     assert.equal(game.winCheck(), "Sheriff wins!");
   });

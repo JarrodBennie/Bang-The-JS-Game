@@ -18,12 +18,20 @@ window.onload = function(){
     players[i] = new Player("Player " + (i+1) )
   }
 
+
+
   var dice = new Dice();
   var game = new Game(dice, players);
   game.setup();
-  var gameState = new GameState(game);
-  game = gameState.load();
-  
+  // var gameState = new GameState(game);
+  // game = gameState.load();
+  var gameState = new GameState(game.players[0]);
+  var testPlayer = gameState.load();
+  console.log(testPlayer);
+  var newedUp = new Player("nameHERE", testPlayer)
+
+  console.log(newedUp);
+
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -68,7 +76,7 @@ window.onload = function(){
   for (var i = 0; i < game.players[0].health; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
   }
-  var healthDiff = game.players[0].healthDifference().bind(game.players[0]);
+  var healthDiff = game.players[0].healthDifference();
   console.log(healthDiff);
   for (var i = 0; i < healthDiff; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';

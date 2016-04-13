@@ -1,4 +1,4 @@
-var Player = function(name){
+var Player = function(name, previousObject){
   this.name = name || "";
   this.character = null;
 //player role is set in game model by function 'assign roles' & player character is set in game model by 'assign character'.
@@ -12,6 +12,9 @@ var Player = function(name){
   this.healthDifference = function(){
     return this.maxHealth - this.health;
   };
+  if (previousObject !== undefined) {
+      this.rehydrate(previousObject);
+  }
 };
 
 
@@ -28,6 +31,10 @@ Player.prototype.setHealth = function(){
   this.health = this.maxHealth;
 };
 
+Player.prototype.rehydrate = function(previousObject){
+  this.role = previousObject.role
+  return this;
+}
 // Player.prototype.healthDifference = function(){
 //   return this.maxHealth - this.health;
 // };

@@ -4,19 +4,17 @@ var GameState = function(game){
 }; // constructor [end]
 
 GameState.prototype.save = function(){
-  localStorage.setItem("saved_game", JSON.stringify(this.gamePassedIn));
+  localStorage.setItem("saved_gameTEST", JSON.stringify(this.gamePassedIn));
   console.log(this.gamePassedIn);
 }
 
 GameState.prototype.load = function(){
-  this.savedGame =  JSON.parse(localStorage.getItem("saved_game"));
+  this.savedGame =  JSON.parse(localStorage.getItem("saved_gameTEST"));
   console.log(this.savedGame);
 
   if (this.savedGame) {
-    this.savedGame.prototype = Object.getPrototypeOf(this.savedGame);
-    for (var i = 0; i < this.savedGame.players.length; i++){ /// PROBLEMS
-      this.savedGame.players[i].prototype = Object.getPrototypeOf(this.savedGame.players[i]);
-    }
+    // for (var i = 0; i < this.savedGame.players.length; i++){ /// PROBLEMS
+    // };
     return this.savedGame;
   }
   else{
