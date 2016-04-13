@@ -641,6 +641,21 @@ var enableEndTurnButton = function(endTurnButton, game){
     endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   }
 }
+var enableRollDiceButton = function(rollDiceButton, game){
+  rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+  rollDiceButton.onclick = function(){
+    diceClickEnable();
+    rollDice(dice, diceElements, game);
+
+    if(dice.canRoll === false){
+      this.onclick = null;
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
+    }
+    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
+  }
+
+}
 
 
 // ROLL DICE BUTTON

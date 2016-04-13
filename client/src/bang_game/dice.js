@@ -34,6 +34,8 @@ var Dice = function(){
 //// Will need to reset the dice between change of player turn - use reset below.
 Dice.prototype.reset = function(){
   this.saved = [];
+  this.currentRoll = [];
+  this.all = [];
   this.arrowsRolled = 0;
   this.rolls = 3;
 }

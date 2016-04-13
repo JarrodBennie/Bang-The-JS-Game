@@ -194,6 +194,7 @@ Game.prototype.nextTurn = function(){
     this.end(this.winCheck());
   }
   this.dice.reset();
+  console.log(this.dice);
   this.rotatePlayers();
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
