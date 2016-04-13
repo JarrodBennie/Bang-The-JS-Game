@@ -5,22 +5,20 @@ Dice = require('./bang_game/dice');
 Hint = require('./bang_game/hint');
 
 // NEWING UP OBJECTS
-// var game = new Game();
-// var player = new Player();
 var dice = new Dice;
 var hint = new Hint;
 
+var players = new Array(8);
+
+for (var i = 0; i < players.length; i++){
+  players[i] = new Player("Player " + (i+1) )
+}
+
+var dice = new Dice();
+var game = new Game(dice, players);
+game.setup();
+
 window.onload = function(){
-  var players = new Array(8);
-
-  for (var i = 0; i < players.length; i++){
-    players[i] = new Player("Player " + (i+1) )
-  }
-
-  var dice = new Dice();
-  var game = new Game(dice, players);
-  game.setup();
-
   var allHealthBars = document.getElementsByClassName('determinate');
 
   // TARGET BUTTONS
@@ -37,6 +35,12 @@ window.onload = function(){
   dice4 = document.getElementById('dice-4'),
   dice5 = document.getElementById('dice-5'),
   diceElements = [dice1, dice2, dice3, dice4, dice5];
+
+  // dice1.src = null;
+  // dice2.src = null;
+  // dice3.src = null;
+  // dice4.src = null;
+  // dice5.src = null;
 
   // TARGET PLAYER LIST
   var player1 = document.getElementById('player-1'),
@@ -68,16 +72,14 @@ window.onload = function(){
    currentPlayerArrows.src = "arrowicon.png";
   }
 
+  currentPlayerHealth.innerHTML = "";
+
   for (var i = 0; i < game.players[0].health; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
   }
 
   for (var i = 0; i < game.players[0].healthDifference(); i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
-  }
-
-  if(game.players[0].role.name === "Sheriff"){
-    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons right sheriff-icon"></i>';
   }
 
   // POPULATE PLAYER LIST
@@ -90,6 +92,8 @@ window.onload = function(){
     var player1HealthDiv = document.getElementById('player-1-health-div');
     var player1CpDiv = document.getElementById('player-1-cp-div');
 
+    player1Name.setAttribute("class", "title grey-text text-darken-4");
+    player1Character.setAttribute("class", "grey-text text-darken-4");
     player1CpDiv.style.display = "none";
     player1.setAttribute("class", "collection-item avatar player");
 
@@ -120,6 +124,8 @@ window.onload = function(){
     var player2HealthDiv = document.getElementById('player-2-health-div');
     var player2CpDiv = document.getElementById('player-2-cp-div');
 
+    player2Name.setAttribute("class", "title grey-text text-darken-4");
+    player2Character.setAttribute("class", "grey-text text-darken-4");
     player2CpDiv.style.display = "none";
     player2.setAttribute("class", "collection-item avatar player");
 
@@ -150,6 +156,8 @@ window.onload = function(){
     var player3HealthDiv = document.getElementById('player-3-health-div');
     var player3CpDiv = document.getElementById('player-3-cp-div');
 
+    player3Name.setAttribute("class", "title grey-text text-darken-4");
+    player3Character.setAttribute("class", "grey-text text-darken-4");
     player3CpDiv.style.display = "none";
     player3.setAttribute("class", "collection-item avatar player");
 
@@ -180,6 +188,8 @@ window.onload = function(){
     var player4HealthDiv = document.getElementById('player-4-health-div');
     var player4CpDiv = document.getElementById('player-4-cp-div');
 
+    player4Name.setAttribute("class", "title grey-text text-darken-4");
+    player4Character.setAttribute("class", "grey-text text-darken-4");
     player4CpDiv.style.display = "none";
     player4.setAttribute("class", "collection-item avatar player");
 
@@ -210,6 +220,8 @@ window.onload = function(){
     var player5HealthDiv = document.getElementById('player-5-health-div');
     var player5CpDiv = document.getElementById('player-5-cp-div');
 
+    player5Name.setAttribute("class", "title grey-text text-darken-4");
+    player5Character.setAttribute("class", "grey-text text-darken-4");
     player5CpDiv.style.display = "none";
     player5.setAttribute("class", "collection-item avatar player");
 
@@ -240,6 +252,8 @@ window.onload = function(){
     var player6HealthDiv = document.getElementById('player-6-health-div');
     var player6CpDiv = document.getElementById('player-6-cp-div');
 
+    player6Name.setAttribute("class", "title grey-text text-darken-4");
+    player6Character.setAttribute("class", "grey-text text-darken-4");
     player6CpDiv.style.display = "none";
     player6.setAttribute("class", "collection-item avatar player");
 
@@ -270,6 +284,8 @@ window.onload = function(){
     var player7HealthDiv = document.getElementById('player-7-health-div');
     var player7CpDiv = document.getElementById('player-7-cp-div');
 
+    player7Name.setAttribute("class", "title grey-text text-darken-4");
+    player7Character.setAttribute("class", "grey-text text-darken-4");
     player7CpDiv.style.display = "none";
     player7.setAttribute("class", "collection-item avatar player");
 
@@ -300,6 +316,8 @@ window.onload = function(){
     var player8HealthDiv = document.getElementById('player-8-health-div');
     var player8CpDiv = document.getElementById('player-8-cp-div');
 
+    player8Name.setAttribute("class", "title grey-text text-darken-4");
+    player8Character.setAttribute("class", "grey-text text-darken-4");
     player8CpDiv.style.display = "none";
     player8.setAttribute("class", "collection-item avatar player");
 
@@ -343,9 +361,7 @@ window.onload = function(){
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
     }
-
     savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
-
   }
 
   healButton.onclick = null;
@@ -555,6 +571,9 @@ window.onload = function(){
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
+
+
+
 var updateHealthBars = function(allHealthBars, game){
 for(i = 0; i < allHealthBars.length; i++){
   allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
@@ -582,7 +601,7 @@ var enableShootButton = function(healButton, shootButton, endTurnButton, target,
 
     updateHealthBars(allHealthBars, game);
     if (game.checkActions() <= 0){
-      enableEndTurnButton(endTurnButton);
+      enableEndTurnButton(endTurnButton, game);
     }
   }
 }
@@ -598,14 +617,13 @@ var enableHealButton = function(healButton, endTurnButton, target, allHealthBars
     Materialize.toast('You healed ' + target.name, 2000);
     game.beerTarget();
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+      }else{
+        disableHealButton(healButton);
       }
     updateHealthBars(allHealthBars, game);
     if (game.checkActions() <= 0){
-      enableEndTurnButton(endTurnButton);
+      enableEndTurnButton(endTurnButton, game);
     }
   }
 }
@@ -615,8 +633,13 @@ var disableHealButton = function(healButton){
   healButton.onclick = null;
 }
 
-var enableEndTurnButton = function(endTurnButton){
+var enableEndTurnButton = function(endTurnButton, game){
   endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+  endTurnButton.onclick = function(){
+    game.nextTurn();
+    dispatchEvent(new Event('load'));
+    endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  }
 }
 
 
@@ -705,8 +728,6 @@ var targetPlayer = function(selection, game){
   }
 }
 
-
-
 var endGame = function(gameResult){
   // TRIGGER END GAME MODAL
   // DISABLE BUTTONS
@@ -719,7 +740,8 @@ var savedDiceFull = function(dice, endTurnButton, diceElements, rollDiceButton, 
     game.addToActionCounters();
     rollDiceButton.onclick = null;
     if (game.checkActions() <= 0){
-      enableEndTurnButton(endTurnButton);
+      enableEndTurnButton(endTurnButton, game);
+      rollDiceButton.setAttribute('class', "waves-effect waves-light btn red darken-4");
       }
   }
 }

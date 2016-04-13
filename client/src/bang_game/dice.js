@@ -35,6 +35,7 @@ var Dice = function(){
 Dice.prototype.reset = function(){
   this.saved = [];
   this.arrowsRolled = 0;
+  this.rolls = 3;
 }
 
 Dice.prototype.roll = function(){
