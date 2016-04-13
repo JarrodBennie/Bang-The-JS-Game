@@ -71,7 +71,7 @@ describe('Game', function(){
       game.players[i].role = {name: "Deputy"}
     }
     player6.role = {name: "Sheriff"};
-    
+
     // as none of the other objects in the game.players array will have any role based on the beforeEach function - simply adding the sheriff role to one player creates a sheriff team win state - with the sheriff being the only role left alive.
     assert.equal(game.winCheck(), "Sheriff wins!");
   });
@@ -145,6 +145,11 @@ describe('Game', function(){
     assert.equal(player2.health, 2);
     assert.equal(player1.actionCounters["3"], 2);
   });
+
+  it("should count actions available", function(){
+    player1.actionCounters = { "1": 1, "2": 1, "3": 1, "4": 0, "5": 0, "6": 0};
+    assert.equal(game.checkActions(), 3);
+  })
 
 
 });

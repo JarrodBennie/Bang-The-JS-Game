@@ -427,6 +427,17 @@ Game.prototype.beerTarget = function(){
   }
 };
 
+Game.prototype.checkActions = function(){
+  var counter = 0;
+  for(var i = 1; i < 4; i++){
+
+    if(this.players[0].actionCounters[i.toString()] > 0){
+      counter += this.players[0].actionCounters[i.toString()]
+    }
+  }
+    return counter;
+}
+
 
   // if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
   //   return true;
