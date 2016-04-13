@@ -314,9 +314,6 @@ Game.prototype.removeHealthAndArrows = function(){
 
 
 
-module.exports = Game;
-module.exports.randomElement = getUniqueRandomElement;
-
 
 
 // create players and game before players have name, add names from form (on first turn?)
@@ -390,6 +387,7 @@ Game.prototype.threeGatling = function(){
     };
     this.totalArrows += this.players[0].arrows;
     this.players[0].arrows = 0;
+    Materialize.toast(this.players[0].name + " Used gatling!", 2000);
   };
 };
 
@@ -442,20 +440,12 @@ Game.prototype.checkActions = function(){
     return counter;
 }
 
+Game.prototype.dynamiteExplodes = function(){
+ if (this.dice.threeDynamite()){
+   this.players[0].health -= 1;
+   Materialize.toast("Boom!", 2000);
+ }
+};
 
-  // if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
-  //   return true;
-  // }
-  // else{
-  //   return false;
-  // }
-  // if ( this.players[0].actionCounters["2"] > 0 && (this.players[0].target === this.players[2] || this.players[0].target === this.players[this.players.length - 2] ) ) {
-  //   return true;
-  // }
-  // else{
-  //   return false;
-  // }
-
-
-
-
+  module.exports = Game;
+  module.exports.randomElement = getUniqueRandomElement;
