@@ -9,7 +9,6 @@ GameState = require("./bang_game/gameState.js")
 var dice = new Dice;
 var hint = new Hint;
 
-<<<<<<< HEAD
 window.onload = function(){
 
   var players = new Array(8);
@@ -35,13 +34,10 @@ window.onload = function(){
   // var newedUp = new Player("nameHERE", testPlayer)
   // console.log(newedUp);
 
-=======
 var players = new Array(8);
-
 for (var i = 0; i < players.length; i++){
   players[i] = new Player("Player " + (i+1) )
 }
-
 var dice = new Dice();
 var game = new Game(dice, players);
 game.setup();
@@ -49,7 +45,6 @@ game.setup();
 window.onload = function(){
   var allHealthBars = document.getElementsByClassName('determinate');
 
->>>>>>> develop
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -64,12 +59,6 @@ window.onload = function(){
   dice4 = document.getElementById('dice-4'),
   dice5 = document.getElementById('dice-5'),
   diceElements = [dice1, dice2, dice3, dice4, dice5];
-
-  // dice1.src = null;
-  // dice2.src = null;
-  // dice3.src = null;
-  // dice4.src = null;
-  // dice5.src = null;
 
   // TARGET PLAYER LIST
   var player1 = document.getElementById('player-1'),
@@ -99,9 +88,9 @@ window.onload = function(){
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
   for(var i = 0; i < game.players[0].arrows; i++){
    currentPlayerArrows.src = "arrowicon.png";
-  }
+ }
 
-  currentPlayerHealth.innerHTML = "";
+ currentPlayerHealth.innerHTML = "";
 
   for (var i = 0; i < game.players[0].health; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
@@ -371,39 +360,38 @@ window.onload = function(){
     player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
   }
 
+  // DRAW ARROWS
+var drawArrows = function(){
+  for( var i=0; i < 9; i++ ){
+    var currentArrow = document.getElementById('arrow-' + (i+1));
+    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+    currentArrow.style.visibility = "visible";
+    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+  }
+}
+
   populatePlayerList();
 
   // HINT CARD
   var hintElement = document.getElementById('hint');
   hintElement.innerHTML = _.sample(hint.all);
 
-  drawArrows(game);
+  drawArrows();
 
   // EVENT LISTENERS
   // BUTTONS
   // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
     diceClickEnable();
-<<<<<<< HEAD
-    rollDice(dice, diceElements, game, gameState);
-    
-=======
-    rollDice(dice, diceElements, game);
-
->>>>>>> develop
+    rollDice();
     if(dice.canRoll === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
     }
-<<<<<<< HEAD
-
-    savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
-    console.log(dice.all)
-=======
     savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
->>>>>>> develop
   }
+
 
   healButton.onclick = null;
   shootButton.onclick = null;
@@ -473,6 +461,20 @@ window.onload = function(){
     }
   }
 
+  var rollDiceDefault = function(){
+    diceClickEnable();
+    rollDice();
+
+    if(dice.canRoll === false){
+      this.onclick = null;
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
+    }
+    savedDiceFull();
+  }
+
+  rollDiceButton.onclick = rollDiceDefault;
+
   // DICE CLICKS DISABLED BEFORE DICE ARE ROLLED TO PREVENT ROLL DICE BUTTON LOCKOUT.
   var diceClickDisable = function(){
     dice1.onclick = null;
@@ -492,13 +494,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
     if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+      enableHealButton(game.players[0].target);
 
     }
-      else{
-        disableHealButton(healButton);
+    else{
+      disableHealButton(healButton);
     }
   }
   player2.onclick = function(){
@@ -508,13 +510,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -525,11 +527,11 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -540,11 +542,11 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -555,11 +557,11 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -570,11 +572,11 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -585,11 +587,11 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -600,13 +602,12 @@ window.onload = function(){
     targetPlayer(this, game);
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    }
+    else{
+      disableHealButton(healButton);
+    }
   }
-};
 
 
 
@@ -616,13 +617,13 @@ window.onload = function(){
 
 
 
-var updateHealthBars = function(allHealthBars, game){
-for(i = 0; i < allHealthBars.length; i++){
-  allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+var updateHealthBars = function(){
+  for(i = 0; i < allHealthBars.length; i++){
+    allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
   }
 }
 
-var enableShootButton = function(healButton, shootButton, endTurnButton, target, allHealthBars, game){
+var enableShootButton = function(target){
   shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   shootButton.onclick = function(){
     if(target.health < 2){
@@ -633,60 +634,60 @@ var enableShootButton = function(healButton, shootButton, endTurnButton, target,
 
     Materialize.toast(shootMessage, 2000);
     game.shootTarget();
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
     if (game.canHeal()) {
-        enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }
-        else{
-          disableHealButton(healButton);
-      }
+      enableHealButton(game.players[0].target);
+    }
+    else{
+      disableHealButton();
+    }
 
     updateHealthBars(allHealthBars, game);
     if (game.checkActions() <= 0){
-      enableEndTurnButton(endTurnButton, game);
+      enableEndTurnButton();
     }
   }
 }
 
-var disableShootButton = function(shootButton){
+var disableShootButton = function(){
   shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   shootButton.onclick = null;
 }
 
-var enableHealButton = function(healButton, endTurnButton, target, allHealthBars, game){
+var enableHealButton = function(target){
   healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   healButton.onclick = function(){
     Materialize.toast('You healed ' + target.name, 2000);
     game.beerTarget();
     if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
-      }else{
-        disableHealButton(healButton);
-      }
-    updateHealthBars(allHealthBars, game);
+      enableHealButton(game.players[0].target);
+    }else{
+      disableHealButton();
+    }
+    updateHealthBars();
     if (game.checkActions() <= 0){
-      enableEndTurnButton(endTurnButton, game);
+      enableEndTurnButton();
     }
   }
 }
 
-var disableHealButton = function(healButton){
+var disableHealButton = function(){
   healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   healButton.onclick = null;
 }
 
-var enableEndTurnButton = function(endTurnButton, game){
+var enableEndTurnButton = function(){
   endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   endTurnButton.onclick = function(){
     game.nextTurn();
     dispatchEvent(new Event('load'));
     endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
   }
 }
 
-
 // ROLL DICE BUTTON
-var rollDice = function(dice, diceElements, game, gameState){
+var rollDice = function(){
   var counter = 0;
   // DISPLAY SAVED DICE
   for (var i = 0; i < dice.saved.length; i++) {
@@ -699,8 +700,8 @@ var rollDice = function(dice, diceElements, game, gameState){
   // ROLL DICE
   dice.roll();
   game.resolveArrows();
-  drawArrows(game);
-  displayCurrentPlayerArrows(game);
+  drawArrows();
+  displayCurrentPlayerArrows();
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
     currentDice = document.getElementById('dice-'+(counter + 1));
@@ -712,29 +713,17 @@ var rollDice = function(dice, diceElements, game, gameState){
   gameState.save();
 }
 
-// DRAW ARROWS
-var drawArrows = function(game){
-  for( var i=0; i < 9; i++ ){
-    var currentArrow = document.getElementById('arrow-' + (i+1));
-    currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
-    currentArrow.style.visibility = "visible";
-    if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
-  }
-}
-
-var displayCurrentPlayerArrows = function(game){
+var displayCurrentPlayerArrows = function(){
   for(var i = 0; i < game.players[0].arrows; i++){
-  var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
-  currentPlayerArrows.src = "arrowicon.png";
-  currentPlayerArrows.style.display = "inline-block";
-  if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
+    var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
+    currentPlayerArrows.src = "arrowicon.png";
+    currentPlayerArrows.style.display = "inline-block";
+    if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
   }
 }
-
-
 
 // SELECT PLAYER FROM LIST
-var targetPlayer = function(selection, game){
+var targetPlayer = function(selection){
   // TARGET HEALTH BAR OF SELECTED PLAYER
   var healthBar = selection.getElementsByClassName('progress')[0];
   // TARGET PREVIOUSLY SELECTED PLAYER
@@ -757,12 +746,12 @@ var targetPlayer = function(selection, game){
     healthBar.setAttribute('class', 'progress white');
 
   // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
-  }else if(selection.className === "collection-item avatar red darken-4 player"){
-    selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
+}else if(selection.className === "collection-item avatar red darken-4 player"){
+  selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
   // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
-  }else if(selection.className === "collection-item grey darken-3 avatar player"){
-    selection.setAttribute('class', 'collection-item avatar red darken-4 player');
-  }
+}else if(selection.className === "collection-item grey darken-3 avatar player"){
+  selection.setAttribute('class', 'collection-item avatar red darken-4 player');
+}
 
   // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
   else{
@@ -778,25 +767,21 @@ var endGame = function(gameState){
   gameState.save();
 }
 
-var savedDiceFull = function(dice, endTurnButton, diceElements, rollDiceButton, game){
+var savedDiceFull = function(){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     game.addToActionCounters();
     rollDiceButton.onclick = null;
     if (game.checkActions() <= 0){
-      enableEndTurnButton(endTurnButton, game);
-      rollDiceButton.setAttribute('class', "waves-effect waves-light btn red darken-4");
-      }
+      enableEndTurnButton();
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    }
   }
+}
 }
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
 //      -Craig                                            //
 ////////////////////////////////////////////////////////////
-
-
-//  BONUS TOASTS    //
-// Materialize.toast('You shot ' + target.name, 2000)
-// Materialize.toast('You healed ' + target.name, 2000)
