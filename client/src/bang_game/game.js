@@ -1,6 +1,6 @@
 var Player = require("./player.js");
 
-var Game = function(dice, players, characterBasedMaxHealth, previousObject){
+var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydratedAllPlayers){
   this.characterBasedMaxHealth = characterBasedMaxHealth;
   this.players = players;
   if (!characterBasedMaxHealth){
@@ -8,7 +8,12 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject){
       this.players.maxHealth = 8;
     }
   }
-  this.allPlayers = [];
+  if (hydratedAllPlayers !== undefined){
+    this.allPlayers = hydratedAllPlayers;
+  }
+  else{
+    this.allPlayers = [];
+  }
   this.characters = [];
   this.totalArrows = 9;
   this.dice = dice;
@@ -136,7 +141,7 @@ Game.prototype.rehydrate = function(previousObject){
   this.wonBy = previousObject.wonBy;
   console.log(this.players);
 
-  this.allPlayers = originalOrderPlayers;
+  // this.allPlayers = originalOrderPlayers;
 }
 
 

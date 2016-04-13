@@ -9,38 +9,21 @@ GameState = require("./bang_game/gameState.js")
 var dice = new Dice;
 var hint = new Hint;
 
-window.onload = function(){
-
   var players = new Array(8);
   for (var i = 0; i < players.length; i++){
     players[i] = new Player("Player " + (i+1) )
   }
 
   var dice = new Dice();
-
   var characterMaxHealthValues = true;
-  
+
   var game = new Game(dice, players, characterMaxHealthValues);
   game.setup();
-  console.log(game);
+  console.log("the new game object:",game);
 
   var gameState = new GameState(game);
   game = gameState.load();
-  console.log(game);
-
-  // var gameState = new GameState(game.players[0]);
-  // var testPlayer = gameState.load();
-  // console.log(testPlayer);
-  // var newedUp = new Player("nameHERE", testPlayer)
-  // console.log(newedUp);
-
-var players = new Array(8);
-for (var i = 0; i < players.length; i++){
-  players[i] = new Player("Player " + (i+1) )
-}
-var dice = new Dice();
-var game = new Game(dice, players);
-game.setup();
+  console.log("the game object that is used:", game);
 
 window.onload = function(){
   var allHealthBars = document.getElementsByClassName('determinate');
@@ -609,179 +592,177 @@ var drawArrows = function(){
     }
   }
 
+  var updateHealthBars = function(){
+    for(i = 0; i < allHealthBars.length; i++){
+      allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+    }
+  }
 
+  var enableShootButton = function(target){
+    shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+    shootButton.onclick = function(){
+      if(target.health < 2){
+        var shootMessage = 'You killed ' + target.name
+      } else {
+        var shootMessage = 'You shot ' + target.name
+      }
 
+      Materialize.toast(shootMessage, 2000);
+      game.shootTarget();
+      (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
+      if (game.canHeal()) {
+        enableHealButton(game.players[0].target);
+      }
+      else{
+        disableHealButton();
+      }
+
+      updateHealthBars(allHealthBars, game);
+      if (game.checkActions() <= 0){
+        enableEndTurnButton();
+      }
+    }
+  }
+
+  var disableShootButton = function(){
+    shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    shootButton.onclick = null;
+  }
+
+  var enableHealButton = function(target){
+    healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+    healButton.onclick = function(){
+      Materialize.toast('You healed ' + target.name, 2000);
+      game.beerTarget();
+      if (game.canHeal()) {
+        enableHealButton(game.players[0].target);
+      }else{
+        disableHealButton();
+      }
+      updateHealthBars();
+      if (game.checkActions() <= 0){
+        enableEndTurnButton();
+      }
+    }
+  }
+
+  var disableHealButton = function(){
+    healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    healButton.onclick = null;
+  }
+
+  var enableEndTurnButton = function(){
+    endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+    endTurnButton.onclick = function(){
+      game.nextTurn();
+      dispatchEvent(new Event('load'));
+      endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
+    }
+  }
+
+  // ROLL DICE BUTTON
+  var rollDice = function(){
+    var counter = 0;
+    // DISPLAY SAVED DICE
+    for (var i = 0; i < dice.saved.length; i++) {
+      var currentDice = document.getElementById('dice-'+(counter + 1));
+      currentDice.src = dice.imageUrl[dice.saved[i]];
+      diceElements[i].onclick = null;
+      diceElements[i].style.opacity = 0.5;
+      counter++
+    }
+    // ROLL DICE
+    dice.roll();
+    game.resolveArrows();
+    game.threeGatling();
+    drawArrows(game);
+    displayCurrentPlayerArrows(game);
+
+    // DISPLAY CURRENT ROLL
+    for (var i = 0; i < dice.currentRoll.length; i++){
+      currentDice = document.getElementById('dice-'+(counter + 1));
+      currentDice.src = dice.imageUrl[dice.currentRoll[i]];
+      if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
+      if(dice.saved.length === 5) currentDice.style.opacity = 1;
+      counter++
+    }
+    gameState.save();
+  }
+
+  var displayCurrentPlayerArrows = function(){
+    for(var i = 0; i < game.players[0].arrows; i++){
+      var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
+      currentPlayerArrows.src = "arrowicon.png";
+      currentPlayerArrows.style.display = "inline-block";
+      if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
+    }
+  }
+
+  // SELECT PLAYER FROM LIST
+  var targetPlayer = function(selection){
+    // TARGET HEALTH BAR OF SELECTED PLAYER
+    var healthBar = selection.getElementsByClassName('progress')[0];
+    // TARGET PREVIOUSLY SELECTED PLAYER
+    var previouslySelected = document.getElementsByClassName('collection-item avatar player red lighten-4')[0] || document.getElementsByClassName('collection-item grey darken-3 avatar player')[0];
+    // TARGET HEALTH BAR OF PREVIOUSLY SELECTED PLAYER
+    if (previouslySelected) var targetedHealthBar = previouslySelected.getElementsByClassName('progress')[0];
+
+    // RESET PREVIOUSLY SELECTED PLAYER COLOURS
+    if(previouslySelected && previouslySelected != selection){
+      if(previouslySelected.className === 'collection-item grey darken-3 avatar player'){
+        previouslySelected.setAttribute('class', 'collection-item avatar red darken-4 player');
+      }else{
+        previouslySelected.setAttribute('class', 'collection-item avatar player');
+        targetedHealthBar.setAttribute('class', 'progress red lighten-4');
+      }
+    }
+    // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
+    if(selection.className === "collection-item avatar player"){
+      selection.setAttribute('class', 'collection-item avatar player red lighten-4');
+      healthBar.setAttribute('class', 'progress white');
+
+    // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
+  }else if(selection.className === "collection-item avatar red darken-4 player"){
+    selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
+    // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
+  }else if(selection.className === "collection-item grey darken-3 avatar player"){
+    selection.setAttribute('class', 'collection-item avatar red darken-4 player');
+  }
+
+    // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
+    else{
+      selection.setAttribute('class', 'collection-item avatar player');
+      healthBar.setAttribute('class', 'progress red lighten-4');
+    }
+  }
+
+  var endGame = function(gameState){
+      // TRIGGER END GAME MODAL
+      // DISABLE BUTTONS
+
+    gameState.save();
+  }
+
+  var savedDiceFull = function(){
+    if(dice.canRoll() === false){
+      for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
+        rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
+      rollDiceButton.onclick = null;
+      if (game.checkActions() <= 0){
+        enableEndTurnButton();
+        rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      }
+    }
+  }
+
+}
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
 
-
-var updateHealthBars = function(){
-  for(i = 0; i < allHealthBars.length; i++){
-    allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
-  }
-}
-
-var enableShootButton = function(target){
-  shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-  shootButton.onclick = function(){
-    if(target.health < 2){
-      var shootMessage = 'You killed ' + target.name
-    } else {
-      var shootMessage = 'You shot ' + target.name
-    }
-
-    Materialize.toast(shootMessage, 2000);
-    game.shootTarget();
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
-    if (game.canHeal()) {
-      enableHealButton(game.players[0].target);
-    }
-    else{
-      disableHealButton();
-    }
-
-    updateHealthBars(allHealthBars, game);
-    if (game.checkActions() <= 0){
-      enableEndTurnButton();
-    }
-  }
-}
-
-var disableShootButton = function(){
-  shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-  shootButton.onclick = null;
-}
-
-var enableHealButton = function(target){
-  healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-  healButton.onclick = function(){
-    Materialize.toast('You healed ' + target.name, 2000);
-    game.beerTarget();
-    if (game.canHeal()) {
-      enableHealButton(game.players[0].target);
-    }else{
-      disableHealButton();
-    }
-    updateHealthBars();
-    if (game.checkActions() <= 0){
-      enableEndTurnButton();
-    }
-  }
-}
-
-var disableHealButton = function(){
-  healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-  healButton.onclick = null;
-}
-
-var enableEndTurnButton = function(){
-  endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-  endTurnButton.onclick = function(){
-    game.nextTurn();
-    dispatchEvent(new Event('load'));
-    endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
-  }
-}
-
-// ROLL DICE BUTTON
-var rollDice = function(){
-  var counter = 0;
-  // DISPLAY SAVED DICE
-  for (var i = 0; i < dice.saved.length; i++) {
-    var currentDice = document.getElementById('dice-'+(counter + 1));
-    currentDice.src = dice.imageUrl[dice.saved[i]];
-    diceElements[i].onclick = null;
-    diceElements[i].style.opacity = 0.5;
-    counter++
-  }
-  // ROLL DICE
-  dice.roll();
-  game.resolveArrows();
-  game.threeGatling();
-  drawArrows(game);
-  displayCurrentPlayerArrows(game);
-
-  // DISPLAY CURRENT ROLL
-  for (var i = 0; i < dice.currentRoll.length; i++){
-    currentDice = document.getElementById('dice-'+(counter + 1));
-    currentDice.src = dice.imageUrl[dice.currentRoll[i]];
-    if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
-    if(dice.saved.length === 5) currentDice.style.opacity = 1;
-    counter++
-  }
-  gameState.save();
-}
-
-var displayCurrentPlayerArrows = function(){
-  for(var i = 0; i < game.players[0].arrows; i++){
-    var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
-    currentPlayerArrows.src = "arrowicon.png";
-    currentPlayerArrows.style.display = "inline-block";
-    if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
-  }
-}
-
-// SELECT PLAYER FROM LIST
-var targetPlayer = function(selection){
-  // TARGET HEALTH BAR OF SELECTED PLAYER
-  var healthBar = selection.getElementsByClassName('progress')[0];
-  // TARGET PREVIOUSLY SELECTED PLAYER
-  var previouslySelected = document.getElementsByClassName('collection-item avatar player red lighten-4')[0] || document.getElementsByClassName('collection-item grey darken-3 avatar player')[0];
-  // TARGET HEALTH BAR OF PREVIOUSLY SELECTED PLAYER
-  if (previouslySelected) var targetedHealthBar = previouslySelected.getElementsByClassName('progress')[0];
-
-  // RESET PREVIOUSLY SELECTED PLAYER COLOURS
-  if(previouslySelected && previouslySelected != selection){
-    if(previouslySelected.className === 'collection-item grey darken-3 avatar player'){
-      previouslySelected.setAttribute('class', 'collection-item avatar red darken-4 player');
-    }else{
-      previouslySelected.setAttribute('class', 'collection-item avatar player');
-      targetedHealthBar.setAttribute('class', 'progress red lighten-4');
-    }
-  }
-  // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
-  if(selection.className === "collection-item avatar player"){
-    selection.setAttribute('class', 'collection-item avatar player red lighten-4');
-    healthBar.setAttribute('class', 'progress white');
-
-  // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
-}else if(selection.className === "collection-item avatar red darken-4 player"){
-  selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
-  // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
-}else if(selection.className === "collection-item grey darken-3 avatar player"){
-  selection.setAttribute('class', 'collection-item avatar red darken-4 player');
-}
-
-  // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
-  else{
-    selection.setAttribute('class', 'collection-item avatar player');
-    healthBar.setAttribute('class', 'progress red lighten-4');
-  }
-}
-
-var endGame = function(gameState){
-  // TRIGGER END GAME MODAL
-  // DISABLE BUTTONS
-
-  gameState.save();
-}
-
-var savedDiceFull = function(){
-  if(dice.canRoll() === false){
-    for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    game.addToActionCounters();
-    rollDiceButton.onclick = null;
-    if (game.checkActions() <= 0){
-      enableEndTurnButton();
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    }
-  }
-}
-}
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
