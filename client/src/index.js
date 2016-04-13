@@ -244,7 +244,7 @@ window.onload = function(){
       player6CpDiv.style.display = "inline";
       player6HealthDiv.style.display = "none";
       player6.setAttribute("class", "collection-item avatar red darken-4 player");
-}else if(game.allPlayers[5] == game.players[game.players.length - 1]){
+    }else if(game.allPlayers[5] == game.players[game.players.length - 1]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - PREVIOUS';
     }else if(game.allPlayers[5] == game.players[1]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name + "</b>" + ' - NEXT';
@@ -551,35 +551,50 @@ var drawArrows = function(game){
   }
 }
 
+
+
 // SELECT PLAYER FROM LIST
 var targetPlayer = function(selection, game){
   // TARGET HEALTH BAR OF SELECTED PLAYER
   var healthBar = selection.getElementsByClassName('progress')[0];
   // TARGET PREVIOUSLY SELECTED PLAYER
-  var targetedPlayer = document.getElementsByClassName('collection-item avatar player red lighten-4')[0];
+  var previouslySelected = document.getElementsByClassName('collection-item avatar player red lighten-4')[0] || document.getElementsByClassName('collection-item grey darken-4 avatar player')[0];
   // TARGET HEALTH BAR OF PREVIOUSLY SELECTED PLAYER
-  if (targetedPlayer) var targetedHealthBar = targetedPlayer.getElementsByClassName('progress')[0];
+  if (previouslySelected) var targetedHealthBar = previouslySelected.getElementsByClassName('progress')[0];
 
   // RESET PREVIOUSLY SELECTED PLAYER COLOURS
-  if(targetedPlayer && targetedPlayer != selection){
-    targetedPlayer.setAttribute('class', 'collection-item avatar player');
-    targetedHealthBar.setAttribute('class', 'progress red lighten-4');
+  if(previouslySelected && previouslySelected != selection){
+    if(previouslySelected.className === 'collection-item grey darken-4 avatar player'){
+      previouslySelected.setAttribute('class', 'collection-item avatar red darken-4 player');
+      console.log("FUCK YEA");
+    }else{
+      previouslySelected.setAttribute('class', 'collection-item avatar player');
+      targetedHealthBar.setAttribute('class', 'progress red lighten-4');
+      console.log("normal")
+    }
   }
   // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
   if(selection.className === "collection-item avatar player"){
     selection.setAttribute('class', 'collection-item avatar player red lighten-4');
     healthBar.setAttribute('class', 'progress white');
+
+  // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
   }else if(selection.className === "collection-item avatar red darken-4 player"){
     selection.setAttribute('class', 'collection-item grey darken-4 avatar player');
+  
+  // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
   }else if(selection.className === "collection-item grey darken-4 avatar player"){
     selection.setAttribute('class', 'collection-item avatar red darken-4 player');
   }
+  
   // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
   else{
     selection.setAttribute('class', 'collection-item avatar player');
     healthBar.setAttribute('class', 'progress red lighten-4');
   }
 }
+
+
 
 var endGame = function(gameResult){
   // TRIGGER END GAME MODAL
