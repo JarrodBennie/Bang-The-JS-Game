@@ -21,6 +21,8 @@ window.onload = function(){
   var game = new Game(dice, players);
   game.setup();
 
+  var allHealthBars = document.getElementsByClassName('progress');
+
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -433,7 +435,14 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+      enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+
+    }
+      else{
+        disableHealButton(healButton);
+    }
   }
   player2.onclick = function(){
     if(game.players[0].target === game.allPlayers[1]){
@@ -442,7 +451,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -451,7 +466,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -460,7 +481,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -469,7 +496,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -478,7 +511,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -487,7 +526,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -496,7 +541,13 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    if (game.canHeal()) {
+        enableHealButton(healButton, game.players[0].target, allHealthBars, game);
+      }
+        else{
+          disableHealButton(healButton);
+      }
   }
 };
 
@@ -505,15 +556,40 @@ window.onload = function(){
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
+var updateHealthBars = function(allHealthBars, game){
+for(i = 0; i < allHealthBars.length; i++){
+  allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+  }
+}
 
-var enableShootButton = function(shootButton){
+var enableShootButton = function(shootButton, target, allHealthBars, game){
   shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-
+  shootButton.onclick = function(){
+    Materialize.toast('You shot ' + target.name, 2000);
+    game.shootTarget();
+    updateHealthBars(allHealthBars, game);
+  }
 }
 
 var disableShootButton = function(shootButton){
   shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  shootButton.onclick = null;
 }
+
+var enableHealButton = function(healButton, target, allHealthBars, game){
+  healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+  healButton.onclick = function(){
+    Materialize.toast('You healed ' + target.name, 2000);
+    game.beerTarget();
+    updateHealthBars(allHealthBars, game);
+  }
+}
+
+var disableHealButton = function(healButton){
+  healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  healButton.onclick = null;
+}
+
 
 // ROLL DICE BUTTON
 var rollDice = function(dice, diceElements, game){

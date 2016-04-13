@@ -28,7 +28,7 @@ var Dice = function(){
     4: "http://i.imgur.com/0q1hvpf.png",
     5: "http://i.imgur.com/ygbg1Fg.png",
     6: "http://i.imgur.com/pUn7Uru.png"
-  }; 
+  };
 };
 
 //// Will need to reset the dice between change of player turn - use reset below.

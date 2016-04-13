@@ -349,6 +349,17 @@ Game.prototype.addToActionCounters = function(){
 //   }
 // }
 
+Game.prototype.canHeal = function(){
+  if (this.players[0].actionCounters["3"] > 0 && this.players[0].target.health < this.players[0].target.maxHealth) {
+    console.log("yay beer");
+    return true;
+  }
+    else {
+      console.log("boo no beer");
+      return false;
+  }
+}
+
 Game.prototype.canShoot1 = function(){
   if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
     return true;
