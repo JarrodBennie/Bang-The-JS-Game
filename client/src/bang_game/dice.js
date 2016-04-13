@@ -82,7 +82,7 @@ Dice.prototype.saveDynamite = function(){
 Dice.prototype.threeDynamite = function(){
   var counter = 0;
   for( var number of this.all ){
-    if( number === 5 ) counter ++;
+    if( number === 5 ) counter++;
   }
   return ( counter >= 3 ) ? true : false
 };

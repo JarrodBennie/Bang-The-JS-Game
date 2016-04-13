@@ -24,11 +24,11 @@ describe('Player', function(){
 
     player1 = new Player("Craig");
     player1.character = character1;
-    player1.role = "Outlaw";
+    player1.role.name = "Outlaw";
 
     player2 = new Player("Adam");
     player2.character = character2;
-    player2.role = "Sheriff";
+    player2.role.name = "Sheriff";
 
   });
 
