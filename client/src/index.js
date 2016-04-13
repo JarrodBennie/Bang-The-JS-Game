@@ -433,8 +433,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player2.onclick = function(){
     if(game.players[0].target === game.allPlayers[1]){
@@ -443,8 +442,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -453,8 +451,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -463,8 +460,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -473,8 +469,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -483,8 +478,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -493,8 +487,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -503,8 +496,7 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    (game.canShoot1() || game.canShoot2()) ? enableShootButton(shootButton) : disableShootButton(shootButton);
   }
 };
 
@@ -514,7 +506,14 @@ window.onload = function(){
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
+var enableShootButton = function(shootButton){
+  shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
 
+}
+
+var disableShootButton = function(shootButton){
+  shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+}
 
 // ROLL DICE BUTTON
 var rollDice = function(dice, diceElements, game){
