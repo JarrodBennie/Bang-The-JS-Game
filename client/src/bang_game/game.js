@@ -388,6 +388,8 @@ Game.prototype.threeGatling = function(){
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
+    this.totalArrows += this.players[0].arrows;
+    this.players[0].arrows = 0;
   };
 };
 
