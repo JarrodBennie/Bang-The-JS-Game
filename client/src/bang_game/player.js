@@ -9,6 +9,9 @@ var Player = function(name){
   this.dead = false;
   this.target = null;
   this.actionCounters = { "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
+  this.healthDifference = function(){
+    return this.maxHealth - this.health;
+  };
 };
 
 
@@ -25,9 +28,9 @@ Player.prototype.setHealth = function(){
   this.health = this.maxHealth;
 };
 
-Player.prototype.healthDifference = function(){
-  return this.maxHealth - this.health;
-}
+// Player.prototype.healthDifference = function(){
+//   return this.maxHealth - this.health;
+// };
 
 Player.prototype.heal = function(){
   if( this.health < this.maxHealth){

@@ -3,6 +3,7 @@ Game = require('./bang_game/game');
 Player = require('./bang_game/player');
 Dice = require('./bang_game/dice');
 Hint = require('./bang_game/hint');
+GameState = require("./bang_game/gameState.js")
 
 // NEWING UP OBJECTS
 // var game = new Game();
@@ -20,6 +21,8 @@ window.onload = function(){
   var dice = new Dice();
   var game = new Game(dice, players);
   game.setup();
+  var gameState = new GameState(game);
+  game = gameState.load();
   
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
@@ -65,8 +68,9 @@ window.onload = function(){
   for (var i = 0; i < game.players[0].health; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
   }
-
-  for (var i = 0; i < game.players[0].healthDifference(); i++) {
+  var healthDiff = game.players[0].healthDifference().bind(game.players[0]);
+  console.log(healthDiff);
+  for (var i = 0; i < healthDiff; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
   }
 
@@ -173,7 +177,7 @@ window.onload = function(){
   // ROLL DICE BUTTON
   rollDiceButton.onclick = function(){
     diceClickEnable();
-    rollDice(dice, diceElements, game);
+    rollDice(dice, diceElements, game, gameState);
     
     if(dice.canRoll === false){
       this.onclick = null;
@@ -181,7 +185,7 @@ window.onload = function(){
       game.addToActionCounters();
     }
 
-    savedDiceFull(dice, diceElements, rollDiceButton, game);
+    savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
     console.log(dice.all)
   }
 
@@ -225,35 +229,35 @@ window.onload = function(){
       if(dice1Value != 5) dice.save(dice1Value);
       dice1.onclick = null;
       dice1.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
     }
     dice2.onclick = function(){
       var dice2Value = dice.all[1];
       if(dice2Value != 5) dice.save(dice2Value);
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
     }
     dice3.onclick = function(){
       var dice3Value = dice.all[2];
       if(dice3Value != 5) dice.save(dice3Value);
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
     }
     dice4.onclick = function(){
       var dice4Value = dice.all[3];
       if(dice4Value != 5) dice.save(dice4Value);
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
     }
     dice5.onclick = function(){
       var dice5Value = dice.all[4];
       if(dice5Value != 5) dice.save(dice5Value);
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
-      savedDiceFull(dice, diceElements, rollDiceButton, game);
+      savedDiceFull(dice, diceElements, rollDiceButton, game, gameState);
     }
   }
   diceClickEnable();  
@@ -267,8 +271,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player2.onclick = function(){
     if(game.players[0].target === game.allPlayers[1]){
@@ -277,8 +283,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player3.onclick = function(){
     if(game.players[0].target === game.allPlayers[2]){
@@ -287,8 +295,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player4.onclick = function(){
     if(game.players[0].target === game.allPlayers[3]){
@@ -297,8 +307,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player5.onclick = function(){
     if(game.players[0].target === game.allPlayers[4]){
@@ -307,8 +319,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2:shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player6.onclick = function(){
     if(game.players[0].target === game.allPlayers[5]){
@@ -317,8 +331,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player7.onclick = function(){
     if(game.players[0].target === game.allPlayers[6]){
@@ -327,8 +343,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
   player8.onclick = function(){
     if(game.players[0].target === game.allPlayers[7]){
@@ -337,8 +355,10 @@ window.onload = function(){
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
-    game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them")
-    game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them")
+    if (game.players[0].target){
+      game.canShoot1() ? console.log("1: shoot!!!") : console.log("can't shoot them with a 1")
+      game.canShoot2() ? console.log("2: shoot!!!") : console.log("can't shoot them with a 2")
+    }
   }
 
   currentPlayer.onclick = function(){
@@ -351,7 +371,7 @@ window.onload = function(){
 /////////////////////////////
 
 // ROLL DICE BUTTON
-var rollDice = function(dice, diceElements, game){
+var rollDice = function(dice, diceElements, game, gameState){
   var counter = 0;
   // DISPLAY SAVED DICE
   for (var i = 0; i < dice.saved.length; i++) {
@@ -373,6 +393,7 @@ var rollDice = function(dice, diceElements, game){
     if(dice.saved.length === 5) currentDice.style.opacity = 1;
     counter++
   }
+  gameState.save();
 }
 
 // DRAW ARROWS
@@ -416,11 +437,13 @@ var endGame = function(gameResult){
   // DISABLE BUTTONS
 }
 
-var savedDiceFull = function(dice, diceElements, rollDiceButton, game){
+var savedDiceFull = function(dice, diceElements, rollDiceButton, game, gameState){
   if(dice.canRoll() === false){
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      rollDiceButton.onclick = null;
       game.addToActionCounters();
+      gameState.save();
   }
 }
 

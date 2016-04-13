@@ -4,6 +4,7 @@ var Game = function(dice, players){
   this.characters = [];
   this.totalArrows = 9;
   this.dice = dice;
+  this.wonBy = null;
   this.roles = [{name:"Sheriff", imgUrl: "http://i.imgur.com/yYT038yb.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}];
 
   var character1 = {
@@ -197,6 +198,9 @@ Game.prototype.nextTurn = function(){
   }
   this.dice.reset();
   this.rotatePlayers();
+  saveGame.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
+  // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
+
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
 
@@ -274,6 +278,7 @@ Game.prototype.winCheck = function(){
   // the if else if statement for renegade and outlaw is important, as if the sheriff is dead, the winCheckOutlaws function returns and outlaws win - this is often correct - but if a single renegade is alive, and just killed the sheriff - then the renegade wins - so we have to check if the renegade should win first, before reverting to checking if outlaws should win in the far more common case that the renegade is not the only player left alive.
 
   if (this.winCheckSheriff()){
+    this.wonBy = "Sheriff";
     return this.winCheckSheriff();
   };
 
@@ -281,9 +286,11 @@ Game.prototype.winCheck = function(){
   var renegadeCheckResult = this.winCheckRenegade();
 
   if (renegadeCheckResult){
+    this.wonBy = "Renegade";
     return renegadeCheckResult;
   }
   else if (outlawCheckResult){
+    this.wonBy = "Outlaws";
     return outlawCheckResult;
   }
   return null;
