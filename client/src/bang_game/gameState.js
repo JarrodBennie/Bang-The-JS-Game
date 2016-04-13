@@ -22,14 +22,16 @@ GameState.prototype.load = function(){
     return this.gamePassedIn;
   }
   else if (this.savedGame.wonBy){
-    console.log("saved game falsey - returning game that was passed to gameStave saver - this.savedGame was:", console.log(this.savedGame));
+    console.log("saved game was already won, by", this.savedGame.wonBy, "- returning game that was passed to gameStave saver - this.savedGame was:", console.log(this.savedGame));
     return this.gamePassedIn;
   };
 
   if (this.savedGame && !this.savedGame.wonBy) {
+    
     console.log("unfinished game found in storage - rehydrating objects...");
 
-    var hydratedDice = new Dice(this.savedGame.dice);
+    // var hydratedDice = new Dice(this.savedGame.dice);
+    var dice = new Dice();
     var hydratedPlayers = new Array();
     var hydratedAllPlayers = new Array();
 
@@ -40,9 +42,9 @@ GameState.prototype.load = function(){
     for (var i = 0; i < this.savedGame.allPlayers.length; i++){
       hydratedAllPlayers.push(new Player("dummy name", this.savedGame.allPlayers[i]))
     }
-
+    //using fresh dice // //////////////////////////////////////////////////
     var characterMaxHealthValues = true;
-    this.hydratedGame = new Game(hydratedDice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
+    this.hydratedGame = new Game(dice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
 
     return this.hydratedGame;
   }
