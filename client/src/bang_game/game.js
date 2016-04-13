@@ -115,8 +115,6 @@ var getUniqueRandomElement = function(array){
 };
 
 
-
-
 Game.prototype.setup = function(){
   this.assignRoles();
   this.assignCharacters();
@@ -300,15 +298,18 @@ Game.prototype.resolveArrows = function(){
       this.totalArrows = 9;
       console.log("arrows in!");
     }
-    
+
   };
 
 };
 
 Game.prototype.removeHealthAndArrows = function(){
-  this.health -= this.arrows;
-  this.arrows = 0;
+  for (var i = 0; i < this.players.length; i++){
+    this.players[i].health -= this.players[i].arrows;
+    this.players[i].arrows = 0;
+  };
 };
+
 
 
 
@@ -334,7 +335,7 @@ Game.prototype.addToActionCounters = function(){
     this.players[0].actionCounters[i.toString()] += 1;
   };
 };
-///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters. 
+///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters.
 
 
 //// function to know if we should light up/make clickable the shoot button
@@ -350,7 +351,7 @@ Game.prototype.addToActionCounters = function(){
 
 Game.prototype.canShoot1 = function(){
   if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {
-    return true; 
+    return true;
   }
   else{
     return false;
@@ -365,6 +366,21 @@ Game.prototype.canShoot2 = function(){
     return false;
   }
 }
+
+Game.prototype.threeGatling = function(){
+  var counter = 0;
+  for( item of this.dice.all ){
+    if( item === 4 ) {
+      counter++;
+    };
+  };
+  if ( counter >= 3 ) {
+    for(var i = 1; i < this.players.length; i++){
+      this.players[i].health -= 1;
+    };
+  };
+};
+
 
 
   // if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {

@@ -29,23 +29,24 @@ Player.prototype.healthDifference = function(){
   return this.maxHealth - this.health;
 }
 
-Player.prototype.heal = function(){
-  if( this.health < this.maxHealth){
-    this.health += 1;
-  };
+Player.prototype.shootTarget = function(){
+  if (this.target){
+    this.target.health -= 1;
+    console.log(this.name + " shot " + this.target.name)
+  }
+  else{
+    console.log("you don't have a target to shoot!")
+  }
 };
 
-//////////////////////////////////////////////
-///    SHOOT NEEDS REFACTORED - I THINK  /////
-//////////////////////////////////////////////
-Player.prototype.shoot = function(){
-  this.health -= 1;
-  if( this.health < 0 ){
-    this.health = 0;
-  };
-  if( this.health <= 0){
-    this.dead = true;
-  };
+Player.prototype.beerTarget = function(){
+  if (this.target && this.target.health < this.target.maxHealth){
+    this.target.health += 1;
+    console.log(this.name + " beer'd " + this.target.name)
+  }
+  else{
+    console.log("you don't have a target (who needs health) to beer!")
+  }
 };
 
 Player.prototype.addName = function(name){

@@ -53,10 +53,11 @@ describe('Player', function(){
     assert.equal(player2.maxHealth, 9);
   });
 
-  it("should add 1 health when heal", function(){
-    player1.setHealth();
+  it("should add 1 health to target when use beer on target", function(){
+    player1.maxHealth = 9;
     player1.health = 1;
-    player1.heal();
+    player2.target = player1;
+    player2.beerTarget();
     assert.equal(player1.health, 2);
   });
 
@@ -66,26 +67,12 @@ describe('Player', function(){
     assert.equal(player1.health, 9);
   });
 
-  it("should lose 1 health if shot", function(){
+  it("should remove 1 health from targeted player", function(){
     player1.setHealth();
-    player1.shoot();
+    player2.target = player1;
+    player2.shootTarget();
     assert.equal(player1.health, 8);
     assert.equal(player1.maxHealth, 9);
-  });
-
-  it("should return dead equals true when player health becomes 0", function(){
-    player1.setHealth();
-    player1.health = 1;
-    player1.shoot();
-    assert.equal(player1.dead, true);
-  });
-
-  it("should remove 1 health per arrow and reset player arrows to 0", function(){
-    player1.setHealth();
-    player1.arrows = 4;
-    player1.removeHealthPerArrow();
-    assert.equal(player1.health, 5);
-    assert.equal(player1.arrows, 0);
   });
 
   it("should return a players remaining health as a percentage of their max health", function(){

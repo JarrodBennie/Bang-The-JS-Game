@@ -20,7 +20,7 @@ window.onload = function(){
   var dice = new Dice();
   var game = new Game(dice, players);
   game.setup();
-  
+
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -35,7 +35,7 @@ window.onload = function(){
   dice4 = document.getElementById('dice-4'),
   dice5 = document.getElementById('dice-5'),
   diceElements = [dice1, dice2, dice3, dice4, dice5];
-  
+
   // TARGET PLAYER LIST
   var player1 = document.getElementById('player-1'),
   player2 = document.getElementById('player-2'),
@@ -331,7 +331,7 @@ window.onload = function(){
   rollDiceButton.onclick = function(){
     diceClickEnable();
     rollDice(dice, diceElements, game);
-    
+
     if(dice.canRoll === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
@@ -579,12 +579,11 @@ var targetPlayer = function(selection, game){
   // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
   }else if(selection.className === "collection-item avatar red darken-4 player"){
     selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
-  
   // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
   }else if(selection.className === "collection-item grey darken-3 avatar player"){
     selection.setAttribute('class', 'collection-item avatar red darken-4 player');
   }
-  
+
   // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
   else{
     selection.setAttribute('class', 'collection-item avatar player');
