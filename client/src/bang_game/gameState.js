@@ -9,13 +9,12 @@ var GameState = function(game){
 }; // constructor [end]
 
 GameState.prototype.save = function(){
-  localStorage.setItem("saved_game", JSON.stringify(this.gamePassedIn));
+  localStorage.setItem("bang_a_JS_game_save", JSON.stringify(this.gamePassedIn));
   console.log("saved this game to localStorage:", this.gamePassedIn);
-  console.log("in localstorage is probably looks like this:", JSON.stringify(this.gamePassedIn));
 }
 
 GameState.prototype.load = function(){
-  this.savedGame =  JSON.parse(localStorage.getItem("saved_game"));
+  this.savedGame =  JSON.parse(localStorage.getItem("bang_a_JS_game_save"));
   console.log("retrieved this game from localStorage:", this.savedGame);
   
   if (!this.savedGame){
