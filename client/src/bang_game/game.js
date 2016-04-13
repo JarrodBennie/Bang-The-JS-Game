@@ -350,7 +350,7 @@ Game.prototype.addToActionCounters = function(){
 // }
 
 Game.prototype.canHeal = function(){
-  if (this.players[0].actionCounters["3"] > 0 && this.players[0].target.health < this.players[0].target.maxHealth) {
+  if (this.players[0].actionCounters["3"] > 0 ) {
     console.log("yay beer");
     return true;
   }
@@ -417,8 +417,11 @@ Game.prototype.shootTarget = function(){
 };
 
 Game.prototype.beerTarget = function(){
-  if (this.players[0].target && this.players[0].target.health < this.players[0].target.maxHealth){
+  if (this.players[0].target){
     this.players[0].target.health += 1;
+    if(this.players[0].target.health > this.players[0].target.maxHealth){
+      this.players[0].target.health = this.players[0].target.maxHealth
+    }
     this.players[0].actionCounters["3"] -= 1;
     console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
   }
