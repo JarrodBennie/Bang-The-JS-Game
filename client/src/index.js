@@ -134,8 +134,9 @@ window.onload = function(){
       player1Avatar.src = game.allPlayers[0].role.imgUrl;
       player1.setAttribute('class', 'collection-item avatar grey lighten-4 player');
       player1CurrentPlayer.innerText = 'DEAD';
-      player1CpDiv.style.display = "none";
-      player1HealthDiv.style.display = "inline";
+      player1CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player1CpDiv.style.display = "inline";
+      player1HealthDiv.style.display = "none";
     }
 
     player1HealthBar.style.width = game.allPlayers[0].healthAsPercentage() + "%"
@@ -185,8 +186,9 @@ window.onload = function(){
       player2Avatar.src = game.allPlayers[1].role.imgUrl;
       player2.setAttribute('class', 'collection-item avatar grey lighten-4 player');
       player2CurrentPlayer.innerText = 'DEAD'
-      player2CpDiv.style.display = "none";
-      player2HealthDiv.style.display = "inline";
+      player2CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player2CpDiv.style.display = "inline";
+      player2HealthDiv.style.display = "none";
     }
 
     player2HealthBar.style.width = game.allPlayers[1].healthAsPercentage() + "%"
@@ -236,8 +238,9 @@ window.onload = function(){
       player3Avatar.src = game.allPlayers[2].role.imgUrl;
       player3.setAttribute('class', 'collection-item avatar grey lighten-4 player');
       player3CurrentPlayer.innerText = "DEAD";
-      player3CpDiv.style.display = "none";
-      player3HealthDiv.style.display = "inline";
+      player3CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player3CpDiv.style.display = "inline";
+      player3HealthDiv.style.display = "none";
     }
 
     player3HealthBar.style.width = game.allPlayers[2].healthAsPercentage() + "%"
@@ -286,9 +289,10 @@ window.onload = function(){
       player4Character.innerText = game.allPlayers[3].role.name;
       player4Avatar.src = game.allPlayers[3].role.imgUrl;
       player4.setAttribute('class', 'collection-item avatar grey lighten-4 player');
-      player4CurrentPlayer.innerText = "DEAD"
-      player4CpDiv.style.display = "none";
-      player4HealthDiv.style.display = "inline";
+      player4CurrentPlayer.innerText = "DEAD";
+      player4CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player4CpDiv.style.display = "inline";
+      player4HealthDiv.style.display = "none";
     }
 
     player4HealthBar.style.width = game.allPlayers[3].healthAsPercentage() + "%"
@@ -337,9 +341,10 @@ window.onload = function(){
       player5Character.innerText = game.allPlayers[4].role.name;
       player5Avatar.src = game.allPlayers[4].role.imgUrl;
       player5.setAttribute('class', 'collection-item avatar grey lighten-4 player');
-      player5CurrentPlayer.innerText = "DEAD"
-      player5CpDiv.style.display = "none";
-      player5HealthDiv.style.display = "inline";
+      player5CurrentPlayer.innerText = "DEAD";
+      player5CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player5CpDiv.style.display = "inline";
+      player5HealthDiv.style.display = "none";
     }
 
     player5HealthBar.style.width = game.allPlayers[4].healthAsPercentage() + "%"
@@ -389,8 +394,9 @@ window.onload = function(){
       player6Avatar.src = game.allPlayers[5].role.imgUrl;
       player6.setAttribute('class', 'collection-item avatar grey lighten-4 player');
       player6CurrentPlayer.innerText = "DEAD";
-      player6CpDiv.style.display = "none";
-      player6HealthDiv.style.display = "inline";
+      player6CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player6CpDiv.style.display = "inline";
+      player6HealthDiv.style.display = "none";
     }
 
     player6HealthBar.style.width = game.allPlayers[5].healthAsPercentage() + "%"
@@ -402,13 +408,15 @@ window.onload = function(){
     var player7HealthBar = document.getElementById('player-7-health-bar');
     var player7HealthDiv = document.getElementById('player-7-health-div');
     var player7CpDiv = document.getElementById('player-7-cp-div');
+    var player7CurrentPlayer = document.getElementById('current-player-7')
 
     player7Name.setAttribute("class", "title grey-text text-darken-4");
     player7Character.setAttribute("class", "grey-text text-darken-4");
     player7CpDiv.style.display = "none";
     player7HealthDiv.style.display = "block";
-    player7HealthDiv.setAttribute('class', 'progress red lighten-4')
+    player7HealthDiv.setAttribute('class', 'progress red lighten-4');
     player7.setAttribute("class", "collection-item avatar player");
+    player7CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[6] == game.players[0]){
       player7Name.innerHTML = "<b>" + game.allPlayers[6].name;
@@ -437,9 +445,10 @@ window.onload = function(){
       player7Character.innerText = game.allPlayers[6].role.name;
       player7Avatar.src = game.allPlayers[6].role.imgUrl;
       player7.setAttribute('class', 'collection-item avatar grey lighten-4 player');
-      player7CurrentPlayer.innerText = "DEAD"
-      player7CpDiv.style.display = "none";
-      player7HealthDiv.style.display = "inline";
+      player7CurrentPlayer.innerText = "DEAD";
+      player7CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player7CpDiv.style.display = "inline";
+      player7HealthDiv.style.display = "none";
     }
 
     player7HealthBar.style.width = game.allPlayers[6].healthAsPercentage() + "%"
@@ -489,8 +498,9 @@ window.onload = function(){
       player8Avatar.src = game.allPlayers[7].role.imgUrl;
       player8.setAttribute('class', 'collection-item avatar grey lighten-4 player');
       player8CurrentPlayer.innerText = "DEAD";
-      player1CpDiv.style.display = "none";
-      player1HealthDiv.style.display = "inline";
+      player8CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player8CpDiv.style.display = "inline";
+      player8HealthDiv.style.display = "none";
     }
 
     player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
@@ -734,11 +744,9 @@ window.onload = function(){
 
 
 
-
-
-/////////////////////////////
-// WINDOW ONLOAD ENDS HERE //
-/////////////////////////////
+//////////////////////////////////////
+//  WINDOW ONLOAD USED TO END HERE  //
+//////////////////////////////////////
 
 
 
@@ -748,7 +756,7 @@ var updateHealthBars = function(){
     var p = document.getElementById("player-" + (i + 1));
     var pChar = document.getElementById("player-" + (i + 1) + "-character");
     var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
-    var pDead = document.getElementById("current-player" + (i + 1));
+    var pDead = document.getElementById("current-player-" + (i + 1));
     var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
     if(game.allPlayers[i].health <= 0){
       p.onclick = null;
