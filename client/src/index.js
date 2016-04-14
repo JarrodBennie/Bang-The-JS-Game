@@ -948,6 +948,11 @@ var enableRollDiceButton = function(rollDiceButton, game){
         targetedHealthBar.setAttribute('class', 'progress red lighten-4');
       }
     }
+
+    if(selection.className === 'grey-text text-darken-4'){
+      return
+    }
+
     // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
     if(selection.className === "collection-item avatar player"){
       selection.setAttribute('class', 'collection-item avatar player red lighten-4');
@@ -960,8 +965,7 @@ var enableRollDiceButton = function(rollDiceButton, game){
     }else if(selection.className === "collection-item grey darken-3 avatar player"){
     selection.setAttribute('class', 'collection-item avatar red darken-4 player');
      // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
-    }
-    else{
+    }else{
       selection.setAttribute('class', 'collection-item avatar player');
       healthBar.setAttribute('class', 'progress red lighten-4');
     }
@@ -972,7 +976,7 @@ var enableRollDiceButton = function(rollDiceButton, game){
     if(dice.canRoll() === false){
       game.addToActionCounters();
       if (game.checkActions()){
-        Materialize.toast("Target a player to resolve dice before ending turn")
+        Materialize.toast("Target a player to resolve dice before ending turn", 3500)
       }
       for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
@@ -1032,7 +1036,6 @@ var endGame = function(){
   // gameState.save();
   game.end();
 }
-
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
