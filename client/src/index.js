@@ -757,6 +757,7 @@ var updateHealthBars = function(){
     var pChar = document.getElementById("player-" + (i + 1) + "-character");
     var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
     var pDead = document.getElementById("current-player-" + (i + 1));
+    var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
     var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
     if(game.allPlayers[i].health <= 0){
       p.onclick = null;
@@ -764,6 +765,8 @@ var updateHealthBars = function(){
       pChar.innerHTML = game.allPlayers[i].role.name;
       pAva.src = game.allPlayers[i].role.imgUrl;
       pDead.innerText = 'DEAD';
+      pDead.setAttribute('class', 'grey-text text-darken-4')
+      pDeadDiv.style.display = "inline";
       pHealthBar.style.display = "none";
     }
   }
