@@ -860,6 +860,13 @@ var enableHealButton = function(target){
     healButton.onclick = null;
   }
 
+var ifCurrentPlayerDiesTriggerNextTurn = function(){
+  if(game.players[0].health <= 0){
+    game.nextTurn(true);
+  }
+};
+
+
   // ROLL DICE BUTTON
 
   var rollDice = function(){
@@ -878,6 +885,7 @@ var enableHealButton = function(target){
     drawArrows(game);
     displayCurrentPlayerArrows();
     updateCurrentPlayerHealth();
+    ifCurrentPlayerDiesTriggerNextTurn();
     updateHealthBars();
 
     // DISPLAY CURRENT ROLL
@@ -918,6 +926,7 @@ var enableRollDiceButton = function(rollDiceButton, game){
       console.log("prev player dice:", dice.all);
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
+      ifCurrentPlayerDiesTriggerNextTurn();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
