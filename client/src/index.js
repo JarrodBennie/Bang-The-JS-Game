@@ -95,6 +95,7 @@ window.onload = function(){
     var player1HealthBar = document.getElementById('player-1-health-bar');
     var player1HealthDiv = document.getElementById('player-1-health-div');
     var player1CpDiv = document.getElementById('player-1-cp-div');
+    var player1CurrentPlayer = document.getElementById('current-player-1')
 
     player1Name.setAttribute("class", "title grey-text text-darken-4");
     player1Character.setAttribute("class", "grey-text text-darken-4");
@@ -102,6 +103,7 @@ window.onload = function(){
     player1HealthDiv.style.display = "block";
     player1HealthDiv.setAttribute('class', 'progress red lighten-4')
     player1.setAttribute("class", "collection-item avatar player");
+    player1CurrentPlayer.innerText = 'Current Player';
 
     if(game.allPlayers[0] == game.players[0]){
       player1Name.innerHTML = "<b>" + game.allPlayers[0].name;
@@ -127,6 +129,16 @@ window.onload = function(){
       player1Character.innerText = game.allPlayers[0].character.name;
     }
 
+    if(game.allPlayers[0].health <= 0){
+      player1Character.innerText = game.allPlayers[0].role.name;
+      player1Avatar.src = game.allPlayers[0].role.imgUrl;
+      player1.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player1CurrentPlayer.innerText = 'DEAD';
+      player1CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player1CpDiv.style.display = "inline";
+      player1HealthDiv.style.display = "none";
+    }
+
     player1HealthBar.style.width = game.allPlayers[0].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 2
@@ -136,6 +148,7 @@ window.onload = function(){
     var player2HealthBar = document.getElementById('player-2-health-bar');
     var player2HealthDiv = document.getElementById('player-2-health-div');
     var player2CpDiv = document.getElementById('player-2-cp-div');
+    var player2CurrentPlayer = document.getElementById('current-player-2')
 
     player2Name.setAttribute("class", "title grey-text text-darken-4");
     player2Character.setAttribute("class", "grey-text text-darken-4");
@@ -143,6 +156,7 @@ window.onload = function(){
     player2HealthDiv.style.display = "block";
     player2HealthDiv.setAttribute('class', 'progress red lighten-4')
     player2.setAttribute("class", "collection-item avatar player");
+    player2CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[1] == game.players[0]){
       player2Name.innerHTML = "<b>" + game.allPlayers[1].name;
@@ -167,6 +181,16 @@ window.onload = function(){
       player2Character.innerText = game.allPlayers[1].character.name;
     }
 
+    if(game.allPlayers[1].health <= 0){
+      player2Character.innerText = game.allPlayers[1].role.name;
+      player2Avatar.src = game.allPlayers[1].role.imgUrl;
+      player2.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player2CurrentPlayer.innerText = 'DEAD'
+      player2CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player2CpDiv.style.display = "inline";
+      player2HealthDiv.style.display = "none";
+    }
+
     player2HealthBar.style.width = game.allPlayers[1].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 3
@@ -176,13 +200,15 @@ window.onload = function(){
     var player3HealthBar = document.getElementById('player-3-health-bar');
     var player3HealthDiv = document.getElementById('player-3-health-div');
     var player3CpDiv = document.getElementById('player-3-cp-div');
+    var player3CurrentPlayer = document.getElementById('current-player-3');
 
     player3Name.setAttribute("class", "title grey-text text-darken-4");
     player3Character.setAttribute("class", "grey-text text-darken-4");
     player3CpDiv.style.display = "none";
     player3HealthDiv.style.display = "block";
-    player3HealthDiv.setAttribute('class', 'progress red lighten-4')
+    player3HealthDiv.setAttribute('class', 'progress red lighten-4');
     player3.setAttribute("class", "collection-item avatar player");
+    player3CurrentPlayer.innerText = "Current Player"
 
     if(game.allPlayers[2] == game.players[0]){
       player3Name.innerHTML = "<b>" + game.allPlayers[2].name;
@@ -207,6 +233,16 @@ window.onload = function(){
       player3Character.innerText = game.allPlayers[2].character.name;
     }
 
+    if(game.allPlayers[2].health <= 0){
+      player3Character.innerText = game.allPlayers[2].role.name;
+      player3Avatar.src = game.allPlayers[2].role.imgUrl;
+      player3.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player3CurrentPlayer.innerText = "DEAD";
+      player3CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player3CpDiv.style.display = "inline";
+      player3HealthDiv.style.display = "none";
+    }
+
     player3HealthBar.style.width = game.allPlayers[2].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 4
@@ -216,6 +252,7 @@ window.onload = function(){
     var player4HealthBar = document.getElementById('player-4-health-bar');
     var player4HealthDiv = document.getElementById('player-4-health-div');
     var player4CpDiv = document.getElementById('player-4-cp-div');
+    var player4CurrentPlayer = document.getElementById('current-player-4')
 
     player4Name.setAttribute("class", "title grey-text text-darken-4");
     player4Character.setAttribute("class", "grey-text text-darken-4");
@@ -223,6 +260,7 @@ window.onload = function(){
     player4HealthDiv.style.display = "block";
     player4HealthDiv.setAttribute('class', 'progress red lighten-4')
     player4.setAttribute("class", "collection-item avatar player");
+    player4CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[3] == game.players[0]){
       player4Name.innerHTML = "<b>" + game.allPlayers[3].name;
@@ -247,6 +285,16 @@ window.onload = function(){
       player4Character.innerText = game.allPlayers[3].character.name;
     }
 
+    if(game.allPlayers[3].health <= 0){
+      player4Character.innerText = game.allPlayers[3].role.name;
+      player4Avatar.src = game.allPlayers[3].role.imgUrl;
+      player4.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player4CurrentPlayer.innerText = "DEAD";
+      player4CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player4CpDiv.style.display = "inline";
+      player4HealthDiv.style.display = "none";
+    }
+
     player4HealthBar.style.width = game.allPlayers[3].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 5
@@ -256,6 +304,7 @@ window.onload = function(){
     var player5HealthBar = document.getElementById('player-5-health-bar');
     var player5HealthDiv = document.getElementById('player-5-health-div');
     var player5CpDiv = document.getElementById('player-5-cp-div');
+    var player5CurrentPlayer = document.getElementById('current-player-5')
 
     player5Name.setAttribute("class", "title grey-text text-darken-4");
     player5Character.setAttribute("class", "grey-text text-darken-4");
@@ -263,6 +312,7 @@ window.onload = function(){
     player5HealthDiv.style.display = "block";
     player5HealthDiv.setAttribute('class', 'progress red lighten-4')
     player5.setAttribute("class", "collection-item avatar player");
+    player5CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[4] == game.players[0]){
       player5Name.innerHTML = "<b>" + game.allPlayers[4].name;
@@ -286,6 +336,17 @@ window.onload = function(){
       player5Avatar.src = game.allPlayers[4].character.imgUrl;
       player5Character.innerText = game.allPlayers[4].character.name;
     }
+
+    if(game.allPlayers[4].health <= 0){
+      player5Character.innerText = game.allPlayers[4].role.name;
+      player5Avatar.src = game.allPlayers[4].role.imgUrl;
+      player5.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player5CurrentPlayer.innerText = "DEAD";
+      player5CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player5CpDiv.style.display = "inline";
+      player5HealthDiv.style.display = "none";
+    }
+
     player5HealthBar.style.width = game.allPlayers[4].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 6
@@ -295,6 +356,7 @@ window.onload = function(){
     var player6HealthBar = document.getElementById('player-6-health-bar');
     var player6HealthDiv = document.getElementById('player-6-health-div');
     var player6CpDiv = document.getElementById('player-6-cp-div');
+    var player6CurrentPlayer = document.getElementById('current-player-6');
 
     player6Name.setAttribute("class", "title grey-text text-darken-4");
     player6Character.setAttribute("class", "grey-text text-darken-4");
@@ -302,6 +364,7 @@ window.onload = function(){
     player6HealthDiv.style.display = "block";
     player6HealthDiv.setAttribute('class', 'progress red lighten-4')
     player6.setAttribute("class", "collection-item avatar player");
+    player6CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[5] == game.players[0]){
       player6Name.innerHTML = "<b>" + game.allPlayers[5].name;
@@ -326,6 +389,16 @@ window.onload = function(){
       player6Character.innerText = game.allPlayers[5].character.name;
     }
 
+    if(game.allPlayers[5].health <= 0){
+      player6Character.innerText = game.allPlayers[5].role.name;
+      player6Avatar.src = game.allPlayers[5].role.imgUrl;
+      player6.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player6CurrentPlayer.innerText = "DEAD";
+      player6CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player6CpDiv.style.display = "inline";
+      player6HealthDiv.style.display = "none";
+    }
+
     player6HealthBar.style.width = game.allPlayers[5].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 7
@@ -335,13 +408,15 @@ window.onload = function(){
     var player7HealthBar = document.getElementById('player-7-health-bar');
     var player7HealthDiv = document.getElementById('player-7-health-div');
     var player7CpDiv = document.getElementById('player-7-cp-div');
+    var player7CurrentPlayer = document.getElementById('current-player-7')
 
     player7Name.setAttribute("class", "title grey-text text-darken-4");
     player7Character.setAttribute("class", "grey-text text-darken-4");
     player7CpDiv.style.display = "none";
     player7HealthDiv.style.display = "block";
-    player7HealthDiv.setAttribute('class', 'progress red lighten-4')
+    player7HealthDiv.setAttribute('class', 'progress red lighten-4');
     player7.setAttribute("class", "collection-item avatar player");
+    player7CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[6] == game.players[0]){
       player7Name.innerHTML = "<b>" + game.allPlayers[6].name;
@@ -365,6 +440,17 @@ window.onload = function(){
       player7Avatar.src = game.allPlayers[6].character.imgUrl;
       player7Character.innerText = game.allPlayers[6].character.name;
     }
+
+    if(game.allPlayers[6].health <= 0){
+      player7Character.innerText = game.allPlayers[6].role.name;
+      player7Avatar.src = game.allPlayers[6].role.imgUrl;
+      player7.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player7CurrentPlayer.innerText = "DEAD";
+      player7CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player7CpDiv.style.display = "inline";
+      player7HealthDiv.style.display = "none";
+    }
+
     player7HealthBar.style.width = game.allPlayers[6].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 8
@@ -374,6 +460,7 @@ window.onload = function(){
     var player8HealthBar = document.getElementById('player-8-health-bar');
     var player8HealthDiv = document.getElementById('player-8-health-div');
     var player8CpDiv = document.getElementById('player-8-cp-div');
+    var player8CurrentPlayer = document.getElementById('current-player-8');
 
     player8Name.setAttribute("class", "title grey-text text-darken-4");
     player8Character.setAttribute("class", "grey-text text-darken-4");
@@ -381,6 +468,7 @@ window.onload = function(){
     player8HealthDiv.style.display = "block";
     player8HealthDiv.setAttribute('class', 'progress red lighten-4')
     player8.setAttribute("class", "collection-item avatar player");
+    player8CurrentPlayer.innerText = "Current Player";
 
     if(game.allPlayers[7] == game.players[0]){
       player8Name.innerHTML = "<b>" + game.allPlayers[7].name;
@@ -404,6 +492,17 @@ window.onload = function(){
     player8Avatar.src = game.allPlayers[7].character.imgUrl;
     player8Character.innerText = game.allPlayers[7].character.name;
   }
+
+    if(game.allPlayers[7].health <= 0){
+      player8Character.innerText = game.allPlayers[7].role.name;
+      player8Avatar.src = game.allPlayers[7].role.imgUrl;
+      player8.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      player8CurrentPlayer.innerText = "DEAD";
+      player8CurrentPlayer.setAttribute('class', 'grey-text text-darken-4');
+      player8CpDiv.style.display = "inline";
+      player8HealthDiv.style.display = "none";
+    }
+
     player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
   }
 
@@ -645,18 +744,28 @@ window.onload = function(){
 
 
 
-
-
-/////////////////////////////
-// WINDOW ONLOAD ENDS HERE //
-/////////////////////////////
+//////////////////////////////////////
+//  WINDOW ONLOAD USED TO END HERE  //
+//////////////////////////////////////
 
 
 
 var updateHealthBars = function(){
   for(i = 0; i < allHealthBars.length; i++){
     allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
-    if(game.allPlayers[i].health <= 0) document.getElementById("player-" + (i + 1)).onclick = null;
+    var p = document.getElementById("player-" + (i + 1));
+    var pChar = document.getElementById("player-" + (i + 1) + "-character");
+    var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
+    var pDead = document.getElementById("current-player-" + (i + 1));
+    var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
+    if(game.allPlayers[i].health <= 0){
+      p.onclick = null;
+      p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+      pChar.innerHTML = game.allPlayers[i].role.name;
+      pAva.src = game.allPlayers[i].role.imgUrl;
+      pDead.innerText = 'DEAD';
+      pHealthBar.style.display = "none";
+    }
   }
 }
 
