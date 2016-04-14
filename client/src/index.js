@@ -832,11 +832,14 @@ var targetPlayer = function(selection){
 var endGame = function(gameResult){
   // TRIGGER END GAME MODAL
   // DISABLE BUTTONS
-}
+};
 
 var savedDiceFull = function(){
   if(dice.canRoll() === false){
-    Materialize.toast("Resolve all dice to enable End Turn button", 3500)
+    game.addToActionCounters();
+    if (game.checkActions()){
+      Materialize.toast("Target a player to resolve dice before ending turn", 3500)
+    }
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     game.addToActionCounters();
