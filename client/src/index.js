@@ -972,7 +972,7 @@ var enableRollDiceButton = function(rollDiceButton, game){
     if(dice.canRoll() === false){
       game.addToActionCounters();
       if (game.checkActions()){
-        Materialize.toast("Target a player to resolve dice before ending turn")
+        Materialize.toast("Target a player to resolve dice before ending turn", 3500)
       }
       for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
