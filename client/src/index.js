@@ -16,8 +16,12 @@ var game = new Game(dice, players);
 game.setup();
 
 window.onload = function(){
-  var allHealthBars = document.getElementsByClassName('determinate');
+  var view = new View();
+  view.getElementsObject()
+  console.log(view.ele);
 
+  var domElements = {};
+  var allHealthBars = document.getElementsByClassName('determinate');
   // TARGET BUTTONS
   var rollDiceButton = document.getElementById('roll-dice-button'),
   healButton = document.getElementById('heal-button'),
@@ -53,6 +57,12 @@ window.onload = function(){
   var sheriffIcon = document.getElementById('sheriff-icon');
   var currentPlayerHealth = document.getElementById('current-player-health');
   var currentPlayerArrows = document.getElementById('current-player-arrows');
+
+
+}
+
+
+
 
   currentPlayerAvatar.src = game.players[0].character.imgUrl;
   currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
@@ -810,7 +820,6 @@ var savedDiceFull = function(){
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     }
   }
-}
 }
 
 ////////////////////////////////////////////////////////////
