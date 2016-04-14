@@ -103,13 +103,17 @@ describe('Game', function(){
     assert.equal(player1.arrows, 0);
   });
 
-  it("should shoot everyone except the current player when gatling", function(){
+  it("should shoot everyone except the current player when gatling and remove current players arrows and add them back into the Game total arrows", function(){
+    game.totalArrows = 5;
     player1.health = 2;
+    player1.arrows = 4;
     player3.health = 2;
     player6.health = 2;
     dice.all =[ 4, 1, 4, 1, 4 ];
     game.threeGatling();
     assert.equal(player1.health, 2);
+    assert.equal(player1.arrows, 0);
+    assert.equal(game.totalArrows, 9);
     assert.equal(player3.health, 1);
     assert.equal(player6.health, 1);
   });

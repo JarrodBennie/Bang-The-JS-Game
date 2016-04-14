@@ -63,15 +63,28 @@ window.onload = function(){
    currentPlayerArrows.src = "arrowicon.png";
  }
 
- currentPlayerHealth.innerHTML = "";
 
- for (var i = 0; i < game.players[0].health; i++) {
-  currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
-}
+  var updateCurrentPlayerHealth = function(){
+   currentPlayerHealth.innerHTML = "";
+   for (var i = 0; i < game.players[0].health; i++) {
+    currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+    }
+    for (var i = 0; i < game.players[0].healthDifference(); i++) {
+    currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
+    }
+  }
+  updateCurrentPlayerHealth();
 
-for (var i = 0; i < game.players[0].healthDifference(); i++) {
-  currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
-}
+
+//  currentPlayerHealth.innerHTML = "";
+
+//  for (var i = 0; i < game.players[0].health; i++) {
+//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+// }
+
+// for (var i = 0; i < game.players[0].healthDifference(); i++) {
+//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
+// }
 
   // POPULATE PLAYER LIST
   var populatePlayerList = function(){
@@ -721,6 +734,8 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
 
 
 
+
+
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
@@ -788,6 +803,7 @@ var enableHealButton = function(target){
       disableHealButton();
     }
     updateHealthBars();
+    updateCurrentPlayerHealth();
     if (game.checkActions() <= 0){
       enableEndTurnButton();
     }
@@ -811,6 +827,21 @@ var enableEndTurnButton = function(){
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
   }
 }
+var enableRollDiceButton = function(rollDiceButton, game){
+  rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+  rollDiceButton.onclick = function(){
+    diceClickEnable();
+    rollDice(dice, diceElements, game);
+
+    if(dice.canRoll === false){
+      this.onclick = null;
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
+    }
+    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
+  }
+
+}
 
 // ROLL DICE BUTTON
 var rollDice = function(){
@@ -828,6 +859,9 @@ var rollDice = function(){
   game.resolveArrows();
   drawArrows(game);
   displayCurrentPlayerArrows();
+  updateCurrentPlayerHealth();
+  updateHealthBars();
+
 
   // DISPLAY CURRENT ROLL
   for (var i = 0; i < dice.currentRoll.length; i++){
