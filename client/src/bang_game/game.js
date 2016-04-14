@@ -297,6 +297,7 @@ Game.prototype.resolveArrows = function(){
     if (this.totalArrows === 0){
       this.removeHealthAndArrows();
       this.totalArrows = 9;
+      Materialize.toast("The Indians have attacked!!", 2000);
       console.log("arrows in!");
     }
 

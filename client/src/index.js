@@ -759,7 +759,6 @@ var rollDice = function(){
   drawArrows(game);
   displayCurrentPlayerArrows();
   updateCurrentPlayerHealth();
-  Materialize.toast("The Indians have attacked!!", 2000);
   updateHealthBars();
 
 
