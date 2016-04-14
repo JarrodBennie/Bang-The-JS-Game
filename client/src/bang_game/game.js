@@ -194,6 +194,7 @@ Game.prototype.nextTurn = function(){
     this.end(this.winCheck());
   }
   this.dice.reset();
+  console.log(this.dice);
   this.rotatePlayers();
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
@@ -384,6 +385,8 @@ Game.prototype.threeGatling = function(){
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
+    this.totalArrows += this.players[0].arrows;
+    this.players[0].arrows = 0;
     Materialize.toast(this.players[0].name + " Used gatling!", 2000);
   };
 };
