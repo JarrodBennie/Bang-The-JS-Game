@@ -21,6 +21,7 @@ GameState = require("./bang_game/gameState.js")
   console.log("the new game object:",game);
 
   var gameState = new GameState(game);
+  // to enable save game loading, uncomment the following line (beware game-breaking bugs)
   // game = gameState.load();
   console.log("the game object that is used:", game);
 
@@ -840,7 +841,7 @@ var endGame = function(){
     for (var i = 0; i < this.players.length;i++){
       this.players[i].target = null;
     }
-  gameState.save();
+  // gameState.save();
   game.end();
 }
 

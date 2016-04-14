@@ -274,7 +274,7 @@ Game.prototype.removePlayer = function(player){
 Game.prototype.winCheckOutlaws = function(){
   console.log("outlaw wincheck  checking if array empty - players array length:", this.players.length);
   if (this.players.length === 0){
-    console.log("game.players.length is 0 - winCheckOutlaws is returning an Outlaw victory");
+    console.log("game.players.length is 0 - therefore winCheckOutlaws is returning an Outlaw victory");
     return "Outlaws win!"
   };
   console.log("loops through players array:", this.players, "length:", this.players.length);
