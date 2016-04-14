@@ -1,11 +1,27 @@
-var Game = function(dice, players){
+var Player = require("./player.js");
+
+var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydratedAllPlayers){
+  this.characterBasedMaxHealth = characterBasedMaxHealth;
   this.players = players;
-  this.allPlayers = [];
+  if (!characterBasedMaxHealth){
+    for (var i = 0; i < this.players.length; i++){
+      this.players.maxHealth = 8;
+    }
+  }
+  if (hydratedAllPlayers !== undefined){
+    this.allPlayers = hydratedAllPlayers;
+  }
+  else{
+    this.allPlayers = [];
+  }
   this.characters = [];
   this.totalArrows = 9;
   this.dice = dice;
+  this.wonBy = null;
+  if (previousObject !== undefined) {
+      this.rehydrate(previousObject);
+  }
   this.roles = [{name:"Sheriff", imgUrl: "http://i.imgur.com/yYT038yb.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}];
-
   var character1 = {
     name: "Jesse Jones",
     health: 9,
@@ -114,6 +130,20 @@ var getUniqueRandomElement = function(array){
   return choice;
 };
 
+Game.prototype.rehydrate = function(previousObject){
+  this.characterBasedMaxHealth = previousObject.characterBasedMaxHealth;
+  // if (!this.characterBasedMaxHealth){
+  //   for (var i = 0; i < this.players.length; i++){
+  //     this.players[i].maxHealth = 8;
+  //   }
+  // }
+  this.totalArrows = previousObject.totalArrows;
+  this.wonBy = previousObject.wonBy;
+  console.log(this.players);
+
+  // this.allPlayers = originalOrderPlayers;
+}
+
 
 Game.prototype.setup = function(){
   this.assignRoles();
@@ -162,6 +192,7 @@ Game.prototype.rotatePlayers = function(numSteps){
   // rotates the array the number of times that is passed as an argument
   // if no argument is passed, the OR operator will set loops to 1 as numSteps will be undefined, which is falsey
   var loops = numSteps;
+
   if (numSteps === undefined) {
     loops = 1;
   }
@@ -183,7 +214,13 @@ Game.prototype.rotatePlayers = function(numSteps){
   };
 };
 
-Game.prototype.nextTurn = function(){
+Game.prototype.dynamiteExplodes = function(){
+  if (this.dice.threeDynamite()){
+    this.players[0].health -= 1;
+  }
+};
+
+Game.prototype.nextTurn = function(currentPlayerDead, gameState){
 
   ////////////////////////////////////////////////////
   // Adam has stuff to add to this function         //
@@ -193,14 +230,30 @@ Game.prototype.nextTurn = function(){
   if(this.winCheck()){
     this.end(this.winCheck());
   }
+
+  var rotateSteps;
+  if (currentPlayerDead === undefined || currentPlayerDead === false){
+    rotateSteps = 1;
+  }
+  else {
+    rotateSteps = 0
+  }
+
   this.dice.reset();
-  console.log(this.dice);
-  this.rotatePlayers();
+
+  this.rotatePlayers(rotateSteps);
+  for (var i = 0; i < this.players.length;i++){
+    this.players[i].target = null;
+  }
+  gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
+  // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
+
   // add any other function calls for stuff that needs to happen every time a new turn starts
 };
 
-Game.prototype.end = function(){
-
+Game.prototype.end = function(winCheckResult){
+  Materialize.toast(winCheckResult, 3000);
+  window.alert(winCheckResult);
 };
 
 
@@ -220,18 +273,22 @@ Game.prototype.removePlayer = function(player){
 };
 
 Game.prototype.winCheckOutlaws = function(){
+  console.log("outlaw wincheck  checking if array empty - players array length:", this.players.length);
   if (this.players.length === 0){
-    console.log("game.players.length is 0 - winCheckOutlaws is returning an Outlaw victory");
+    console.log("game.players.length is 0 - therefore winCheckOutlaws is returning an Outlaw victory");
     return "Outlaws win!"
   };
+  console.log("loops through players array:", this.players, "length:", this.players.length);
   for (var i = 0; i < this.players.length; i++){
+    console.log("index:", i, "role:", this.players[i].role.name);
     if (this.players[i].role.name === "Sheriff") {
+      console.log("index:", i, "role found:", this.players[i].role.name);
+      console.log("sheriff found, returning null from outlaw wincheck");
       return null;
     }
-    else{
-      return "Outlaws win!"
-    };// if else any player is Sheriff [end]
-  }//for loop [end]
+  }
+  console.log("returning outlaws win because no sheriff found ??");
+  return "Outlaws win!"
 };// winConditionOutlaw [end]
 
 Game.prototype.winCheckSheriff = function(){
@@ -273,6 +330,7 @@ Game.prototype.winCheck = function(){
   // the if else if statement for renegade and outlaw is important, as if the sheriff is dead, the winCheckOutlaws function returns and outlaws win - this is often correct - but if a single renegade is alive, and just killed the sheriff - then the renegade wins - so we have to check if the renegade should win first, before reverting to checking if outlaws should win in the far more common case that the renegade is not the only player left alive.
 
   if (this.winCheckSheriff()){
+    this.wonBy = "Sheriff";
     return this.winCheckSheriff();
   };
 
@@ -280,9 +338,11 @@ Game.prototype.winCheck = function(){
   var renegadeCheckResult = this.winCheckRenegade();
 
   if (renegadeCheckResult){
+    this.wonBy = "Renegade";
     return renegadeCheckResult;
   }
   else if (outlawCheckResult){
+    this.wonBy = "Outlaws";
     return outlawCheckResult;
   }
   return null;
