@@ -50,3 +50,7 @@ View.prototype.getElementsObject = function(){
   var currentPlayerHealth = document.getElementById('current-player-health');
   var currentPlayerArrows = document.getElementById('current-player-arrows');
 }// getElementsObject method end
+
+View.prototype.renderStart = function(){
+  console.log("view.renderStart invoked");
+}

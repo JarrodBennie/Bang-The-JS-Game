@@ -418,7 +418,7 @@ for (var i = 0; i < game.players[0].healthDifference(); i++) {
 
   // HINT CARD
   var hintElement = document.getElementById('hint');
-  hintElement.innerHTML = _.sample(hint.all);
+  hintElement.innerHTML = hint.all[Math.floor(Math.random()*hint.all.length)];
 
   drawArrows(game);
 
