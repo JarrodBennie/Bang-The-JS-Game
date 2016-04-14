@@ -69,23 +69,36 @@ window.onload = function(){
   currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
   currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
+  
   for(var i = 0; i < game.players[0].arrows; i++){
    currentPlayerArrows.src = "arrowicon.png";
-   currentPlayerArrows.display = "none";
   }
    currentPlayerArrows.display = "none";
 
   displayCurrentPlayerArrows();
- currentPlayerHealth.innerHTML = "";
 
-  for (var i = 0; i < game.players[0].health; i++) {
-    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
+
+  var updateCurrentPlayerHealth = function(){
+   currentPlayerHealth.innerHTML = "";
+   for (var i = 0; i < game.players[0].health; i++) {
+    currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
   }
-  var healthDiff = game.players[0].healthDifference();
-  console.log(healthDiff);
-  for (var i = 0; i < healthDiff; i++) {
-    currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite_outline</i>';
+  for (var i = 0; i < game.players[0].healthDifference(); i++) {
+    currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
   }
+}
+updateCurrentPlayerHealth();
+
+
+//  currentPlayerHealth.innerHTML = "";
+
+//  for (var i = 0; i < game.players[0].health; i++) {
+//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+// }
+
+// for (var i = 0; i < game.players[0].healthDifference(); i++) {
+//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
+// }
 
   // POPULATE PLAYER LIST
   var populatePlayerList = function(){
@@ -434,7 +447,7 @@ window.onload = function(){
     diceClickEnable();
     rollDice();
     game.resolveArrows();
-    if(dice.canRoll === false){
+    if(dice.canRoll() === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
@@ -515,7 +528,7 @@ window.onload = function(){
     diceClickEnable();
     rollDice();
 
-    if(dice.canRoll === false){
+    if(dice.canRoll() === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
@@ -659,6 +672,14 @@ window.onload = function(){
     }
   }
 
+
+
+
+
+//////////////////////////////////
+// WINDOW ONLOAD ENDS SOMEWHERE //
+//////////////////////////////////
+
 var updateHealthBars = function(){
   for(i = 0; i < allHealthBars.length; i++){
     allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
@@ -697,23 +718,24 @@ var updateHealthBars = function(){
     shootButton.onclick = null;
   }
 
-  var enableHealButton = function(target){
-    healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-    healButton.onclick = function(){
-      Materialize.toast('You healed ' + target.name, 2000);
-      game.beerTarget();
-      if (game.canHeal()) {
-        enableHealButton(game.players[0].target);
-      }else{
-        disableHealButton();
-      }
-      updateHealthBars();
-      if (game.checkActions() <= 0){
-        enableEndTurnButton();
-      }
+
+var enableHealButton = function(target){
+  healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+  healButton.onclick = function(){
+    Materialize.toast('You healed ' + target.name, 2000);
+    game.beerTarget();
+    if (game.canHeal()) {
+      enableHealButton(game.players[0].target);
+    }else{
+      disableHealButton();
+    }
+    updateHealthBars();
+    updateCurrentPlayerHealth();
+    if (game.checkActions() <= 0){
+      enableEndTurnButton();
     }
   }
-
+}
   var disableHealButton = function(){
     healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     healButton.onclick = null;
@@ -750,6 +772,22 @@ var updateHealthBars = function(){
   // gameState.save();
   }
 
+var enableRollDiceButton = function(rollDiceButton, game){
+  rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+  rollDiceButton.onclick = function(){
+    diceClickEnable();
+    rollDice(dice, diceElements, game);
+
+    if(dice.canRoll === false){
+      this.onclick = null;
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      game.addToActionCounters();
+    }
+    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
+  }
+
+}
+
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     endTurnButton.onclick = function(){
@@ -764,7 +802,13 @@ var updateHealthBars = function(){
     }
   }
 
-
+  // ROLL DICE
+  dice.roll();
+  game.resolveArrows();
+  drawArrows(game);
+  displayCurrentPlayerArrows();
+  updateCurrentPlayerHealth();
+  updateHealthBars();
 
   // SELECT PLAYER FROM LIST
   var targetPlayer = function(selection){
@@ -806,6 +850,10 @@ var updateHealthBars = function(){
 
   var savedDiceFull = function(){
     if(dice.canRoll() === false){
+      game.addToActionCounters();
+      if (game.checkActions()){
+        Materialize.toast("Target a player to resolve dice before ending turn")
+      }
       for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
@@ -815,9 +863,12 @@ var updateHealthBars = function(){
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       }
     }
+
   }
 
-}
+  
+} // END OF WINDOW ONLOAD
+
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
@@ -831,19 +882,22 @@ var displayCurrentPlayerArrows = function(){
   }
 }
 
+
+
 var endGame = function(){
-    // TRIGGER END GAME MODAL
-    // DISABLE BUTTONS
-    console.log("saving finished game");
-    // removes targets from all players to allow saving without JSON.stringify throwing a "gameState.js:12 Uncaught TypeError: Converting circular structure to JSON"
-    // (can't save a player object with a player object nested in it - definitely not if it's the SAME player object (if targetting yourself and turn end-)
-    // see also: https://github.com/isaacs/json-stringify-safe/blob/master/README.md
-    for (var i = 0; i < this.players.length;i++){
-      this.players[i].target = null;
-    }
+  // TRIGGER END GAME MODAL
+  // DISABLE BUTTONS
+  console.log("saving finished game");
+  // removes targets from all players to allow saving without JSON.stringify throwing a "gameState.js:12 Uncaught TypeError: Converting circular structure to JSON"
+  // (can't save a player object with a player object nested in it - definitely not if it's the SAME player object (if targetting yourself and turn end-)
+  // see also: https://github.com/isaacs/json-stringify-safe/blob/master/README.md
+  for (var i = 0; i < this.players.length;i++){
+    this.players[i].target = null;
+  }
   // gameState.save();
   game.end();
 }
+
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //

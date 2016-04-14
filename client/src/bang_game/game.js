@@ -240,6 +240,7 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   }
 
   this.dice.reset();
+
   this.rotatePlayers(rotateSteps);
   for (var i = 0; i < this.players.length;i++){
     this.players[i].target = null;
@@ -356,6 +357,7 @@ Game.prototype.resolveArrows = function(){
     if (this.totalArrows === 0){
       this.removeHealthAndArrows();
       this.totalArrows = 9;
+      Materialize.toast("The Indians have attacked!!", 2000);
       console.log("arrows in!");
     }
 
@@ -444,6 +446,8 @@ Game.prototype.threeGatling = function(){
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
+    this.totalArrows += this.players[0].arrows;
+    this.players[0].arrows = 0;
     Materialize.toast(this.players[0].name + " Used gatling!", 2000);
   };
 };
