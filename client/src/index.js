@@ -598,7 +598,7 @@ window.onload = function(){
     diceClickEnable();
     rollDice();
 
-    if(dice.canRoll === false){
+    if(dice.canRoll() === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
@@ -841,7 +841,8 @@ var enableRollDiceButton = function(rollDiceButton, game){
     diceClickEnable();
     rollDice(dice, diceElements, game);
 
-    if(dice.canRoll === false){
+    if(dice.canRoll() === false){
+      //maybe re-add duplicate "use all dice to end turn" toast
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
@@ -944,6 +945,7 @@ var endGame = function(gameResult){
 
 var savedDiceFull = function(){
   if(dice.canRoll() === false){
+    Materialize.toast("Resolve all dice to enable End Turn button", 3500)
     for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     game.addToActionCounters();
