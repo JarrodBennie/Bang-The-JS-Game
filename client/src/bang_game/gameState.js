@@ -14,8 +14,9 @@ GameState.prototype.save = function(){
 }
 
 GameState.prototype.load = function(){
-  this.savedGame =  JSON.parse(localStorage.getItem("bang_a_JS_game_save"));
-  console.log("retrieved this game from localStorage:", this.savedGame);
+  var loadReturn =  JSON.parse(localStorage.getItem("bang_a_JS_game_save"));
+  this.savedGame = loadReturn;
+  console.log("retrieved this from localStorage:", loadReturn);
   
   if (!this.savedGame){
     console.log("saved game falsey - returning game that was passed to gameStave saver - this.savedGame was::", console.log(this.savedGame));
@@ -35,10 +36,13 @@ GameState.prototype.load = function(){
     var hydratedPlayers = new Array();
     var hydratedAllPlayers = new Array();
 
+    console.log("looping through:", this.savedGame.players);
+    console.log("loop length:", this.savedGame.players.length);
     for (var i = 0; i < this.savedGame.players.length; i++){
       hydratedPlayers.push(new Player("dummy name", this.savedGame.players[i]))
     }
-
+    console.log("looping through:", this.savedGame.allPlayers);
+    console.log("loop length:", this.savedGame.allPlayers.length);
     for (var i = 0; i < this.savedGame.allPlayers.length; i++){
       hydratedAllPlayers.push(new Player("dummy name", this.savedGame.allPlayers[i]))
     }

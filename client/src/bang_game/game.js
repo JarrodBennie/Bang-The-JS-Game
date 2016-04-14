@@ -132,11 +132,11 @@ var getUniqueRandomElement = function(array){
 
 Game.prototype.rehydrate = function(previousObject){
   this.characterBasedMaxHealth = previousObject.characterBasedMaxHealth;
-  if (!this.characterBasedMaxHealth){
-    for (var i = 0; i < this.players.length; i++){
-      this.players[i].maxHealth = 8;
-    }
-  }
+  // if (!this.characterBasedMaxHealth){
+  //   for (var i = 0; i < this.players.length; i++){
+  //     this.players[i].maxHealth = 8;
+  //   }
+  // }
   this.totalArrows = previousObject.totalArrows;
   this.wonBy = previousObject.wonBy;
   console.log(this.players);
@@ -220,7 +220,7 @@ Game.prototype.dynamiteExplodes = function(){
   }
 };
 
-Game.prototype.nextTurn = function(currentPlayerDead){
+Game.prototype.nextTurn = function(currentPlayerDead, gameState){
 
   ////////////////////////////////////////////////////
   // Adam has stuff to add to this function         //
@@ -228,9 +228,8 @@ Game.prototype.nextTurn = function(currentPlayerDead){
 
   this.checkForDeaths();
   if(this.winCheck()){
-    this.end(this.winCheck()); /// this doesn't do anything
+    this.end(this.winCheck());
   }
-
 
   var rotateSteps;
   if (currentPlayerDead === undefined || currentPlayerDead === false){
@@ -241,13 +240,19 @@ Game.prototype.nextTurn = function(currentPlayerDead){
   }
 
   this.dice.reset();
-  
   this.rotatePlayers(rotateSteps);
-
-  saveGame.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
+  for (var i = 0; i < this.players.length;i++){
+    this.players[i].target = null;
+  }
+  gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
   // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
 
   // add any other function calls for stuff that needs to happen every time a new turn starts
+};
+
+Game.prototype.end = function(winCheckResult){
+  Materialize.toast(winCheckResult, 3000);
+  window.alert(winCheckResult);
 };
 
 
@@ -267,18 +272,22 @@ Game.prototype.removePlayer = function(player){
 };
 
 Game.prototype.winCheckOutlaws = function(){
+  console.log("outlaw wincheck  checking if array empty - players array length:", this.players.length);
   if (this.players.length === 0){
     console.log("game.players.length is 0 - winCheckOutlaws is returning an Outlaw victory");
     return "Outlaws win!"
   };
+  console.log("loops through players array:", this.players, "length:", this.players.length);
   for (var i = 0; i < this.players.length; i++){
+    console.log("index:", i, "role:", this.players[i].role.name);
     if (this.players[i].role.name === "Sheriff") {
+      console.log("index:", i, "role found:", this.players[i].role.name);
+      console.log("sheriff found, returning null from outlaw wincheck");
       return null;
     }
-    else{
-      return "Outlaws win!"
-    };// if else any player is Sheriff [end]
-  }//for loop [end]
+  }
+  console.log("returning outlaws win because no sheriff found ??");
+  return "Outlaws win!"
 };// winConditionOutlaw [end]
 
 Game.prototype.winCheckSheriff = function(){

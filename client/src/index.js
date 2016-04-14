@@ -6,8 +6,7 @@ Hint = require('./bang_game/hint');
 GameState = require("./bang_game/gameState.js")
 
 // NEWING UP OBJECTS
-var dice = new Dice;
-var hint = new Hint;
+  var hint = new Hint;
 
   var players = new Array(8);
   for (var i = 0; i < players.length; i++){
@@ -22,7 +21,7 @@ var hint = new Hint;
   console.log("the new game object:",game);
 
   var gameState = new GameState(game);
-  game = gameState.load();
+  // game = gameState.load();
   console.log("the game object that is used:", game);
 
 window.onload = function(){
@@ -71,8 +70,11 @@ window.onload = function(){
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
   for(var i = 0; i < game.players[0].arrows; i++){
    currentPlayerArrows.src = "arrowicon.png";
- }
+   currentPlayerArrows.display = "none";
+  }
+   currentPlayerArrows.display = "none";
 
+  displayCurrentPlayerArrows();
  currentPlayerHealth.innerHTML = "";
 
   for (var i = 0; i < game.players[0].health; i++) {
@@ -401,8 +403,9 @@ window.onload = function(){
     }else{
     player8Avatar.src = game.allPlayers[7].character.imgUrl;
     player8Character.innerText = game.allPlayers[7].character.name;
-  }
+    }
     player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
+  
   }
 
   // DRAW ARROWS
@@ -685,7 +688,7 @@ var updateHealthBars = function(){
       if (game.checkActions() <= 0){
         enableEndTurnButton();
       }
-    }
+    }; // onclick end
   }
 
   var disableShootButton = function(){
@@ -731,7 +734,7 @@ var updateHealthBars = function(){
     dice.roll();
     game.resolveArrows();
     drawArrows();
-    displayCurrentPlayerArrows(game);
+    displayCurrentPlayerArrows();
 
     // DISPLAY CURRENT ROLL
     for (var i = 0; i < dice.currentRoll.length; i++){
@@ -751,7 +754,8 @@ var updateHealthBars = function(){
     endTurnButton.onclick = function(){
       game.threeGatling();
       game.dynamiteExplodes();
-      game.nextTurn();
+      console.log("prev player dice:", dice.all);
+      game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
@@ -759,14 +763,7 @@ var updateHealthBars = function(){
     }
   }
 
-  var displayCurrentPlayerArrows = function(){
-    for(var i = 0; i < game.players[0].arrows; i++){
-      var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
-      currentPlayerArrows.src = "arrowicon.png";
-      currentPlayerArrows.style.display = "inline-block";
-      if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
-    }
-  }
+
 
   // SELECT PLAYER FROM LIST
   var targetPlayer = function(selection){
@@ -792,10 +789,10 @@ var updateHealthBars = function(){
       healthBar.setAttribute('class', 'progress white');
 
     // IF SELECTED PLAYER IS RED, MAKE THEM BLACK
-  }else if(selection.className === "collection-item avatar red darken-4 player"){
-    selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
-    // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
-  }else if(selection.className === "collection-item grey darken-3 avatar player"){
+    }else if(selection.className === "collection-item avatar red darken-4 player"){
+      selection.setAttribute('class', 'collection-item grey darken-3 avatar player');
+      // IF SELECTED PLAYER IS BLACK, MAKE THEM RED
+    }else if(selection.className === "collection-item grey darken-3 avatar player"){
     selection.setAttribute('class', 'collection-item avatar red darken-4 player');
      // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
     }
@@ -805,12 +802,6 @@ var updateHealthBars = function(){
     }
   }
 
-  var endGame = function(gameState){
-      // TRIGGER END GAME MODAL
-      // DISABLE BUTTONS
-
-    gameState.save();
-  }
 
   var savedDiceFull = function(){
     if(dice.canRoll() === false){
@@ -830,7 +821,28 @@ var updateHealthBars = function(){
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
+var displayCurrentPlayerArrows = function(){
+  for(var i = 0; i < game.players[0].arrows; i++){
+    var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
+    currentPlayerArrows.src = "arrowicon.png";
+    currentPlayerArrows.style.display = "inline-block";
+    if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
+  }
+}
 
+var endGame = function(){
+    // TRIGGER END GAME MODAL
+    // DISABLE BUTTONS
+    console.log("saving finished game");
+    // removes targets from all players to allow saving without JSON.stringify throwing a "gameState.js:12 Uncaught TypeError: Converting circular structure to JSON"
+    // (can't save a player object with a player object nested in it - definitely not if it's the SAME player object (if targetting yourself and turn end-)
+    // see also: https://github.com/isaacs/json-stringify-safe/blob/master/README.md
+    for (var i = 0; i < this.players.length;i++){
+      this.players[i].target = null;
+    }
+  gameState.save();
+  game.end();
+}
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //

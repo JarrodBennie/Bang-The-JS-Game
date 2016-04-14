@@ -1,5 +1,3 @@
-var Game = require('./game.js');
-
 var Player = function(name, previousObject){
 
   this.name = name || "";

@@ -69,37 +69,6 @@ describe('Player', function(){
     assert.equal(player1.health, 9);
   });
 
-  // it("should remove 1 health from targeted player", function(){
-
-  //   player3 = new Player("Sam");
-  //   player3.role = {name: "Deputy"};
-
-<<<<<<< HEAD
-  // arrow damage responsibility moved to Game Object
-
-  // it("should remove 1 health per arrow and reset player arrows to 0", function(){
-  //   player1.setHealth();
-  //   player1.arrows = 4;
-  //   player1.removeHealthPerArrow();
-  //   assert.equal(player1.health, 5);
-  //   assert.equal(player1.arrows, 0);
-=======
-  //   player4 = new Player("Jarrod");
-  //   player4.role = {name: "Renegade"};
-  //   player1.actionCounters = { "1": 3, "2": 2, "3": 0, "4": 0, "5": 0, "6": 0}
-  //   var dice = {};
-  //   game = new Game(dice, [player1, player2, player3, player4, {name: "Morton"}, {name: "Mr6"}, {name: "Reid"}, {name: "Sam"}]);
-
-  //   console.log(game.players);
-
-  //   player2.setHealth();
-  //   player1.target = player2;
-  //   player1.shootTarget();
-  //   assert.equal(player2.health, 8);
-  //   assert.equal(player2.maxHealth, 9);
->>>>>>> develop
-  // });
-
   it("should return a players remaining health as a percentage of their max health", function(){
     player1.health = 5;
     player1.maxHealth = 10;
