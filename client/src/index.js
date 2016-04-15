@@ -523,11 +523,11 @@ updateCurrentPlayerHealth();
 
   // DRAW ARROWS
   var drawArrows = function(){
-    for( var i=0; i < 9; i++ ){
-      var currentArrow = document.getElementById('arrow-' + (i+1));
+    for( var i=1; i <= 9; i++ ){
+      var currentArrow = document.getElementById('arrow-' + (i));
       currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
       currentArrow.style.visibility = "visible";
-      if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+      if(i > game.totalArrows) currentArrow.style.visibility = "hidden";
     }
   }
 
@@ -645,7 +645,8 @@ updateCurrentPlayerHealth();
     savedDiceFull();
   }
 
-  rollDiceButton.onclick = rollDiceDefault;
+  //commented out because it's up near the start now - was causing double arrows
+  // rollDiceButton.onclick = rollDiceDefault;
 
   // DICE CLICKS DISABLED BEFORE DICE ARE ROLLED TO PREVENT ROLL DICE BUTTON LOCKOUT.
   var diceClickDisable = function(){
@@ -923,10 +924,10 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       if(dice.saved.length === 5) currentDice.style.opacity = 1;
       counter++
     }
+  }
     //do we want to save on every roll? - nope - default state of window.onload would mess up display if save could be mid-turn
     // gameState.load() uses fresh dice object now, this fixes a lot of display issues etc
   // gameState.save();
-  }
 
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
