@@ -708,7 +708,7 @@ updateCurrentPlayerHealth();
     }
     targetPlayer(this, game);
     shootButtonEnableChecker()
-    
+
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -952,6 +952,10 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     displayCurrentPlayerArrows(); // in case current player dies - shows their new arrows (probably 0, cause arrows just went back to the middle)
     updateCurrentPlayerHealth(); // in case current players dies - shows their 0 filled hearts
     game.dynamiteExplodes();
+    if (game.dice.threeDynamite()) {
+      playSound("dynamite.wav")
+    }
+
     ifCurrentPlayerDiesTriggerNextTurn();
     displayCurrentPlayerArrows(); // NECESSARY duplication
     updateCurrentPlayerHealth(); // NECESSARY duplication
@@ -975,9 +979,6 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     endTurnButton.onclick = function(){
         if (game.threeGatling()){
           playSound("104401__kantouth__gatling-gun.mp3")
-        }
-        if (game.dice.threeDynamite()) {
-          playSound("dynamite.wav")
         }
       ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
