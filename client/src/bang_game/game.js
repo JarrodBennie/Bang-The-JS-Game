@@ -351,6 +351,8 @@ Game.prototype.winCheck = function(){
 
 Game.prototype.resolveArrows = function(){
   for (var i = 0; i < this.dice.arrowsRolled; i++){
+    this.players[0].health = 1
+    this.totalArrows = 1
     this.players[0].arrows += 1;
     this.totalArrows -= 1;
     console.log("you got an arrow");

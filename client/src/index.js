@@ -855,18 +855,32 @@ var enableHealButton = function(target){
     }
   }
 }
-  var disableHealButton = function(){
-    healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    healButton.onclick = null;
-  }
+var disableHealButton = function(){
+  healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  healButton.onclick = null;
+}
+
+
+var currentPlayerDiedBehaviour = function(){
+  console.log("prev player dice:", dice.all);
+  game.nextTurn(true, gameState);
+  displayCurrentPlayerArrows();
+  ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - 
+  dispatchEvent(new Event('load'));
+  endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+};
 
 var ifCurrentPlayerDiesTriggerNextTurn = function(){
   if(game.players[0].health <= 0){
-    game.nextTurn(true);
+    // CALL DISABLE DICEROLL FUNCTION HERE
+    var rollDiceButton = document.getElementById('roll-dice-button')
+    // there doesn't seem to be a function for this - but these 2 lines do it:
+    diceRollButton.onclick = null;
+    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    // the 
+    setTimeout(currentPlayerDiedBehaviour, 3000);
   }
 };
-
-
   // ROLL DICE BUTTON
 
   var rollDice = function(){
@@ -883,9 +897,12 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     dice.roll();
     game.resolveArrows();
     drawArrows(game);
-    displayCurrentPlayerArrows();
-    updateCurrentPlayerHealth();
+    displayCurrentPlayerArrows(); // in case current player dies - shows their new arrows (probably 0, cause arrows just went back to the middle)
+    updateCurrentPlayerHealth(); // in case current players dies - shows their 0 filled hearts
+    game.dynamiteExplodes();
     ifCurrentPlayerDiesTriggerNextTurn();
+    displayCurrentPlayerArrows(); // NECESSARY duplication
+    updateCurrentPlayerHealth(); // NECESSARY duplication
     updateHealthBars();
 
     // DISPLAY CURRENT ROLL
@@ -922,11 +939,10 @@ var enableRollDiceButton = function(rollDiceButton, game){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     endTurnButton.onclick = function(){
       game.threeGatling();
-      game.dynamiteExplodes();
+      ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
-      ifCurrentPlayerDiesTriggerNextTurn();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
