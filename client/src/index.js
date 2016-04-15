@@ -688,7 +688,7 @@ updateCurrentPlayerHealth();
 
 
 
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
+    shootButtonEnableChecker()
 
 
 
@@ -707,7 +707,8 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton(shootButton);
+    shootButtonEnableChecker()
+    
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -851,8 +852,24 @@ var updateHealthBars = function(){
       }
 
       Materialize.toast(shootMessage, 2000);
+
       game.shootTarget();
       playSound("213925__diboz__pistol-riccochet.ogg")
+
+      if (game.canShoot1()){
+        enableShootButton(game.players[0].target);
+      }
+      else if(!game.canShoot1() && !game.canShoot2()){
+        disableShootButton();
+      }
+      if(game.canShoot2()){
+        enableShootButton(game.players[0].target);
+      }
+      else if(!game.canShoot2() && !game.canShoot1()){
+        disableShootButton();
+      }
+
+
       (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
       if (game.canHeal()) {
         enableHealButton(game.players[0].target);
@@ -895,13 +912,6 @@ var disableHealButton = function(){
   healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   healButton.onclick = null;
 }
-
-
-var playSound = function(sound){
-  var audio = new Audio(sound);
-  audio.play();
-}
-
 
 var currentPlayerDiedBehaviour = function(){
   console.log("prev player dice:", dice.all);
@@ -1092,6 +1102,11 @@ var endGame = function(){
   game.end();
 }
 
+
+var playSound = function(sound){
+  var audio = new Audio(sound);
+  audio.play();
+}
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
