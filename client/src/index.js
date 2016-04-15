@@ -542,17 +542,27 @@ updateCurrentPlayerHealth();
   // EVENT LISTENERS
   // BUTTONS
   // ROLL DICE BUTTON
-  rollDiceButton.onclick = function(){
-    diceClickEnable();
-    rollDice();
-    game.resolveArrows();
-    if(dice.canRoll() === false){
-      this.onclick = null;
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      game.addToActionCounters();
-    }
-    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
-  }
+
+  var enableRollDiceButton = function(){
+    console.log("BUTTON IN SCOPE?", rollDiceButton);
+    rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+    rollDiceButton.onclick = function(){
+      diceClickEnable();
+      rollDice(dice, diceElements, game);
+      game.resolveArrows();
+      if(dice.canRoll() === false){
+        //maybe re-add duplicate "use all dice to end turn" toast
+        this.onclick = null;
+        rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+        game.addToActionCounters();
+      };
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
+    };
+  };
+  //previous most of the function's functionality was performed inline here in window.onload
+  //now defining the function here and invoking it
+  enableRollDiceButton();
+
 
   // DEFAULTS
   healButton.onclick = null;
@@ -873,9 +883,9 @@ var currentPlayerDiedBehaviour = function(){
 var ifCurrentPlayerDiesTriggerNextTurn = function(){
   if(game.players[0].health <= 0){
     // CALL DISABLE DICEROLL FUNCTION HERE
-    var rollDiceButton = document.getElementById('roll-dice-button')
+    // var rollDiceButton = document.getElementById('roll-dice-button')
     // there doesn't seem to be a function for this - but these 2 lines do it:
-    diceRollButton.onclick = null;
+    rollDiceButton.onclick = null;
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     // the 
     setTimeout(currentPlayerDiedBehaviour, 3000);
@@ -918,23 +928,6 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
   // gameState.save();
   }
 
-var enableRollDiceButton = function(rollDiceButton, game){
-  rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-  rollDiceButton.onclick = function(){
-    diceClickEnable();
-    rollDice(dice, diceElements, game);
-
-    if(dice.canRoll() === false){
-      //maybe re-add duplicate "use all dice to end turn" toast
-      this.onclick = null;
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      game.addToActionCounters();
-    }
-    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
-  }
-
-}
-
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     endTurnButton.onclick = function(){
@@ -945,7 +938,9 @@ var enableRollDiceButton = function(rollDiceButton, game){
       displayCurrentPlayerArrows();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      console.log("roll dice button in end turn button onlick:", rollDiceButton);
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
+      enableRollDiceButton();
     }
   }
 
