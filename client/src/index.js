@@ -658,6 +658,24 @@ updateCurrentPlayerHealth();
   }
   diceClickDisable();
 
+  // utility function to avoid repition in the playerX.onclick functions below:
+  // what was a one line ternary now has to be these 14 lines in this function:
+  var shootButtonEnableChecker = function(){
+    if (game.canShoot1()){
+      enableShootButton(game.players[0].target);
+      playSound("177054__woodmoose__lowerguncock.wav");
+    }
+    else if(!game.canShoot1() && !game.canShoot2()){
+      disableShootButton();
+    }
+    if(game.canShoot2()){
+      enableShootButton(game.players[0].target);
+      playSound("111676__dredile__revolvercock1.wav")
+    }
+    else if(!game.canShoot2() && !game.canShoot1()){
+      disableShootButton();
+    }
+  }
 
   // PLAYER LIST
   player1.onclick = function(){
@@ -667,7 +685,13 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
+
+
+
     (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
+
+
+
     if (game.canHeal()) {
       enableHealButton(game.players[0].target);
 
@@ -698,7 +722,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -713,7 +737,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -728,7 +752,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -743,7 +767,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -758,7 +782,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -773,7 +797,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -828,6 +852,7 @@ var updateHealthBars = function(){
 
       Materialize.toast(shootMessage, 2000);
       game.shootTarget();
+      playSound("213925__diboz__pistol-riccochet.ogg")
       (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
       if (game.canHeal()) {
         enableHealButton(game.players[0].target);
@@ -869,6 +894,12 @@ var enableHealButton = function(target){
 var disableHealButton = function(){
   healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   healButton.onclick = null;
+}
+
+
+var playSound = function(sound){
+  var audio = new Audio(sound);
+  audio.play();
 }
 
 
@@ -932,7 +963,12 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     endTurnButton.onclick = function(){
-      game.threeGatling();
+        if (game.threeGatling()){
+          playSound("104401__kantouth__gatling-gun.mp3")
+        }
+        if (game.dice.threeDynamite()) {
+          playSound("dynamite.wav")
+        }
       ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
       game.nextTurn(false, gameState);
