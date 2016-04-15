@@ -456,6 +456,7 @@ Game.prototype.threeGatling = function(){
     this.totalArrows += this.players[0].arrows;
     this.players[0].arrows = 0;
     Materialize.toast(this.players[0].name + " Used gatling!", 2000);
+    return true;
   };
 };
 

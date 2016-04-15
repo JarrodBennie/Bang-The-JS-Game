@@ -978,10 +978,10 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+      if (game.threeGatling()){
+        playSound("104401__kantouth__gatling-gun.mp3")
+      }
     endTurnButton.onclick = function(){
-        if (game.threeGatling()){
-          playSound("104401__kantouth__gatling-gun.mp3")
-        }
       ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
       game.nextTurn(false, gameState);
