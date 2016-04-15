@@ -913,11 +913,13 @@ var disableHealButton = function(){
   healButton.onclick = null;
 }
 
+
+//this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
 var currentPlayerDiedBehaviour = function(){
   console.log("prev player dice:", dice.all);
   game.nextTurn(true, gameState);
   displayCurrentPlayerArrows();
-  ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - 
+  ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
   dispatchEvent(new Event('load'));
   endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 };
@@ -930,7 +932,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     rollDiceButton.onclick = null;
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     // the 
-    setTimeout(currentPlayerDiedBehaviour, 3000);
+    setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
   }
 };
   // ROLL DICE BUTTON
