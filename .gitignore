@@ -2,3 +2,7 @@ node_modules/
 client/node_modules
 client/build/bundle.js
 client/build/bundle.js.map
+<<<<<<< HEAD
+=======
+
+>>>>>>> feature/adam

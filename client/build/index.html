@@ -1,32 +1,225 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BANG! The Dice Game</title>
+  <title>BANG! The JS Game</title>
   <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="js/materialize.min.js"></script>
   <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="bundle.js"></script>
 </head>
 <body>
-  <nav>
-    <div class="nav-wrapper">
-      <a href="#!" class="brand-logo">Logo</a>
-      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
+  <!-- NAVBAR -->
+  <nav class="red darken-4">
+    <a href="/" class="brand-logo" id="game-logo">BANG! The JS Game</a>
+    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li><a href="/">New Game</a></li>
+      <li><a href="/info">Info</a></li>
+      <li><a href="/rules">Rules</a></li>
+      <li><a href="/">Leaderboards</a></li>
+    </ul>
+    <ul class="side-nav" id="mobile-demo">
+      <li><a href="/">New Game</a></li>
+      <li><a href="/info">Info</a></li>
+      <li><a href="/rules">Rules</a></li>
+      <li><a href="/">Leaderboards</a></li>
+    </ul>
+    <!-- SIDEBAR -->
+    <ul id="slide-out" class="side-nav fixed">
+      <ul class="collection" id="sidebar">
+        <!-- PLAYER 1 -->
+        <li id="player-1" class="collection-item avatar player">
+          <img id="player-1-avatar" class="circle">
+          <span id="player-1-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-1-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+            <div id="player-1-health-div" class="progress red lighten-4">
+              <div id="player-1-health-bar" class="determinate red darken-4"></div>
+            </div>
+            <div id="player-1-cp-div" class="white-text"><b id="current-player-1"></b></div>
+          </div>
+        </li>
+        <!-- PLAYER 2 -->
+        <li id="player-2" class="collection-item avatar player">
+          <img id="player-2-avatar" class="circle">
+          <span id="player-2-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-2-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-2-health-div" class="progress red lighten-4">
+            <div id="player-2-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-2-cp-div" class="white-text"><b id="current-player-2"></b></div>
+        </li>
+        <!-- PLAYER 3 -->
+        <li id="player-3" class="collection-item avatar player">
+          <img id="player-3-avatar" class="circle">
+          <span id="player-3-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-3-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-3-health-div" class="progress red lighten-4">
+            <div id="player-3-health-bar" class="determinate red darken-4" ></div>
+          </div>
+          <div id="player-3-cp-div" class="white-text"><b id="current-player-3"></b></div>
+        </li>
+        <!-- PLAYER 4 -->
+        <li id="player-4" class="collection-item avatar player">
+          <img id="player-4-avatar"class="circle">
+          <span id="player-4-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-4-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-4-health-div" class="progress red lighten-4">
+            <div id="player-4-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-4-cp-div" class="white-text"><b id="current-player-4"></b></div>
+        </li>
+        <!-- PLAYER 5 -->
+        <li id="player-5" class="collection-item avatar player">
+          <img id="player-5-avatar"class="circle">
+          <span id="player-5-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-5-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-5-health-div" class="progress red lighten-4">
+            <div id="player-5-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-5-cp-div" class="white-text"><b id="current-player-5"></b></div>
+        </li>
+        <!-- PLAYER 6 -->
+        <li id="player-6" class="collection-item avatar player">
+          <img id="player-6-avatar" class="circle">
+          <span id="player-6-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-6-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-6-health-div" class="progress red lighten-4">
+            <div id="player-6-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-6-cp-div" class="white-text"><b id="current-player-6"></b></div>
+        </li>
+        <!-- PLAYER 7 -->
+        <li id="player-7" class="collection-item avatar player">
+          <img id="player-7-avatar" class="circle">
+          <span id="player-7-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-7-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-7-health-div" class="progress red lighten-4">
+            <div id="player-7-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-7-cp-div" class="white-text"><b id="current-player-7"></b></div>
+        </li>
+        <!-- PLAYER 8 -->
+        <li id="player-8" class="collection-item avatar player">
+          <img id="player-8-avatar" class="circle">
+          <span id="player-8-name" class="title grey-text text-darken-4"></span><i class="material-icons secondary-content sheriff-icon"></i>
+          <p id="player-8-character" class="grey-text text-darken-4"></p>
+          <div class="card-action">
+          </div>
+          <div id="player-8-health-div" class="progress red lighten-4">
+            <div id="player-8-health-bar" class="determinate red darken-4"></div>
+          </div>
+          <div id="player-8-cp-div" class="white-text"><b id="current-player-8"></b></div>
+        </li>
       </ul>
-      <ul class="side-nav" id="mobile-demo">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">Javascript</a></li>
-        <li><a href="mobile.html">Mobile</a></li>
-      </ul>
-    </div>
+    </ul>
+    <a href="#" data-activates="slide-out" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
   </nav>
+  <!-- MAIN CONTENT -->
+  <div class="content">
+    <!-- SPACER -->
+    <div class="row"></div>
+    <div class="row"></div>
+    <!-- CURRENT PLAYER -->
+    <div class="row">
+      <div class="card col s8 offset-s2">
+        <div class="card-image waves-effect waves-block waves-light">
+        </div>
+        <div class="card-content">
+          <span class="card-title activator"><img id="current-player-avatar" class="circle" width="75">Current Player<i class="material-icons right">keyboard_arrow_up</i></span>
+          <p id="current-player-name-character"></p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><img id="current-player-avatar-reveal" class="circle" width="75"><text id="current-player-character"></text></span>
+          <p id="current-player-ability"></p>
+          <a id="role-button" class="btn waves-effect waves-light red darken-4">view role</a>
+        </div>
+        <div class="card-action">
+          <div id="current-player-health"></div>
+            <div id="current-player-arrows">
+              <img width="25px" id="current-player-arrow-1">
+              <img width="25px" id="current-player-arrow-2">
+              <img width="25px" id="current-player-arrow-3">
+              <img width="25px" id="current-player-arrow-4">
+              <img width="25px" id="current-player-arrow-5">
+              <img width="25px" id="current-player-arrow-6">
+              <img width="25px" id="current-player-arrow-7">
+              <img width="25px" id="current-player-arrow-8">
+              <img width="25px" id="current-player-arrow-9">
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- GAME INFO -->
+    <div class="row">
+      <div class="card col s8 offset-s2">
+        <div class="card-image waves-effect waves-block waves-light">
+        </div>
+        <div class="card-content center-align">
+          <span class="card-title activator">
+            <img width="50px" id="dice-1">
+            <img width="50px" id="dice-2">
+            <img width="50px" id="dice-3">
+            <img width="50px" id="dice-4">
+            <img width="50px" id="dice-5">
+            <i class="material-icons right">keyboard_arrow_up</i>
+          </span>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4">Arrow Pile<i class="material-icons right">close</i></span>
+          <img width="50px" id="arrow-1">
+          <img width="50px" id="arrow-2">
+          <img width="50px" id="arrow-3">
+          <img width="50px" id="arrow-4">
+          <img width="50px" id="arrow-5">
+          <img width="50px" id="arrow-6">
+          <img width="50px" id="arrow-7">
+          <img width="50px" id="arrow-8">
+          <img width="50px" id="arrow-9">
+        </div>
+        <div class="card-action center-align">
+          <a id="roll-dice-button" class="waves-effect waves-light btn red darken-4">roll dice</a>&nbsp;
+          <a id="heal-button" class="waves-effect waves-light btn disabled">heal</a>&nbsp;
+          <a id="shoot-button" class="waves-effect waves-light btn disabled">shoot</a>&nbsp;
+          <a id="end-turn-button" class="waves-effect waves-light btn disabled">end turn</a>
+        </div>
+      </div>
+    </div>
+    <!-- HINT -->
+    <div class="row">
+      <div class="col s12 m8 offset-m2">
+        <div class="card-panel red darken-4 center-align">
+          <span class="white-text">
+            <p id="hint"></p>
+          </span>
+        </div>
+      </div>
+    </div>
+    <!-- JSQUERY SCRIPTS -->
+    <!-- INITIALISE MOBILE NAV -->
+    <script>
+      $(".button-collapse").sideNav();
+    </script>
+    <!-- INITIALISE HEAL/SHOOT TOOLTIPS -->
+    <script>
+     $(document).ready(function(){
+      $('.tooltipped').tooltip({delay: 50});
+    });
+  </script>
 </body>
 </html>
