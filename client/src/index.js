@@ -882,6 +882,7 @@ var updateHealthBars = function(){
       if (game.checkActions() <= 0){
         enableEndTurnButton();
       }
+
     }; // onclick end
   }
 
@@ -933,7 +934,8 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     // the 
     setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
-  }
+    return true
+  }else{return false}
 };
   // ROLL DICE BUTTON
 
@@ -977,10 +979,12 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
   // gameState.save();
 
   var enableEndTurnButton = function(){
+    fireGatlingCheck();
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     endTurnButton.onclick = function(){
-      ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
+
+      ifCurrentPlayerDiesTriggerNextTurn();
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
       dispatchEvent(new Event('load'));
@@ -1039,29 +1043,34 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
   var savedDiceFull = function(){
     if(dice.canRoll() === false){
-      // only gatling need to resolve when actions are used and you can't roll but not at the end of your turn - that's why it's in this nested if here:
-      if (game.checkActions() <= 0){
-        // any other actions which should be resolved at the same time as gatling could also go here
-        if (game.threeGatling()){
-          playSound("104401__kantouth__gatling-gun.mp3")
-          updateHealthBars();
-          // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
-          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
-        }
-      }
       game.addToActionCounters();
       if (game.checkActions()){
         Materialize.toast("Target a player to resolve dice before ending turn", 3500)
       }
       for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
-        rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       game.addToActionCounters();
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       rollDiceButton.onclick = null;
       if (game.checkActions() <= 0){
+        fireGatlingCheck();
         enableEndTurnButton();
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       }
     }; // if dice.canRoll() is false end
+  };//func end
+
+  var fireGatlingCheck = function(){
+    if (dice.canRoll() === false){
+      if (game.checkActions() <= 0) {
+        if (game.threeGatling()){
+          playSound("104401__kantouth__gatling-gun.mp3")
+          updateHealthBars();
+          // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
+          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
+          return true;
+        }else{}
+      }else{console.log("must resolve remaining actions - gatling not firing");}
+    }else{console.log("can still roll dice - not firing gatling");}
   };//func end
 
   
@@ -1077,23 +1086,6 @@ var displayCurrentPlayerArrows = function(){
     currentPlayerArrows.src = "arrowicon.png";
     currentPlayerArrows.style.display = "inline-block";
     if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
-  }
-}
-
-var savedDiceFull = function(){
-  if(dice.canRoll() === false){
-    game.addToActionCounters();
-    if (game.checkActions()){
-      Materialize.toast("Target a player to resolve dice before ending turn", 3500)
-    }
-    for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    game.addToActionCounters();
-    rollDiceButton.onclick = null;
-    if (game.checkActions() <= 0){
-      enableEndTurnButton();
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    }
   }
 }
 

@@ -18,7 +18,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydr
   this.totalArrows = 9;
   this.dice = dice;
   this.wonBy = null;
-  this.canGatling = 1;
+  this.canGatling = true;
   if (previousObject !== undefined) {
       this.rehydrate(previousObject);
   }
@@ -449,7 +449,7 @@ Game.prototype.threeGatling = function(){
       counter++;
     };
   };
-  if ( counter >= 3 && this.canGatling) {
+  if ( counter >= 3 && this.canGatling === true) {
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
