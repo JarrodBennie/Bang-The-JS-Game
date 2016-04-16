@@ -1038,22 +1038,17 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
 
   var savedDiceFull = function(){
-    //check gatling as soon as three are saved:
-    // if (game.threeGatling && game.gatlingCount === 1) // this didn't work because:
-    // you must check gatling count on game before checking threegatling, as threeGatling will , even though game.gatlingCount will fail this, game.threeGatling still came back as true and did all the damage.
-    //have now refactored game.threeGatling to manage game.gatlingCount internally there.
-      if (game.gatlingCount === 1){
+    if(dice.canRoll() === false){
+      // only gatling need to resolve when actions are used and you can't roll but not at the end of your turn - that's why it's in this nested if here:
+      if (game.checkActions() <= 0){
+        // any other actions which should be resolved at the same time as gatling could also go here
         if (game.threeGatling()){
-          console.log("gatling count on game:", game.gatlingCount);
-          Materialize.toast(this.players[0].name + " Used gatling!", 2000);
           playSound("104401__kantouth__gatling-gun.mp3")
           updateHealthBars();
-          // added this to only run gatling once per turn (gatlingCount is set to one in game.nextturn)
-          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.gatlingCount prevents this.
+          // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
+          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
         }
       }
-    // end of gatling special case stuff 
-    if(dice.canRoll() === false){
       game.addToActionCounters();
       if (game.checkActions()){
         Materialize.toast("Target a player to resolve dice before ending turn", 3500)
@@ -1066,8 +1061,8 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         enableEndTurnButton();
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       }
-    }
-  }
+    }; // if dice.canRoll() is false end
+  };//func end
 
   
 } // END OF WINDOW ONLOAD
