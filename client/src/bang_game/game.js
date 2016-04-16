@@ -131,7 +131,7 @@ var getUniqueRandomElement = function(array){
 };
 
 Game.prototype.rehydrate = function(previousObject){
-  this.characterBasedMaxHealth = previousObject.characterBasedMaxHealth;
+  // this.characterBasedMaxHealth = previousObject.characterBasedMaxHealth;
   // if (!this.characterBasedMaxHealth){
   //   for (var i = 0; i < this.players.length; i++){
   //     this.players[i].maxHealth = 8;
