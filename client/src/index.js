@@ -1040,6 +1040,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
   var savedDiceFull = function(){
     //check gatling as soon as three are saved:
       if (game.threeGatling() && game.gatlingCount === 1){
+        updateHealthBars();
         playSound("104401__kantouth__gatling-gun.mp3")
         // added this to only run gatling once per turn (gatlingCount is set to one in game.nextturn)
         // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.gatlingCount prevents this.
