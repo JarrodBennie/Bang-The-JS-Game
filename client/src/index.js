@@ -1065,6 +1065,8 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       game.addToActionCounters();
       if (game.checkActions()){
         Materialize.toast("Target a player to resolve dice before ending turn", 3500)
+        shootButtonEnableChecker();
+        //added shootButtonEnable check here so that if targeting a player, then saving all dice, you can shoot that target straight away without reselecting them
       }
       for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
       game.addToActionCounters();
