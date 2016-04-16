@@ -237,9 +237,8 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   else {
     rotateSteps = 0
   }
-
-  this.dice.reset();
   this.gatlingCount = 1;
+  this.dice.reset();
 
   this.rotatePlayers(rotateSteps);
   for (var i = 0; i < this.players.length;i++){
@@ -444,18 +443,17 @@ Game.prototype.canShoot2 = function(){
 
 Game.prototype.threeGatling = function(){
   var counter = 0;
-  for( item of this.dice.saved ){
+  for( item of this.dice.all ){
     if( item === 4 ) {
       counter++;
     };
   };
-  if ( counter >= 3 ) {
+  if ( counter >= 3 && this.gatlingCount > 0) {
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
     this.totalArrows += this.players[0].arrows;
     this.players[0].arrows = 0;
-    Materialize.toast(this.players[0].name + " Used gatling!", 2000);
     return true;
   };
 };

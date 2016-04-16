@@ -1039,12 +1039,18 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
   var savedDiceFull = function(){
     //check gatling as soon as three are saved:
-      if (game.threeGatling() && game.gatlingCount === 1){
-        updateHealthBars();
-        playSound("104401__kantouth__gatling-gun.mp3")
-        // added this to only run gatling once per turn (gatlingCount is set to one in game.nextturn)
-        // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.gatlingCount prevents this.
-        game.gatlingCount = 0
+    // if (game.threeGatling && game.gatlingCount === 1) // this didn't work because:
+    // you must check gatling count on game before checking threegatling, as threeGatling will , even though game.gatlingCount will fail this, game.threeGatling still came back as true and did all the damage.
+    //have now refactored game.threeGatling to manage game.gatlingCount internally there.
+      if (game.gatlingCount === 1){
+        if (game.threeGatling()){
+          console.log("gatling count on game:", game.gatlingCount);
+          Materialize.toast(this.players[0].name + " Used gatling!", 2000);
+          playSound("104401__kantouth__gatling-gun.mp3")
+          updateHealthBars();
+          // added this to only run gatling once per turn (gatlingCount is set to one in game.nextturn)
+          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.gatlingCount prevents this.
+        }
       }
     // end of gatling special case stuff 
     if(dice.canRoll() === false){
