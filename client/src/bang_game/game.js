@@ -230,6 +230,12 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   if(this.winCheck()){
     this.end(this.winCheck());
   }
+  //reset health to max in case of overhealing
+  for (var i = 0; i < this.players.length; i++){
+    if(this.players[i].health > this.players[i].maxHealth){
+      this.players[i].health = this.players[i].maxHealth
+    }
+  }
 
   var rotateSteps;
   if (currentPlayerDead === undefined || currentPlayerDead === false){
@@ -364,6 +370,8 @@ Game.prototype.resolveArrows = function(){
       this.totalArrows = 9;
       Materialize.toast("The Indians have attacked!!", 2000);
       console.log("arrows in!");
+      //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
+      this.checkForDeaths();
     }
 
   };
@@ -488,9 +496,10 @@ Game.prototype.shootTarget = function(){
 Game.prototype.beerTarget = function(){
   if (this.players[0].target){
     this.players[0].target.health += 1;
-    if(this.players[0].target.health > this.players[0].target.maxHealth){
-      this.players[0].target.health = this.players[0].target.maxHealth
-    }
+    //moving this to next turn, to allow overhealing of someone you don't want to damage before gatlinging them once your dice resolve.
+    // if(this.players[0].target.health > this.players[0].target.maxHealth){
+    //   this.players[0].target.health = this.players[0].target.maxHealth
+    // }
     this.players[0].actionCounters["3"] -= 1;
     console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
   }
