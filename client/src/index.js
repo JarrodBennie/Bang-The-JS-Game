@@ -935,7 +935,10 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     // the 
     setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
     return true
-  }else{return false}
+  }
+  else{
+    return false;
+  }
 };
   // ROLL DICE BUTTON
 
@@ -1024,10 +1027,6 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         previouslySelected.setAttribute('class', 'collection-item avatar player');
         targetedHealthBar.setAttribute('class', 'progress red lighten-4');
       }
-    }
-
-    if(selection.className === 'grey-text text-darken-4'){
-      return
     }
 
     // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
