@@ -1038,15 +1038,16 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
 
   var savedDiceFull = function(){
-    //check gatling as soon as three are saved:
-      if (game.threeGatling() && game.gatlingCount === 1){
-        playSound("104401__kantouth__gatling-gun.mp3")
-        // added this to only run gatling once per turn (gatlingCount is set to one in game.nextturn)
-        // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.gatlingCount prevents this.
-        game.gatlingCount = 0
+    if(dice.canRoll() === false){
+      if (game.checkActions() <= 0){
+        if (game.threeGatling()){
+          playSound("104401__kantouth__gatling-gun.mp3")
+          updateHealthBars();
+          // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
+          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
+        }
       }
     // end of gatling special case stuff 
-    if(dice.canRoll() === false){
       game.addToActionCounters();
       if (game.checkActions()){
         Materialize.toast("Target a player to resolve dice before ending turn", 3500)
@@ -1059,8 +1060,8 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         enableEndTurnButton();
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       }
-    }
-  }
+    }; // if dice.canRoll() is false end
+  };//func end
 
   
 } // END OF WINDOW ONLOAD

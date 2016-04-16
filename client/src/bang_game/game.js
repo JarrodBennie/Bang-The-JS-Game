@@ -18,6 +18,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydr
   this.totalArrows = 9;
   this.dice = dice;
   this.wonBy = null;
+  this.canGatling = 1;
   if (previousObject !== undefined) {
       this.rehydrate(previousObject);
   }
@@ -239,7 +240,7 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   }
 
   this.dice.reset();
-  this.gatlingCount = 1;
+  this.canGatling = true;
 
   this.rotatePlayers(rotateSteps);
   for (var i = 0; i < this.players.length;i++){
@@ -449,13 +450,14 @@ Game.prototype.threeGatling = function(){
       counter++;
     };
   };
-  if ( counter >= 3 ) {
+  if ( counter >= 3 && this.canGatling) {
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
     this.totalArrows += this.players[0].arrows;
     this.players[0].arrows = 0;
     Materialize.toast(this.players[0].name + " Used gatling!", 2000);
+    this.canGatling = false;
     return true;
   };
 };
