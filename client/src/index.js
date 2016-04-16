@@ -1025,6 +1025,11 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         targetedHealthBar.setAttribute('class', 'progress red lighten-4');
       }
     }
+
+    if(selection.className === 'grey-text text-darken-4'){
+      return
+    }
+
     // IF SELECTED PLAYER IS CURRENTLY UNSELECTED, SELECT THEM
     if(selection.className === "collection-item avatar player"){
       selection.setAttribute('class', 'collection-item avatar player red lighten-4');
@@ -1037,8 +1042,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     }else if(selection.className === "collection-item grey darken-3 avatar player"){
     selection.setAttribute('class', 'collection-item avatar red darken-4 player');
      // IF SELECTED PLAYER IS CURRENTLY SELECTED, DESELECT THEM
-    }
-    else{
+    }else{
       selection.setAttribute('class', 'collection-item avatar player');
       healthBar.setAttribute('class', 'progress red lighten-4');
     }
@@ -1106,7 +1110,6 @@ var endGame = function(){
   // gameState.save();
   game.end();
 }
-
 
 var playSound = function(sound){
   var audio = new Audio(sound);
