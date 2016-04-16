@@ -1,8 +1,12 @@
 node_modules/
 client/node_modules
 client/build/bundle.js
+<<<<<<< HEAD
 client/build/bundle.js.map
 <<<<<<< HEAD
 =======
 
 >>>>>>> feature/adam
+=======
+client/build/bundle.js.map
+>>>>>>> b9b5763fab284f108e799cbaa26560df7b0a32c9

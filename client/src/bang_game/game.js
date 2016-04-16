@@ -350,9 +350,14 @@ Game.prototype.winCheck = function(){
 
 
 Game.prototype.resolveArrows = function(){
+
   for (var i = 0; i < this.dice.arrowsRolled; i++){
+    //uncomment these to test currentPlayerDead behaviour MUCH more easily (refresh til no arrows on first role with sheriff, (or else outlaws win) then roll til you get one with other players to kill them straight away)
+    // this.players[0].health = 1
+    // this.totalArrows = 1
     this.players[0].arrows += 1;
     this.totalArrows -= 1;
+    // throw new Error("giving an arrow")
     console.log("you got an arrow");
     if (this.totalArrows === 0){
       this.removeHealthAndArrows();
@@ -362,6 +367,8 @@ Game.prototype.resolveArrows = function(){
     }
 
   };
+    this.dice.arrowsRolled = 0;
+  // this.dice.currentRoll = [];
 
 };
 
@@ -449,6 +456,7 @@ Game.prototype.threeGatling = function(){
     this.totalArrows += this.players[0].arrows;
     this.players[0].arrows = 0;
     Materialize.toast(this.players[0].name + " Used gatling!", 2000);
+    return true;
   };
 };
 

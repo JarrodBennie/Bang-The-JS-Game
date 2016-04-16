@@ -523,11 +523,11 @@ updateCurrentPlayerHealth();
 
   // DRAW ARROWS
   var drawArrows = function(){
-    for( var i=0; i < 9; i++ ){
-      var currentArrow = document.getElementById('arrow-' + (i+1));
+    for( var i=1; i <= 9; i++ ){
+      var currentArrow = document.getElementById('arrow-' + (i));
       currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
       currentArrow.style.visibility = "visible";
-      if(i >= game.totalArrows) currentArrow.style.visibility = "hidden";
+      if(i > game.totalArrows) currentArrow.style.visibility = "hidden";
     }
   }
 
@@ -542,17 +542,27 @@ updateCurrentPlayerHealth();
   // EVENT LISTENERS
   // BUTTONS
   // ROLL DICE BUTTON
-  rollDiceButton.onclick = function(){
-    diceClickEnable();
-    rollDice();
-    game.resolveArrows();
-    if(dice.canRoll() === false){
-      this.onclick = null;
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      game.addToActionCounters();
-    }
-    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
-  }
+
+  var enableRollDiceButton = function(){
+    console.log("BUTTON IN SCOPE?", rollDiceButton);
+    rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+    rollDiceButton.onclick = function(){
+      diceClickEnable();
+      rollDice(dice, diceElements, game);
+      game.resolveArrows();
+      if(dice.canRoll() === false){
+        //maybe re-add duplicate "use all dice to end turn" toast
+        this.onclick = null;
+        rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+        game.addToActionCounters();
+      };
+      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
+    };
+  };
+  //previous most of the function's functionality was performed inline here in window.onload
+  //now defining the function here and invoking it
+  enableRollDiceButton();
+
 
   // DEFAULTS
   healButton.onclick = null;
@@ -635,7 +645,8 @@ updateCurrentPlayerHealth();
     savedDiceFull();
   }
 
-  rollDiceButton.onclick = rollDiceDefault;
+  //commented out because it's up near the start now - was causing double arrows
+  // rollDiceButton.onclick = rollDiceDefault;
 
   // DICE CLICKS DISABLED BEFORE DICE ARE ROLLED TO PREVENT ROLL DICE BUTTON LOCKOUT.
   var diceClickDisable = function(){
@@ -647,6 +658,24 @@ updateCurrentPlayerHealth();
   }
   diceClickDisable();
 
+  // utility function to avoid repition in the playerX.onclick functions below:
+  // what was a one line ternary now has to be these 14 lines in this function:
+  var shootButtonEnableChecker = function(){
+    if (game.canShoot1()){
+      enableShootButton(game.players[0].target);
+      playSound("177054__woodmoose__lowerguncock.wav");
+    }
+    else if(!game.canShoot1() && !game.canShoot2()){
+      disableShootButton();
+    }
+    if(game.canShoot2()){
+      enableShootButton(game.players[0].target);
+      playSound("111676__dredile__revolvercock1.wav")
+    }
+    else if(!game.canShoot2() && !game.canShoot1()){
+      disableShootButton();
+    }
+  }
 
   // PLAYER LIST
   player1.onclick = function(){
@@ -656,7 +685,13 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
+
+
+
+    shootButtonEnableChecker()
+
+
+
     if (game.canHeal()) {
       enableHealButton(game.players[0].target);
 
@@ -672,7 +707,8 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[1];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton(shootButton);
+    shootButtonEnableChecker()
+
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -687,7 +723,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[2];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -702,7 +738,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[3];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -717,7 +753,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[4];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -732,7 +768,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[5];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -747,7 +783,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[6];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -762,7 +798,7 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[7];
     }
     targetPlayer(this, game);
-    (game.canShoot1() || game.canShoot2()) ? enableShootButton(healButton,shootButton, endTurnButton, game.players[0].target, allHealthBars, game) : disableShootButton(shootButton);
+    shootButtonEnableChecker();
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -816,7 +852,24 @@ var updateHealthBars = function(){
       }
 
       Materialize.toast(shootMessage, 2000);
+
       game.shootTarget();
+      playSound("213925__diboz__pistol-riccochet.ogg")
+
+      if (game.canShoot1()){
+        enableShootButton(game.players[0].target);
+      }
+      else if(!game.canShoot1() && !game.canShoot2()){
+        disableShootButton();
+      }
+      if(game.canShoot2()){
+        enableShootButton(game.players[0].target);
+      }
+      else if(!game.canShoot2() && !game.canShoot1()){
+        disableShootButton();
+      }
+
+
       (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
       if (game.canHeal()) {
         enableHealButton(game.players[0].target);
@@ -855,18 +908,33 @@ var enableHealButton = function(target){
     }
   }
 }
-  var disableHealButton = function(){
-    healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    healButton.onclick = null;
-  }
+var disableHealButton = function(){
+  healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  healButton.onclick = null;
+}
+
+
+//this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
+var currentPlayerDiedBehaviour = function(){
+  console.log("prev player dice:", dice.all);
+  game.nextTurn(true, gameState);
+  displayCurrentPlayerArrows();
+  ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
+  dispatchEvent(new Event('load'));
+  endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+};
 
 var ifCurrentPlayerDiesTriggerNextTurn = function(){
   if(game.players[0].health <= 0){
-    game.nextTurn(true);
+    // CALL DISABLE DICEROLL FUNCTION HERE
+    // var rollDiceButton = document.getElementById('roll-dice-button')
+    // there doesn't seem to be a function for this - but these 2 lines do it:
+    rollDiceButton.onclick = null;
+    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    // the 
+    setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
   }
 };
-
-
   // ROLL DICE BUTTON
 
   var rollDice = function(){
@@ -883,9 +951,16 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     dice.roll();
     game.resolveArrows();
     drawArrows(game);
-    displayCurrentPlayerArrows();
-    updateCurrentPlayerHealth();
+    displayCurrentPlayerArrows(); // in case current player dies - shows their new arrows (probably 0, cause arrows just went back to the middle)
+    updateCurrentPlayerHealth(); // in case current players dies - shows their 0 filled hearts
+    game.dynamiteExplodes();
+    if (game.dice.threeDynamite()) {
+      playSound("dynamite.wav")
+    }
+
     ifCurrentPlayerDiesTriggerNextTurn();
+    displayCurrentPlayerArrows(); // NECESSARY duplication
+    updateCurrentPlayerHealth(); // NECESSARY duplication
     updateHealthBars();
 
     // DISPLAY CURRENT ROLL
@@ -896,40 +971,28 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       if(dice.saved.length === 5) currentDice.style.opacity = 1;
       counter++
     }
+  }
     //do we want to save on every roll? - nope - default state of window.onload would mess up display if save could be mid-turn
     // gameState.load() uses fresh dice object now, this fixes a lot of display issues etc
   // gameState.save();
-  }
-
-var enableRollDiceButton = function(rollDiceButton, game){
-  rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-  rollDiceButton.onclick = function(){
-    diceClickEnable();
-    rollDice(dice, diceElements, game);
-
-    if(dice.canRoll() === false){
-      //maybe re-add duplicate "use all dice to end turn" toast
-      this.onclick = null;
-      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      game.addToActionCounters();
-    }
-    savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
-  }
-
-}
 
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+      if (game.threeGatling()){
+        playSound("104401__kantouth__gatling-gun.mp3");
+        updateHealthBars();
+        
+      }
     endTurnButton.onclick = function(){
-      game.threeGatling();
-      game.dynamiteExplodes();
+      ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
-      ifCurrentPlayerDiesTriggerNextTurn();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      console.log("roll dice button in end turn button onlick:", rollDiceButton);
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
+      enableRollDiceButton();
     }
   }
 
@@ -1044,6 +1107,11 @@ var endGame = function(){
   game.end();
 }
 
+
+var playSound = function(sound){
+  var audio = new Audio(sound);
+  audio.play();
+}
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
