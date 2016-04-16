@@ -950,6 +950,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       currentDice.src = dice.imageUrl[dice.saved[i]];
       diceElements[i].onclick = null;
       diceElements[i].style.opacity = 0.5;
+      currentDice.style.visibility = "visible"
       counter++
     }
     // ROLL DICE
@@ -974,9 +975,19 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       currentDice.src = dice.imageUrl[dice.currentRoll[i]];
       if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
       if(dice.saved.length === 5) currentDice.style.opacity = 1;
+      currentDice.style.visibility = "visible"
       counter++
     }
   }
+
+  var clearDiceDisplay = function(){
+    for (var i = 0; i < 5; i++) {
+      var currentDice = document.getElementById('dice-'+(i + 1));
+      currentDice.style.visibility = "hidden";
+      diceElements[i].onclick = null;
+    }
+  }
+
     //do we want to save on every roll? - nope - default state of window.onload would mess up display if save could be mid-turn
     // gameState.load() uses fresh dice object now, this fixes a lot of display issues etc
   // gameState.save();
@@ -994,6 +1005,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       ifCurrentPlayerDiesTriggerNextTurn();
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
+      clearDiceDisplay();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       console.log("roll dice button in end turn button onlick:", rollDiceButton);
