@@ -1,4 +1,3 @@
-_ = require('lodash');
 Game = require('./bang_game/game');
 Player = require('./bang_game/player');
 Dice = require('./bang_game/dice');
@@ -535,7 +534,8 @@ updateCurrentPlayerHealth();
 
   // HINT CARD
   var hintElement = document.getElementById('hint');
-  hintElement.innerHTML = _.sample(hint.all);
+  // replaced _.sample(hint.all) with manual random sample using Math.random - this was the only lodash in the app and seems unecessary to require it just for this line.
+  hintElement.innerHTML = hint.all[Math.floor(Math.random()*hint.all.length)];
 
   drawArrows(game);
 
@@ -978,9 +978,6 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-      if (game.threeGatling()){
-        playSound("104401__kantouth__gatling-gun.mp3")
-      }
     endTurnButton.onclick = function(){
       ifCurrentPlayerDiesTriggerNextTurn();
       console.log("prev player dice:", dice.all);
@@ -1041,6 +1038,14 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 
 
   var savedDiceFull = function(){
+    //check gatling as soon as three are saved:
+      if (game.threeGatling() && game.gatlingCount === 1){
+        playSound("104401__kantouth__gatling-gun.mp3")
+        // added this to only run gatling once per turn (gatlingCount is set to one in game.nextturn)
+        // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.gatlingCount prevents this.
+        game.gatlingCount = 0
+      }
+    // end of gatling special case stuff 
     if(dice.canRoll() === false){
       game.addToActionCounters();
       if (game.checkActions()){
@@ -1055,7 +1060,6 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       }
     }
-
   }
 
   

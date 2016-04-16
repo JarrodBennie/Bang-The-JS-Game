@@ -225,7 +225,6 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   ////////////////////////////////////////////////////
   // Adam has stuff to add to this function         //
   ////////////////////////////////////////////////////
-
   this.checkForDeaths();
   if(this.winCheck()){
     this.end(this.winCheck());
@@ -240,6 +239,7 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   }
 
   this.dice.reset();
+  this.gatlingCount = 1;
 
   this.rotatePlayers(rotateSteps);
   for (var i = 0; i < this.players.length;i++){
@@ -444,7 +444,7 @@ Game.prototype.canShoot2 = function(){
 
 Game.prototype.threeGatling = function(){
   var counter = 0;
-  for( item of this.dice.all ){
+  for( item of this.dice.saved ){
     if( item === 4 ) {
       counter++;
     };
