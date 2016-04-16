@@ -979,7 +979,9 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
   var enableEndTurnButton = function(){
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
       if (game.threeGatling()){
-        playSound("104401__kantouth__gatling-gun.mp3")
+        playSound("104401__kantouth__gatling-gun.mp3");
+        updateHealthBars();
+        
       }
     endTurnButton.onclick = function(){
       ifCurrentPlayerDiesTriggerNextTurn();
