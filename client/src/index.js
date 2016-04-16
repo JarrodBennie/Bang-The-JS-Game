@@ -663,14 +663,14 @@ updateCurrentPlayerHealth();
   var shootButtonEnableChecker = function(){
     if (game.canShoot1()){
       enableShootButton(game.players[0].target);
-      playSound("177054__woodmoose__lowerguncock.wav");
+      playSound("shotgun-cock.wav");
     }
     else if(!game.canShoot1() && !game.canShoot2()){
       disableShootButton();
     }
     if(game.canShoot2()){
       enableShootButton(game.players[0].target);
-      playSound("111676__dredile__revolvercock1.wav")
+      playSound("revolver-cock.wav")
     }
     else if(!game.canShoot2() && !game.canShoot1()){
       disableShootButton();
@@ -854,7 +854,7 @@ var updateHealthBars = function(){
       Materialize.toast(shootMessage, 2000);
 
       game.shootTarget();
-      playSound("213925__diboz__pistol-riccochet.ogg")
+      playSound("pistol-riccochet.ogg")
 
       if (game.canShoot1()){
         enableShootButton(game.players[0].target);
@@ -896,6 +896,7 @@ var enableHealButton = function(target){
   healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   healButton.onclick = function(){
     Materialize.toast('You healed ' + target.name, 2000);
+    playSound("bottle-pour.mp3");
     game.beerTarget();
     if (game.canHeal()) {
       enableHealButton(game.players[0].target);
@@ -996,7 +997,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     fireGatlingCheck();
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
       if (game.threeGatling()){
-        playSound("104401__kantouth__gatling-gun.mp3");
+        playSound("gatling-gun.mp3");
         updateHealthBars();
       }
     endTurnButton.onclick = function(){
@@ -1084,7 +1085,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     if (dice.canRoll() === false){
       if (game.checkActions() <= 0) {
         if (game.threeGatling()){
-          playSound("104401__kantouth__gatling-gun.mp3")
+          playSound("gatling-gun.mp3")
           updateHealthBars();
           // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
           // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
