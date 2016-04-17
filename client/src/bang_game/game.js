@@ -1,4 +1,5 @@
 var Player = require("./player.js");
+var playSound = require("./play_sound.js")
 
 var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydratedAllPlayers){
   this.characterBasedMaxHealth = characterBasedMaxHealth;
@@ -370,6 +371,7 @@ Game.prototype.resolveArrows = function(){
       this.totalArrows = 9;
       Materialize.toast("The Indians have attacked!!", 2000);
       console.log("arrows in!");
+      playSound("bow-and-arrows.mp3")
       //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
       this.checkForDeaths();
     }

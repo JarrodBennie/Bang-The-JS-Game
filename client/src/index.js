@@ -2,8 +2,8 @@ Game = require('./bang_game/game');
 Player = require('./bang_game/player');
 Dice = require('./bang_game/dice');
 Hint = require('./bang_game/hint');
-GameState = require("./bang_game/gameState.js")
-
+GameState = require("./bang_game/gameState.js");
+playSound = require("./bang_game/play_sound.js");
 // NEWING UP OBJECTS
   var hint = new Hint;
 
@@ -1126,11 +1126,6 @@ var endGame = function(){
   }
   // gameState.save();
   game.end();
-}
-
-var playSound = function(sound){
-  var audio = new Audio(sound);
-  audio.play();
 }
 
 ////////////////////////////////////////////////////////////
