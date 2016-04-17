@@ -1087,6 +1087,9 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         if (game.threeGatling()){
           playSound("gatling-gun.mp3")
           updateHealthBars();
+          // game.checkForDeaths();
+          // need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
+          // -- except don't need to in the case of gatling - as all shoot dice must be resolved before gatling fires - commented out above line
           // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
           // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
           return true;

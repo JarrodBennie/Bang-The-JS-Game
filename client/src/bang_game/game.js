@@ -484,6 +484,7 @@ Game.prototype.shootTarget = function(){
     this.players[0].target.health -= 1;
     console.log(this.players[0].name + " shot " + this.players[0].target.name)
     this.players[0].actionCounters[counterToDecrement.toString()] -= 1;
+    this.checkForDeaths();// need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
   }
   else{
     console.log("this is a bug - called shoot function but the button to do that should have been disabled!")
@@ -504,7 +505,7 @@ Game.prototype.beerTarget = function(){
     console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
   }
   else{
-    console.log("you don't have a target (who needs health) to beer!")
+    console.log("you don't have a target to beer! how did you even click the heal button?")
   }
 };
 
