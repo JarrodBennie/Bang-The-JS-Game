@@ -550,6 +550,8 @@ updateCurrentPlayerHealth();
       diceClickEnable();
       rollDice(dice, diceElements, game);
       game.resolveArrows();
+      updateCurrentPlayerHealth();
+      updateHealthBars();
       if(dice.canRoll() === false){
         //maybe re-add duplicate "use all dice to end turn" toast
         this.onclick = null;
