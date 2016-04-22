@@ -70,7 +70,7 @@ window.onload = function(){
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
   
   for(var i = 0; i < game.players[0].arrows; i++){
-   currentPlayerArrows.src = "arrowicon.png";
+   currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
   }
    currentPlayerArrows.display = "none";
 
@@ -1118,7 +1118,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 var fPlayerArrows = function(){
   for(var i = 0; i < 9; i++){
     var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
-    currentPlayerArrows.src = "arrowicon.png";
+    currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
     currentPlayerArrows.style.display = "inline-block";
     if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
   }
