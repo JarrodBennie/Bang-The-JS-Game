@@ -17,12 +17,23 @@ playSound = require("./bang_game/play_sound.js");
 
   var game = new Game(dice, players, characterMaxHealthValues);
   game.setup();
-  console.log("the new game object:",game);
+  
+  console.log("the new game object:", game);
 
+  
   var gameState = new GameState(game);
   // to enable save game loading, uncomment the following line (beware game-breaking bugs)
-  // game = gameState.load();
+  game = gameState.load();
+
+  dice = game.dice;
+
+
+  
   console.log("the game object that is used:", game);
+
+  dispatchEvent(new Event('load'));
+
+
 
 window.onload = function(){
   var allHealthBars = document.getElementsByClassName('determinate');
@@ -550,6 +561,7 @@ updateCurrentPlayerHealth();
       diceClickEnable();
       rollDice(dice, diceElements, game);
       game.resolveArrows();
+      ifCurrentPlayerDiesTriggerNextTurn();
       updateCurrentPlayerHealth();
       updateHealthBars();
       if(dice.canRoll() === false){
@@ -1013,7 +1025,6 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     endTurnButton.onclick = function(){
       console.log("prev player dice:", dice.all);
 
-      ifCurrentPlayerDiesTriggerNextTurn();
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
       clearDiceDisplay();
