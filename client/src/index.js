@@ -74,17 +74,19 @@ window.onload = function(){
   var currentPlayerHealth = document.getElementById('current-player-health');
   var currentPlayerArrows = document.getElementById('current-player-arrows');
 
-  currentPlayerAvatar.src = game.players[0].character.imgUrl;
-  currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
-  currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
-  currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
-  currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
-  
-  for(var i = 0; i < game.players[0].arrows; i++){
-   currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
+  var currentPlayerDisplayDraw = function(){
+    currentPlayerAvatar.src = game.players[0].character.imgUrl;
+    currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
+    currentPlayerNameRole.innerHTML = "<b>" + game.players[0].name + "</b> - " + game.players[0].character.name;
+    currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
+    currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
+    
+    for(var i = 0; i < game.players[0].arrows; i++){
+     currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
+    }
+     currentPlayerArrows.display = "none";
   }
-   currentPlayerArrows.display = "none";
-
+  currentPlayerDisplayDraw();
   displayCurrentPlayerArrows();
 
 
@@ -936,7 +938,9 @@ var currentPlayerDiedBehaviour = function(){
   game.nextTurn(true, gameState);
   displayCurrentPlayerArrows();
   ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
-  dispatchEvent(new Event('load'));
+  
+  // dispatchEvent(new Event('load'));
+  currentPlayerDisplayDraw();
   endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 };
 
