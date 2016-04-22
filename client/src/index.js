@@ -962,6 +962,14 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     drawArrows(game);
     displayCurrentPlayerArrows(); // in case current player dies - shows their new arrows (probably 0, cause arrows just went back to the middle)
     updateCurrentPlayerHealth(); // in case current players dies - shows their 0 filled hearts
+    updateHealthBars();
+
+    ifCurrentPlayerDiesTriggerNextTurn();
+    displayCurrentPlayerArrows(); // NECESSARY duplication
+    updateCurrentPlayerHealth(); // NECESSARY duplication
+    updateHealthBars();
+
+
     game.dynamiteExplodes();
     if (game.dice.threeDynamite()) {
       playSound("dynamite.wav")
@@ -1107,7 +1115,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
-var displayCurrentPlayerArrows = function(){
+var fPlayerArrows = function(){
   for(var i = 0; i < 9; i++){
     var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
     currentPlayerArrows.src = "arrowicon.png";
