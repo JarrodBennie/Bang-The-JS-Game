@@ -1115,7 +1115,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
-var fPlayerArrows = function(){
+var displayCurrentPlayerArrows = function(){
   for(var i = 0; i < 9; i++){
     var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
     currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
