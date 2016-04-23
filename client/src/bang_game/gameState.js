@@ -3,9 +3,10 @@ var Game = require('./game.js');
 var Dice = require('./dice.js');
 
 var GameState = function(game){
-  this.gameToSave = game;
+  this.gamePassedIn = game;
   this.savedGame = null;
   this.hydratedGame = null;
+  this.forceNew = false;
 }; // constructor [end]
 
 GameState.prototype.save = function(){
@@ -19,25 +20,32 @@ GameState.prototype.load = function(){
   console.log("retrieved this game from localStorage:", loadReturn);
   
   if (!this.savedGame){
-    console.log("saved game falsey - returning game that was passed to gameStave saver - this.savedGame was::", console.log(this.savedGame));
-    return this.gameToSave;
+    console.log("saved game falsey - returning game that was passed to gameStave saver - this.savedGame was:", this.savedGame);
+    this.gameToSave = this.gamePassedIn;
+    return this.gamePassedIn;
   }
   else if (this.savedGame.wonBy){
-    console.log("saved game was already won, by", this.savedGame.wonBy, "- returning game that was passed to gameStave saver - this.savedGame was:", console.log(this.savedGame));
-    return this.gameToSave;
+    console.log("saved game was already won, by", this.savedGame.wonBy, "- returning game that was passed to gameStave saver - this.savedGame was:", this.savedGame);
+    this.gameToSave = this.gamePassedIn;
+    return this.gamePassedIn;
   };
 
+  if (this.forceNew){
+    console.log("new game forced - loading this new game:", this.gamePassedIn);
+    this.gameToSave = this.gamePassedIn;
+    return this.gamePassedIn;
+  }
   if (this.savedGame && !this.savedGame.wonBy) {
     
     console.log("unfinished game found in storage - rehydrating objects...");
 
     // var hydratedDice = new Dice(this.savedGame.dice);
-    var dice = new Dice();
+    // var dice = new Dice();
     var hydratedPlayers = new Array();
     var hydratedAllPlayers = new Array();
 
-    console.log("looping through:", this.savedGame.allPlayers);
-    console.log("loop length:", this.savedGame.allPlayers.length);
+    // console.log("looping through:", this.savedGame.allPlayers);
+    // console.log("loop length:", this.savedGame.allPlayers.length);
     for (var i = 0; i < this.savedGame.allPlayers.length; i++){
       hydratedAllPlayers.push(new Player("dummy name", this.savedGame.allPlayers[i]))
     }
@@ -62,9 +70,9 @@ GameState.prototype.load = function(){
 
     //using fresh dice // //////////////////////////////////////////////////
     var characterMaxHealthValues = true;
-    this.hydratedGame = new Game(dice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
+    this.hydratedGame = new Game(this.gamePassedIn.dice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
     this.gameToSave = this.hydratedGame;
-    return this.gameToSave;
+    return this.hydratedGame;
 
 
   }// if we want to use saved game - if statement end

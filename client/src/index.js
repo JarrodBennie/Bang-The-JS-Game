@@ -4,38 +4,49 @@ Dice = require('./bang_game/dice');
 Hint = require('./bang_game/hint');
 GameState = require("./bang_game/gameState.js");
 playSound = require("./bang_game/play_sound.js");
+
 // NEWING UP OBJECTS
-  var hint = new Hint;
+var hint = new Hint;
 
-  var players = new Array(8);
-  for (var i = 0; i < players.length; i++){
-    players[i] = new Player("Player " + (i+1) )
-  }
+var players = new Array(8);
+for (var i = 0; i < players.length; i++){
+  players[i] = new Player("Player " + (i+1) )
+}
 
-  var dice = new Dice();
-  var characterMaxHealthValues = true;
+var dice = new Dice();
+var characterMaxHealthValues = true;
 
-  var game = new Game(dice, players, characterMaxHealthValues);
-  game.setup();
-  
-  console.log("the new game object:", game);
+var game = new Game(dice, players, characterMaxHealthValues);
+game.setup();
+console.log("the new game object:", game);
 
-  
-  var gameState = new GameState(game);
-  // to enable save game loading, uncomment the following line (beware game-breaking bugs)
-  game = gameState.load();
+var gameState = new GameState(game);
+game = gameState.load();
 
-  dice = game.dice;
-
-
-  
-  console.log("the game object that is used:", game);
-
-  dispatchEvent(new Event('load'));
-
-
+console.log("the game object that is used:", game);
 
 window.onload = function(){
+  var newGameButton = document.getElementById("new-game-button");
+
+  newGameButton.onmousedown = function(){
+    gameState.forceNew = true;
+    game = gameState.load();
+    gameState.forceNew = false;
+    dispatchEvent(new Event('load'));
+
+
+  };
+
+  var displayCurrentPlayerArrows = function(){
+    for(var i = 0; i < 9; i++){
+      var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
+      currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
+      currentPlayerArrows.style.display = "inline-block";
+      if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
+    }
+  };
+
+
   var allHealthBars = document.getElementsByClassName('determinate');
 
   // TARGET BUTTONS
@@ -84,22 +95,23 @@ window.onload = function(){
     for(var i = 0; i < game.players[0].arrows; i++){
      currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
     }
-     currentPlayerArrows.display = "none";
-  }
+    currentPlayerArrows.display = "none";
+  };
+
   currentPlayerDisplayDraw();
   displayCurrentPlayerArrows();
 
 
   var updateCurrentPlayerHealth = function(){
-   currentPlayerHealth.innerHTML = "";
-   for (var i = 0; i < game.players[0].health; i++) {
-    currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+    currentPlayerHealth.innerHTML = "";
+    for (var i = 0; i < game.players[0].health; i++) {
+      currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+    }
+    for (var i = 0; i < game.players[0].healthDifference(); i++) {
+      currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
+    }
   }
-  for (var i = 0; i < game.players[0].healthDifference(); i++) {
-    currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
-  }
-}
-updateCurrentPlayerHealth();
+  updateCurrentPlayerHealth();
 
 
 //  currentPlayerHealth.innerHTML = "";
@@ -321,6 +333,8 @@ updateCurrentPlayerHealth();
       player4HealthDiv.style.display = "none";
     }
 
+    // console.log("PLAYER 3 HEALTH %age", game.allPlayers[3].healthAsPercentage());
+
     player4HealthBar.style.width = game.allPlayers[3].healthAsPercentage() + "%"
 
     // POPULATE PLAYER 5
@@ -531,7 +545,7 @@ updateCurrentPlayerHealth();
 
     player8HealthBar.style.width = game.allPlayers[7].healthAsPercentage() + "%"
   
-  }
+  };// populate playerlist
 
   // DRAW ARROWS
   var drawArrows = function(){
@@ -557,7 +571,6 @@ updateCurrentPlayerHealth();
   // ROLL DICE BUTTON
 
   var enableRollDiceButton = function(){
-    console.log("BUTTON IN SCOPE?", rollDiceButton);
     rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     rollDiceButton.onclick = function(){
       diceClickEnable();
@@ -601,6 +614,7 @@ updateCurrentPlayerHealth();
       }, 1500);
     });
   }
+
   roleButton.onclick = roleButtonDefault;
 
   // DICE
@@ -647,7 +661,7 @@ updateCurrentPlayerHealth();
       dice5.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
-  }
+  };//diceclickenable end
 
   var rollDiceDefault = function(){
     diceClickEnable();
@@ -659,7 +673,7 @@ updateCurrentPlayerHealth();
       game.addToActionCounters();
     }
     savedDiceFull();
-  }
+  };
 
   //commented out because it's up near the start now - was causing double arrows
   // rollDiceButton.onclick = rollDiceDefault;
@@ -671,7 +685,7 @@ updateCurrentPlayerHealth();
     dice3.onclick = null;
     dice4.onclick = null;
     dice5.onclick = null;
-  }
+  };
   diceClickDisable();
 
   // utility function to avoid repition in the playerX.onclick functions below:
@@ -691,7 +705,7 @@ updateCurrentPlayerHealth();
     else if(!game.canShoot2() && !game.canShoot1()){
       disableShootButton();
     }
-  }
+  };
 
   // PLAYER LIST
   player1.onclick = function(){
@@ -701,16 +715,9 @@ updateCurrentPlayerHealth();
       game.players[0].target = game.allPlayers[0];
     }
     targetPlayer(this, game);
-
-
-
     shootButtonEnableChecker()
-
-
-
     if (game.canHeal()) {
       enableHealButton(game.players[0].target);
-
     }
     else{
       disableHealButton(healButton);
@@ -724,7 +731,6 @@ updateCurrentPlayerHealth();
     }
     targetPlayer(this, game);
     shootButtonEnableChecker()
-
     if (game.canHeal()) {
       enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
     }
@@ -825,38 +831,38 @@ updateCurrentPlayerHealth();
 
 
 
-//////////////////////////////////////
-//  WINDOW ONLOAD USED TO END HERE  //
-//////////////////////////////////////
+  //////////////////////////////////////
+  //  WINDOW ONLOAD USED TO END HERE  //
+  //////////////////////////////////////
 
 
 
-//////////////////////////////////
-// WINDOW ONLOAD ENDS SOMEWHERE //
-//////////////////////////////////
+  //////////////////////////////////
+  // WINDOW ONLOAD ENDS SOMEWHERE //
+  //////////////////////////////////
 
 
-var updateHealthBars = function(){
-  for(i = 0; i < allHealthBars.length; i++){
-    allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
-    var p = document.getElementById("player-" + (i + 1));
-    var pChar = document.getElementById("player-" + (i + 1) + "-character");
-    var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
-    var pDead = document.getElementById("current-player-" + (i + 1));
-    var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
-    var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
-    if(game.allPlayers[i].health <= 0){
-      p.onclick = null;
-      p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
-      pChar.innerHTML = game.allPlayers[i].role.name;
-      pAva.src = game.allPlayers[i].role.imgUrl;
-      pDead.innerText = 'DEAD';
-      pDead.setAttribute('class', 'grey-text text-darken-4')
-      pDeadDiv.style.display = "inline";
-      pHealthBar.style.display = "none";
+  var updateHealthBars = function(){
+    for(i = 0; i < allHealthBars.length; i++){
+      allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+      var p = document.getElementById("player-" + (i + 1));
+      var pChar = document.getElementById("player-" + (i + 1) + "-character");
+      var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
+      var pDead = document.getElementById("current-player-" + (i + 1));
+      var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
+      var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
+      if(game.allPlayers[i].health <= 0){
+        p.onclick = null;
+        p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+        pChar.innerHTML = game.allPlayers[i].role.name;
+        pAva.src = game.allPlayers[i].role.imgUrl;
+        pDead.innerText = 'DEAD';
+        pDead.setAttribute('class', 'grey-text text-darken-4')
+        pDeadDiv.style.display = "inline";
+        pHealthBar.style.display = "none";
+      }
     }
   }
-}
 
   var enableShootButton = function(target){
     shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
@@ -900,65 +906,65 @@ var updateHealthBars = function(){
       }
 
     }; // onclick end
-  }
+  };//enable shoot button func end
 
   var disableShootButton = function(){
     shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     shootButton.onclick = null;
-  }
+  };
 
 
-var enableHealButton = function(target){
-  healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-  healButton.onclick = function(){
-    Materialize.toast('You healed ' + target.name, 2000);
-    playSound("bottle-pour.mp3");
-    game.beerTarget();
-    if (game.canHeal()) {
-      enableHealButton(game.players[0].target);
-    }else{
-      disableHealButton();
+  var enableHealButton = function(target){
+    healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
+    healButton.onclick = function(){
+      Materialize.toast('You healed ' + target.name, 2000);
+      playSound("bottle-pour.mp3");
+      game.beerTarget();
+      if (game.canHeal()) {
+        enableHealButton(game.players[0].target);
+      }else{
+        disableHealButton();
+      }
+      updateHealthBars();
+      updateCurrentPlayerHealth();
+      if (game.checkActions() <= 0){
+        enableEndTurnButton();
+      }
     }
-    updateHealthBars();
-    updateCurrentPlayerHealth();
-    if (game.checkActions() <= 0){
-      enableEndTurnButton();
+  };
+
+  var disableHealButton = function(){
+    healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    healButton.onclick = null;
+  }
+
+
+  //this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
+  var currentPlayerDiedBehaviour = function(){
+    game.nextTurn(true, gameState);
+    displayCurrentPlayerArrows();
+    ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
+    
+    // dispatchEvent(new Event('load'));
+    currentPlayerDisplayDraw();
+    endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  };
+
+  var ifCurrentPlayerDiesTriggerNextTurn = function(){
+    if(game.players[0].health <= 0){
+      // CALL DISABLE DICEROLL FUNCTION HERE
+      // var rollDiceButton = document.getElementById('roll-dice-button')
+      // there doesn't seem to be a function for this - but these 2 lines do it:
+      rollDiceButton.onclick = null;
+      rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+      // the 
+      setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
+      return true
     }
-  }
-}
-var disableHealButton = function(){
-  healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-  healButton.onclick = null;
-}
-
-
-//this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
-var currentPlayerDiedBehaviour = function(){
-  console.log("prev player dice:", dice.all);
-  game.nextTurn(true, gameState);
-  displayCurrentPlayerArrows();
-  ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
-  
-  // dispatchEvent(new Event('load'));
-  currentPlayerDisplayDraw();
-  endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-};
-
-var ifCurrentPlayerDiesTriggerNextTurn = function(){
-  if(game.players[0].health <= 0){
-    // CALL DISABLE DICEROLL FUNCTION HERE
-    // var rollDiceButton = document.getElementById('roll-dice-button')
-    // there doesn't seem to be a function for this - but these 2 lines do it:
-    rollDiceButton.onclick = null;
-    rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-    // the 
-    setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
-    return true
-  }
-  else{
-    return false;
-  }
-};
+    else{
+      return false;
+    }
+  };
   // ROLL DICE BUTTON
 
   var rollDice = function(){
@@ -1005,7 +1011,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       currentDice.style.visibility = "visible"
       counter++
     }
-  }
+  };// end rolldice func
 
   var clearDiceDisplay = function(){
     for (var i = 0; i < 5; i++) {
@@ -1013,11 +1019,7 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
       currentDice.style.visibility = "hidden";
       diceElements[i].onclick = null;
     }
-  }
-
-    //do we want to save on every roll? - nope - default state of window.onload would mess up display if save could be mid-turn
-    // gameState.load() uses fresh dice object now, this fixes a lot of display issues etc
-  // gameState.save();
+  };
 
   var enableEndTurnButton = function(){
     fireGatlingCheck();
@@ -1027,18 +1029,15 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
         updateHealthBars();
       }
     endTurnButton.onclick = function(){
-      console.log("prev player dice:", dice.all);
-
       game.nextTurn(false, gameState);
       displayCurrentPlayerArrows();
       clearDiceDisplay();
       dispatchEvent(new Event('load'));
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      console.log("roll dice button in end turn button onlick:", rollDiceButton);
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
       enableRollDiceButton();
     }
-  }
+  };
 
   // ROLL DICE
   // dice.roll();
@@ -1123,21 +1122,12 @@ var ifCurrentPlayerDiesTriggerNextTurn = function(){
     }else{console.log("can still roll dice - not firing gatling");}
   };//func end
 
-  
-} // END OF WINDOW ONLOAD
+}; // END OF WINDOW ONLOAD
 
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
-var displayCurrentPlayerArrows = function(){
-  for(var i = 0; i < 9; i++){
-    var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
-    currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
-    currentPlayerArrows.style.display = "inline-block";
-    if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
-  }
-}
 
 var endGame = function(){
   // TRIGGER END GAME MODAL
@@ -1151,7 +1141,7 @@ var endGame = function(){
   }
   // gameState.save();
   game.end();
-}
+};
 
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //

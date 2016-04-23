@@ -19,6 +19,10 @@ app.get( '/rules', function(req, res){
   res.sendFile(path.join(__dirname + '/client/build/rules.html'));
 });
 
+app.get( '/new', function(req, res){
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
 app.get('/name', function(req, res){
   MongoClient.connect(url, function(err, db){
     if(err){
