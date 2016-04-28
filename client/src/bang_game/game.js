@@ -216,12 +216,6 @@ Game.prototype.rotatePlayers = function(numSteps){
   };
 };
 
-Game.prototype.dynamiteExplodes = function(){
-  if (this.dice.threeDynamite()){
-    this.players[0].health -= 1;
-  }
-};
-
 Game.prototype.nextTurn = function(currentPlayerDead, gameState){
 
   ////////////////////////////////////////////////////
@@ -373,7 +367,7 @@ Game.prototype.resolveArrows = function(){
       console.log("arrows in!");
       playSound("bow-and-arrows.mp3")
       //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
-      this.checkForDeaths();
+      // this.checkForDeaths();
     }
 
   };
@@ -388,6 +382,7 @@ Game.prototype.removeHealthAndArrows = function(){
     this.players[i].arrows = 0;
   };
 };
+
 
 
 
@@ -426,7 +421,7 @@ Game.prototype.addToActionCounters = function(){
 // }
 
 Game.prototype.canHeal = function(){
-  if (this.players[0].actionCounters["3"] > 0 ) {
+  if (this.players[0].actionCounters["3"] > 0 && this.players[0].target) {
     return true;
   }
     else {
@@ -445,6 +440,8 @@ Game.prototype.canShoot1 = function(){
 
 Game.prototype.canShoot2 = function(){
   if ( this.players[0].actionCounters["2"] > 0 && (this.players[0].target === this.players[2] || this.players[0].target === this.players[this.players.length - 2] ) ){
+    return true;
+  } else if (this.players[0].actionCounters["2"] > 0 && this.players.length === 2 && this.players[0].target === this.players[1]){
     return true;
   }
   else{
@@ -473,8 +470,7 @@ Game.prototype.threeGatling = function(){
 
 Game.prototype.shootTarget = function(){
   var counterToDecrement;
-  // REFACTOR THIS - Don't use prototype method directly, filthy...
-  // possible refactor to solve this - move shootTarget to Game model - game always knows who's shooting, it's always the active player (game.players[0])
+
   if (this.players[0].actionCounters["1"] > 0 && this.canShoot1()){
       counterToDecrement = 1
   }
@@ -486,7 +482,7 @@ Game.prototype.shootTarget = function(){
     this.players[0].target.health -= 1;
     console.log(this.players[0].name + " shot " + this.players[0].target.name)
     this.players[0].actionCounters[counterToDecrement.toString()] -= 1;
-    this.checkForDeaths();// need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
+    // this.checkForDeaths();// need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
   }
   else{
     console.log("this is a bug - called shoot function but the button to do that should have been disabled!")

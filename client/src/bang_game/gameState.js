@@ -7,15 +7,16 @@ var GameState = function(game){
   this.savedGame = null;
   this.hydratedGame = null;
   this.forceNew = false;
+  this.gameToSave = null;
 }; // constructor [end]
 
 GameState.prototype.save = function(){
-  localStorage.setItem("bang_a_JS_game_save", JSON.stringify(this.gameToSave));
+  localStorage.setItem("bang_the_JS_game_save", JSON.stringify(this.gameToSave));
   console.log("saved this game to localStorage:", this.gameToSave);
 }
 
 GameState.prototype.load = function(){
-  var loadReturn =  JSON.parse(localStorage.getItem("bang_a_JS_game_save"));
+  var loadReturn =  JSON.parse(localStorage.getItem("bang_the_JS_game_save"));
   this.savedGame = loadReturn;
   console.log("retrieved this game from localStorage:", loadReturn);
   
@@ -39,7 +40,7 @@ GameState.prototype.load = function(){
     
     console.log("unfinished game found in storage - rehydrating objects...");
 
-    // var hydratedDice = new Dice(this.savedGame.dice);
+    var hydratedDice = new Dice(this.savedGame.dice);
     // var dice = new Dice();
     var hydratedPlayers = new Array();
     var hydratedAllPlayers = new Array();
@@ -70,7 +71,7 @@ GameState.prototype.load = function(){
 
     //using fresh dice // //////////////////////////////////////////////////
     var characterMaxHealthValues = true;
-    this.hydratedGame = new Game(this.gamePassedIn.dice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
+    this.hydratedGame = new Game(hydratedDice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
     this.gameToSave = this.hydratedGame;
     return this.hydratedGame;
 

@@ -22,16 +22,19 @@ console.log("the new game object:", game);
 
 var gameState = new GameState(game);
 game = gameState.load();
+dice = game.dice;
 
 console.log("the game object that is used:", game);
 
 window.onload = function(){
   var newGameButton = document.getElementById("new-game-button");
 
-  newGameButton.onmousedown = function(){
+  newGameButton.onclick = function(){
     gameState.forceNew = true;
     game = gameState.load();
+    dice = game.dice;
     gameState.forceNew = false;
+    // gameState.save();
     dispatchEvent(new Event('load'));
 
 
@@ -576,7 +579,10 @@ window.onload = function(){
       diceClickEnable();
       rollDice(dice, diceElements, game);
       game.resolveArrows();
+      shootButtonEnableChecker()
       ifCurrentPlayerDiesTriggerNextTurn();
+      game.checkForDeaths();
+      shootButtonEnableChecker();
       updateCurrentPlayerHealth();
       updateHealthBars();
       if(dice.canRoll() === false){
@@ -691,20 +697,62 @@ window.onload = function(){
   // utility function to avoid repition in the playerX.onclick functions below:
   // what was a one line ternary now has to be these 14 lines in this function:
   var shootButtonEnableChecker = function(){
-    if (game.canShoot1()){
+    if (game.players.length > 3){
+      if (game.canShoot1()){
+        enableShootButton(game.players[0].target);
+        playSound("shotgun-cock.wav");
+      }
+      else if(!game.canShoot1() && !game.canShoot2()){
+        disableShootButton();
+      }
+      if(game.canShoot2()){
+        enableShootButton(game.players[0].target);
+        playSound("revolver-cock.wav")
+      }
+      else if(!game.canShoot2() && !game.canShoot1()){
+        disableShootButton();
+      }
+    } else if (game.players.length === 3){
+      if (game.canShoot1() && game.canShoot2()){
+        enableShootButton(game.players[0].target);
+        playSound("shotgun-cock.wav");
+      } else if (game.canShoot1()){
+        enableShootButton(game.players[0].target);
+        playSound("shotgun-cock.wav");
+      }
+      else if(!game.canShoot1() && !game.canShoot2()){
+        disableShootButton();
+      }
+      if (game.canShoot1() && game.canShoot2()){
+        enableShootButton(game.players[0].target);
+        playSound("shotgun-cock.wav");
+      } else if(game.canShoot2()){
+        enableShootButton(game.players[0].target);
+        playSound("revolver-cock.wav")
+      }
+      else if(!game.canShoot2() && !game.canShoot1()){
+        disableShootButton();
+      }
+
+    }
+    else if (game.players.length === 2){
+      if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]){
       enableShootButton(game.players[0].target);
       playSound("shotgun-cock.wav");
-    }
-    else if(!game.canShoot1() && !game.canShoot2()){
-      disableShootButton();
-    }
-    if(game.canShoot2()){
+      } else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]){
       enableShootButton(game.players[0].target);
-      playSound("revolver-cock.wav")
+        playSound("revolver-cock.wav")
+      } else if (game.players[0].target == game.players[0]){
+        console.log("You can't shoot yourself, try shooting the other surviving player");
+        disableShootButton();
+      }
+    } else if (game.players.length < 2){
+      if (game.players[0].target == game.players[0] && (game.players[0].actionCounters["1"] || game.players[0].actionCounters["2"])){
+        console.log("You can't shoot yourself - the game should be over, you're the only player alive");
+        disableShootButton();
+      }
     }
-    else if(!game.canShoot2() && !game.canShoot1()){
-      disableShootButton();
-    }
+
   };
 
   // PLAYER LIST
@@ -852,6 +900,7 @@ window.onload = function(){
       var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
       var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
       if(game.allPlayers[i].health <= 0){
+        game.checkForDeaths();
         p.onclick = null;
         p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
         pChar.innerHTML = game.allPlayers[i].role.name;
@@ -942,10 +991,12 @@ window.onload = function(){
   //this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
   var currentPlayerDiedBehaviour = function(){
     game.nextTurn(true, gameState);
+    clearDiceDisplay();
     displayCurrentPlayerArrows();
     ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
+    clearDiceDisplay();
     
-    // dispatchEvent(new Event('load'));
+    dispatchEvent(new Event('load'));
     currentPlayerDisplayDraw();
     endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   };
@@ -965,6 +1016,13 @@ window.onload = function(){
       return false;
     }
   };
+  
+  var displayDiceOnScreen = function(){
+
+  };
+
+
+
   // ROLL DICE BUTTON
 
   var rollDice = function(){
@@ -981,6 +1039,8 @@ window.onload = function(){
     // ROLL DICE
     dice.roll();
     game.resolveArrows();
+    ifCurrentPlayerDiesTriggerNextTurn();
+    shootButtonEnableChecker()
     drawArrows(game);
     displayCurrentPlayerArrows(); // in case current player dies - shows their new arrows (probably 0, cause arrows just went back to the middle)
     updateCurrentPlayerHealth(); // in case current players dies - shows their 0 filled hearts
@@ -990,11 +1050,12 @@ window.onload = function(){
     displayCurrentPlayerArrows(); // NECESSARY duplication
     updateCurrentPlayerHealth(); // NECESSARY duplication
     updateHealthBars();
+    game.checkForDeaths();
 
 
     game.dynamiteExplodes();
     if (game.dice.threeDynamite()) {
-      playSound("dynamite.wav")
+      playSound("dynamite.mp3")
     }
 
     ifCurrentPlayerDiesTriggerNextTurn();
@@ -1002,13 +1063,18 @@ window.onload = function(){
     updateCurrentPlayerHealth(); // NECESSARY duplication
     updateHealthBars();
 
+    // SAVE GAME EVERY ROLL
+    // gameState.save();
+
     // DISPLAY CURRENT ROLL
     for (var i = 0; i < dice.currentRoll.length; i++){
       currentDice = document.getElementById('dice-'+(counter + 1));
-      currentDice.src = dice.imageUrl[dice.currentRoll[i]];
+      if (currentDice){
+        currentDice.src = dice.imageUrl[dice.currentRoll[i]];
+        currentDice.style.visibility = "visible"
+      }
       if(dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
       if(dice.saved.length === 5) currentDice.style.opacity = 1;
-      currentDice.style.visibility = "visible"
       counter++
     }
   };// end rolldice func
@@ -1039,13 +1105,6 @@ window.onload = function(){
     }
   };
 
-  // ROLL DICE
-  // dice.roll();
-  // game.resolveArrows();
-  // drawArrows(game);
-  // displayCurrentPlayerArrows();
-  // updateCurrentPlayerHealth();
-  // updateHealthBars();
 
   // SELECT PLAYER FROM LIST
   var targetPlayer = function(selection){
