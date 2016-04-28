@@ -16,7 +16,7 @@ describe('Dice', function(){
   });
 
   it("should return URL of image", function(){
-    assert.equal(dice.imageUrl[1], 'http://i.imgur.com/j32ofq3.png');
+    assert.equal(dice.imageUrl[1], 'https://i.imgur.com/j32ofq3.png');
   });
 
   it("should return random number between 1-6", function(){

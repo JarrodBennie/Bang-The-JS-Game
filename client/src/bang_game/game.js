@@ -23,101 +23,101 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydr
   if (previousObject !== undefined) {
       this.rehydrate(previousObject);
   }
-  this.roles = [{name:"Sheriff", imgUrl: "http://i.imgur.com/yYT038yb.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Deputy", imgUrl: "http://i.imgur.com/6HHgfPab.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "http://i.imgur.com/NoWerAnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}, {name:"Renegade", imgUrl: "http://i.imgur.com/TNeqBpnb.jpg"}];
+  this.roles = [{name:"Sheriff", imgUrl: "https://i.imgur.com/yYT038yb.jpg"}, {name:"Deputy", imgUrl: "https://i.imgur.com/6HHgfPab.jpg"}, {name:"Deputy", imgUrl: "https://i.imgur.com/6HHgfPab.jpg"}, {name:"Outlaw", imgUrl: "https://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "https://i.imgur.com/NoWerAnb.jpg"}, {name:"Outlaw", imgUrl: "https://i.imgur.com/NoWerAnb.jpg"}, {name:"Renegade", imgUrl: "https://i.imgur.com/TNeqBpnb.jpg"}, {name:"Renegade", imgUrl: "https://i.imgur.com/TNeqBpnb.jpg"}];
   var character1 = {
     name: "Jesse Jones",
     health: 9,
-    imgUrl: "http://i.imgur.com/bRkKXmX.png",
+    imgUrl: "https://i.imgur.com/bRkKXmX.png",
     abilityDescription: "If you have four life points or less, you gain two if you use Beer for yourself."
   };
   var character2 = {
     name: "Kit Carlson",
     health: 7,
-    imgUrl: "http://i.imgur.com/BZIfBge.png",
+    imgUrl: "https://i.imgur.com/BZIfBge.png",
     abilityDescription: "For each Gatling you may discard one arrow from any player."
   };
   var character3 = {
     name: "Black Jack",
     health: 8,
-    imgUrl: "http://i.imgur.com/KUrKkis.png",
+    imgUrl: "https://i.imgur.com/KUrKkis.png",
     abilityDescription: "You may re-roll Dynamite. (Unless you roll three or more!)"
   };
   var character4 = {
     name: "Rose Doolan",
     health: 9,
-    imgUrl: "http://i.imgur.com/Hdcp0p1.png",
+    imgUrl: "https://i.imgur.com/Hdcp0p1.png",
     abilityDescription: "You may use Bullseye 1 or Bullseye 2 for players sitting one place further."
   };
   var character5 = {
     name: "Pedro Ramirez",
     health: 8,
-    imgUrl: "http://i.imgur.com/WcU2f2w.png",
+    imgUrl: "https://i.imgur.com/WcU2f2w.png",
     abilityDescription: "Each time you lose a life point, you may discard one of your arrows."
   };
   var character6 = {
     name: "El Gringo",
     health: 7,
-    imgUrl: "http://i.imgur.com/OF8OH13.png",
+    imgUrl: "https://i.imgur.com/OF8OH13.png",
     abilityDescription: "When a player makes you lose one or more life points, they must take an arrow."
   };
   var character7 = {
     name: "Bart Cassidy",
     health: 8,
-    imgUrl: "http://i.imgur.com/e8oZGYx.png",
+    imgUrl: "https://i.imgur.com/e8oZGYx.png",
     abilityDescription: "You may take an arrow instead of losing a life point (except to Arrows or Dynamite)."
   };
   var character8 = {
     name: "Vulture Sam",
     health: 9,
-    imgUrl: "http://i.imgur.com/1HkWchT.png",
+    imgUrl: "https://i.imgur.com/1HkWchT.png",
     abilityDescription: "Each time another player is eliminated, you gain two life points."
   };
   var character9 = {
     name: "Calamity Janet",
     health: 8,
-    imgUrl: "http://i.imgur.com/OY1CiiX.png",
+    imgUrl: "https://i.imgur.com/OY1CiiX.png",
     abilityDescription: "You can use Bullseye 1 as Bullseye 2 and vice-versa."
   };
   var character10 = {
     name: "Jourdonnais",
     health: 7,
-    imgUrl: "http://i.imgur.com/tXiiB6L.png",
+    imgUrl: "https://i.imgur.com/tXiiB6L.png",
     abilityDescription: "You never lose more than one life point to Arrows."
   };
   var character11 = {
     name: "Slab the Killer",
     health: 8,
-    imgUrl: "http://i.imgur.com/hlVk73M.png",
+    imgUrl: "https://i.imgur.com/hlVk73M.png",
     abilityDescription: "Once per turn, you can use a Beer to double a Bullseye 1 or Bullseye 2."
   };
   var character12 = {
     name: "Sid Ketchum",
     health: 8,
-    imgUrl: "http://i.imgur.com/cXVoKTA.png",
+    imgUrl: "https://i.imgur.com/cXVoKTA.png",
     abilityDescription: "At the beginning of your turn, any player of your choice gains one life point."
   };
   var character13 = {
     name: "Suzy Lafayette",
     health: 8,
-    imgUrl: "http://i.imgur.com/KfiWFxk.png",
+    imgUrl: "https://i.imgur.com/KfiWFxk.png",
     abilityDescription: "If you didn't roll any Bullseye 1 or Bullseye 2 you gain two life points."
   };
   var character14 = {
     name: "Paul Regret",
     health: 9,
-    imgUrl: "http://i.imgur.com/UFADg9e.png",
+    imgUrl: "https://i.imgur.com/UFADg9e.png",
     abilityDescription: "You never lose life points to the Gatling Gun."
   };
   var character15 = {
     name: "Lucky Duke",
     health: 8,
-    imgUrl: "http://i.imgur.com/F6GioiG.png",
+    imgUrl: "https://i.imgur.com/F6GioiG.png",
     abilityDescription: "You may make one extra re-roll"
   };
   var character16 = {
     name: "Willy the Kid",
     health: 8,
-    imgUrl: "http://i.imgur.com/580j9rS.png",
+    imgUrl: "https://i.imgur.com/580j9rS.png",
     abilityDescription: "You only need 2 Gatling to use the Gatling Gun."
   };
   this.characters = [character1, character2, character3, character4, character5, character6, character7, character8, character9, character10, character11, character12, character13, character14, character15, character16];

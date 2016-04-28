@@ -4,7 +4,7 @@ As big fans of the dice and card game "Bang! The Dice Game", by DV Giochi, we ha
 
 We make no claim to be the owners of the game, its rule set, or any of its assets. This web-app is purely a passion project in order to practice writing JavaScript and we are purely fans of the game.
 
-For the real "Bang! The Dice Game" experience please visit http://www.dvgiochi.com/catalogo/bang-the-dice-game/ and purchase a copy.
+For the real "Bang! The Dice Game" experience please visit https://www.dvgiochi.com/catalogo/bang-the-dice-game/ and purchase a copy.
 
 Developed by Jarrod Bennie, Craig Morton, Sam Parkyn and Adam Reid.
 

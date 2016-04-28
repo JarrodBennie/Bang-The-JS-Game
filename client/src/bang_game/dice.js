@@ -19,12 +19,12 @@ var Dice = function(previousObject){
   };
 
   this.imageUrl = {
-    1: "http://i.imgur.com/j32ofq3.png",
-    2: "http://i.imgur.com/AR0V71o.png",
-    3: "http://i.imgur.com/TWQYd4q.png",
-    4: "http://i.imgur.com/0q1hvpf.png",
-    5: "http://i.imgur.com/ygbg1Fg.png",
-    6: "http://i.imgur.com/pUn7Uru.png"
+    1: "https://i.imgur.com/j32ofq3.png",
+    2: "https://i.imgur.com/AR0V71o.png",
+    3: "https://i.imgur.com/TWQYd4q.png",
+    4: "https://i.imgur.com/0q1hvpf.png",
+    5: "https://i.imgur.com/ygbg1Fg.png",
+    6: "https://i.imgur.com/pUn7Uru.png"
 
   }; 
   

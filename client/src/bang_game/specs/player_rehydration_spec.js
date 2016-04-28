@@ -10,12 +10,12 @@ describe("Rehydrated Player", function(){
        "character":{  
           "name":"Willy the Kid",
           "health":8,
-          "imgUrl":"http://i.imgur.com/580j9rS.png",
+          "imgUrl":"https://i.imgur.com/580j9rS.png",
           "abilityDescription":"You only need 2x [Gatling] to use the Gatling Gun."
        },
        "role":{  
           "name":"Sheriff",
-          "imgUrl":"http://i.imgur.com/yYT038yb.jpg"
+          "imgUrl":"https://i.imgur.com/yYT038yb.jpg"
        },
        "arrows":2,
        "health":10,

@@ -43,7 +43,7 @@ window.onload = function(){
   var displayCurrentPlayerArrows = function(){
     for(var i = 0; i < 9; i++){
       var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
-      currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
+      currentPlayerArrows.src = "https://i.imgur.com/e6hASp9.png";
       currentPlayerArrows.style.display = "inline-block";
       if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
     }
@@ -96,7 +96,7 @@ window.onload = function(){
     currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
     
     for(var i = 0; i < game.players[0].arrows; i++){
-     currentPlayerArrows.src = "http://i.imgur.com/e6hASp9.png";
+     currentPlayerArrows.src = "https://i.imgur.com/e6hASp9.png";
     }
     currentPlayerArrows.display = "none";
   };
@@ -560,7 +560,7 @@ window.onload = function(){
   var drawArrows = function(){
     for( var i=1; i <= 9; i++ ){
       var currentArrow = document.getElementById('arrow-' + (i));
-      currentArrow.src = "http://i.imgur.com/pUn7Uru.png";
+      currentArrow.src = "https://i.imgur.com/pUn7Uru.png";
       currentArrow.style.visibility = "visible";
       if(i > game.totalArrows) currentArrow.style.visibility = "hidden";
     }
