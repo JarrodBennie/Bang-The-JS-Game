@@ -107,8 +107,14 @@ window.onload = function(){
 
   var updateCurrentPlayerHealth = function(){
     currentPlayerHealth.innerHTML = "";
-    for (var i = 0; i < game.players[0].health; i++) {
-      currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+    if(game.players[0].health > game.players[0].maxHealth){
+      for (var i = 0; i < game.players[0].maxHealth; i++) {
+        currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+      }
+    } else {
+      for (var i = 0; i < game.players[0].health; i++) {
+        currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
+      }
     }
     for (var i = 0; i < game.players[0].healthDifference(); i++) {
       currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
