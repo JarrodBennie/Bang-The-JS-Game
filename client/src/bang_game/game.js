@@ -449,7 +449,13 @@ Game.prototype.canShoot2 = function(){
   }
 }
 
-Game.prototype.threeGatling = function(){
+// ridiculous one line function body (unused) - just for fun:
+Game.prototype.canShootTargetCheck = function(){
+  return ((this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1])) || (this.players[0].actionCounters["2"] > 0 && (this.players[0].target === this.players[2] || this.players[0].target === this.players[this.players.length - 2])));
+};
+// returns true if active player can shoot their current targeted player, and false if they cannot
+
+Game.prototype.threeGatling = function(){$
   var counter = 0;
   for( item of this.dice.all ){
     if( item === 4 ) {
