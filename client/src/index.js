@@ -993,6 +993,15 @@ window.onload = function(){
     healButton.onclick = null;
   }
 
+  var healButtonEnableChecker = function(){
+    if (game.canHeal()){
+      enableHealButton();
+    }
+    else {
+      disableHealButton();
+    }
+  }
+
 
   //this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
   var currentPlayerDiedBehaviour = function(){
@@ -1108,6 +1117,7 @@ window.onload = function(){
       endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn red darken-4');
       enableRollDiceButton();
+      // populatePlayerList();
     }
   };
 

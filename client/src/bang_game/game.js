@@ -262,6 +262,10 @@ Game.prototype.end = function(winCheckResult){
 Game.prototype.checkForDeaths = function(){
   for (var i = 0; i < this.players.length; i++){
     if (this.players[i].health <= 0){
+      // removes target from active player if their target is dead - prevents healing your target back to 1 hp straight after you kill them, for example.
+      if (this.players[i] === this.players[0].target){
+        this.players[0].target = null;
+      }
       this.removePlayer(this.players[i]);
     }// "if health is 0" conditional [end]
   };// for loop [end]
@@ -493,6 +497,8 @@ Game.prototype.shootTarget = function(){
   else{
     console.log("this is a bug - called shoot function but the button to do that should have been disabled!")
   }
+
+  this.checkForDeaths();
 
   console.log("action counters:", this.players[0].actionCounters)
 
