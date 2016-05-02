@@ -222,9 +222,6 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   // Adam has stuff to add to this function         //
   ////////////////////////////////////////////////////
   this.checkForDeaths();
-  if(this.winCheck()){
-    this.end(this.winCheck());
-  }
   //reset health to max in case of overhealing
   for (var i = 0; i < this.players.length; i++){
     if(this.players[i].health > this.players[i].maxHealth){
@@ -269,6 +266,9 @@ Game.prototype.checkForDeaths = function(){
       this.removePlayer(this.players[i]);
     }// "if health is 0" conditional [end]
   };// for loop [end]
+  if(this.winCheck()){
+    this.end(this.winCheck());
+  }
   return this.players;
 };
 
@@ -371,7 +371,7 @@ Game.prototype.resolveArrows = function(){
       console.log("arrows in!");
       playSound("bow-and-arrows.mp3")
       //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
-      // this.checkForDeaths();
+      this.checkForDeaths();
     }
 
   };
