@@ -19,6 +19,10 @@ app.get( '/rules', function(req, res){
   res.sendFile(path.join(__dirname + '/client/build/rules.html'));
 });
 
+app.get( '/new', function(req, res){
+  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
+
 app.get('/name', function(req, res){
   MongoClient.connect(url, function(err, db){
     if(err){
@@ -50,5 +54,5 @@ app.use(express.static('client/build'));
 var server = app.listen(3000, function(){
   var host = server.address().address;
   var port = server.address().port;
-  console.log('Example app listening at http://%s:%s', host, port);
+  console.log('Example app listening at https://%s:%s', host, port);
 });

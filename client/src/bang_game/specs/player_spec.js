@@ -6,6 +6,7 @@ var Game = require('../game.js');
 describe('Player', function(){
   var player1;
   var character1;
+
   beforeEach(function(){
 
     var character1 = {
@@ -31,11 +32,7 @@ describe('Player', function(){
     player2.character = character2;
     player2.role = {name: "Sheriff"};
 
-
-
-
-
-  });
+  }); // beforeEach
 
   it("should construct with a name", function(){
     assert.equal(player1.name, "Craig");
@@ -71,26 +68,6 @@ describe('Player', function(){
     player1.heal;
     assert.equal(player1.health, 9);
   });
-
-  // it("should remove 1 health from targeted player", function(){
-
-  //   player3 = new Player("Sam");
-  //   player3.role = {name: "Deputy"};
-
-  //   player4 = new Player("Jarrod");
-  //   player4.role = {name: "Renegade"};
-  //   player1.actionCounters = { "1": 3, "2": 2, "3": 0, "4": 0, "5": 0, "6": 0}
-  //   var dice = {};
-  //   game = new Game(dice, [player1, player2, player3, player4, {name: "Morton"}, {name: "Mr6"}, {name: "Reid"}, {name: "Sam"}]);
-
-  //   console.log(game.players);
-
-  //   player2.setHealth();
-  //   player1.target = player2;
-  //   player1.shootTarget();
-  //   assert.equal(player2.health, 8);
-  //   assert.equal(player2.maxHealth, 9);
-  // });
 
   it("should return a players remaining health as a percentage of their max health", function(){
     player1.health = 5;

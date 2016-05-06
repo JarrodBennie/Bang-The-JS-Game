@@ -1,12 +1,9 @@
-var _ = require( 'lodash' );
-
-var Dice = function(){
+var Dice = function(previousObject){
   this.currentRoll = [];
   this.saved = [];
   this.all = [];
   this.arrowsRolled = 0;
   this.rolls = 3;
-
 //// INFO ABOUT ABOVE:
 //// this.currentRoll - the result of the dice from the player's last roll
 //// this.saved - the dice that the player will not re-roll
@@ -22,14 +19,28 @@ var Dice = function(){
   };
 
   this.imageUrl = {
-    1: "http://i.imgur.com/j32ofq3.png",
-    2: "http://i.imgur.com/AR0V71o.png",
-    3: "http://i.imgur.com/TWQYd4q.png",
-    4: "http://i.imgur.com/0q1hvpf.png",
-    5: "http://i.imgur.com/ygbg1Fg.png",
-    6: "http://i.imgur.com/pUn7Uru.png"
-  };
+    1: "https://i.imgur.com/j32ofq3.png",
+    2: "https://i.imgur.com/AR0V71o.png",
+    3: "https://i.imgur.com/TWQYd4q.png",
+    4: "https://i.imgur.com/0q1hvpf.png",
+    5: "https://i.imgur.com/ygbg1Fg.png",
+    6: "https://i.imgur.com/pUn7Uru.png"
+
+  }; 
+  
+  if (previousObject !== undefined) {
+    this.rehydrate(previousObject);
+  }
 };
+
+Dice.prototype.rehydrate = function(previousObject){
+  this.currentRoll = previousObject.currentRoll;
+  this.saved = previousObject.saved;
+  this.all = previousObject.all;
+  // this.arrowsRolled = previousObject.arrowsRolled;
+  this.rolls = previousObject.rolls;
+  return this;
+}
 
 //// Will need to reset the dice between change of player turn - use reset below.
 Dice.prototype.reset = function(){
@@ -57,19 +68,26 @@ Dice.prototype.roll = function(){
   };
 
   this.all = this.saved.concat( this.currentRoll )
+
+  for( var i = 0; i < this.currentRoll.length; i++ ){
+    if( this.currentRoll[i] === 6 ) {
+      this.arrowsRolled++;
+    }
+  }
+
   this.saveDynamite();
-  this.countArrows();
+  // this.countArrows();
   this.rolls--;
 
   return this.currentRoll;
 };
 //// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
 
-Dice.prototype.countArrows= function(){
-  for( item of this.currentRoll ){
-    if( item === 6 ) this.arrowsRolled += 1;
-  }
-};
+// Dice.prototype.countArrows= function(){
+//   for( item of this.currentRoll ){
+//     if( item === 6 ) this.arrowsRolled += 1;
+//   }
+// };
 
 Dice.prototype.save = function( value ){
   this.saved.push( value );

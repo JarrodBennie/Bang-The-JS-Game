@@ -11,7 +11,7 @@ var View = function(){
 };// View constructor end
 
 //needs changing:
-View.prototype.getElementsObject = function(){
+View.prototype.getElements = function(){
   this.docBody = document.getElementsByTagName("body");
   console.log(this.docBody);
   // TARGET ALL HEALTH BARS

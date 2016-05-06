@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "mocha src/bang_game/specs",
-    "start": "webpack -w"
+    "start": "webpack"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,6 @@
     "webpack": "^1.12.14"
   },
   "dependencies": {
-    "lodash": "^4.9.0"
+    "webpack": "^1.13.0"
   }
 }
