@@ -23,6 +23,9 @@ View.prototype.getElements = function(){
   this.ele.endTurnButton = document.getElementById('end-turn-button');
   this.ele.roleButton = document.getElementById('role-button');
 
+  this.ele.newGameButton = document.getElementById("new-game-button");
+
+
   // TARGET DICE IMAGES
   var dice1 = document.getElementById('dice-1'),
   dice2 = document.getElementById('dice-2'),

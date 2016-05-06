@@ -1,3 +1,4 @@
+
 Game = require('./bang_game/game');
 Player = require('./bang_game/player');
 Dice = require('./bang_game/dice');
@@ -33,11 +34,12 @@ window.onload = function(){
   view.getElements();
   console.log(view.ele);
 
-var viewDefaults = function(){
+
+  var viewDefaults = function(){
 
 
 
-}// view defaults func end
+  }// view defaults func end
 
 
 var updateCurrentPlayer = function(){
@@ -49,7 +51,7 @@ var updateCurrentPlayer = function(){
   currentPlayerAbility.innerText = game.players[0].character.abilityDescription;
   for(var i = 0; i < game.players[0].arrows; i++){
    currentPlayerArrows.src = "arrowicon.png";
- }
+  }
    for (var i = 0; i < game.players[0].health; i++) {
     currentPlayerHealth.innerHTML = currentPlayerHealth.innerHTML + '<i class="material-icons hp-icon">favorite</i>';
   }
@@ -1390,28 +1392,30 @@ var targetPlayer = function(selection){
     }else{console.log("can still roll dice - not firing gatling");}
   };//func end
 
+  var endGame = function(){
+    // TRIGGER END GAME MODAL
+    // DISABLE BUTTONS
+    console.log("saving finished game");
+    // removes targets from all players to allow saving without JSON.stringify throwing a "gameState.js:12 Uncaught TypeError: Converting circular structure to JSON"
+    // (can't save a player object with a player object nested in it - definitely not if it's the SAME player object (if targetting yourself and turn end-)
+    // see also: https://github.com/isaacs/json-stringify-safe/blob/master/README.md
+    for (var i = 0; i < this.players.length;i++){
+      this.players[i].target = null;
+    }
+    game.end();
+    gameState.save();
+  }
+
 }; // END OF WINDOW ONLOAD
 
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
 
-
-var endGame = function(){
-  // TRIGGER END GAME MODAL
-  // DISABLE BUTTONS
-  console.log("saving finished game");
-  // removes targets from all players to allow saving without JSON.stringify throwing a "gameState.js:12 Uncaught TypeError: Converting circular structure to JSON"
-  // (can't save a player object with a player object nested in it - definitely not if it's the SAME player object (if targetting yourself and turn end-)
-  // see also: https://github.com/isaacs/json-stringify-safe/blob/master/README.md
-  for (var i = 0; i < this.players.length;i++){
-    this.players[i].target = null;
-  }
-  game.end();
-  gameState.save();
-}
-
 ////////////////////////////////////////////////////////////
 //    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
 //      -Craig                                            //
 ////////////////////////////////////////////////////////////
+
+
+}

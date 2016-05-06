@@ -8,7 +8,9 @@
     "express": "^4.13.4",
     "mongo": "^0.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "webpack": "^1.13.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd client && npm start && cd .. && node server.js"
