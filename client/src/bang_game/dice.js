@@ -53,20 +53,18 @@ Dice.prototype.reset = function(){
 
 Dice.prototype.roll = function(){
   this.arrowsRolled = 0;
-  if(this.rolls === 0){
-    console.log("You can't roll the dice any more!")
-    return;
-  }
+  if (this.canRoll() === false) return;
   this.currentRoll = [];
   var numberOfDiceToRoll = 5 - this.saved.length;
 
-  if( this.canRoll() === false ) return;
-
-  for( var i=0; i < numberOfDiceToRoll; i++ ){
+  for (var i = 0; i < numberOfDiceToRoll; i++){
     var result = Math.floor( Math.random() * 6 ) + 1;
     this.currentRoll.push( result );
   };
+  console.log(this.currentRoll);
 
+  this.saveDynamite();
+  
   this.all = this.saved.concat( this.currentRoll )
 
   for( var i = 0; i < this.currentRoll.length; i++ ){
@@ -74,42 +72,33 @@ Dice.prototype.roll = function(){
       this.arrowsRolled++;
     }
   }
-
-  this.saveDynamite();
-  // this.countArrows();
   this.rolls--;
-
   return this.currentRoll;
 };
+
 //// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
 
-// Dice.prototype.countArrows= function(){
-//   for( item of this.currentRoll ){
-//     if( item === 6 ) this.arrowsRolled += 1;
-//   }
-// };
-
-Dice.prototype.save = function( value ){
-  this.saved.push( value );
+Dice.prototype.save = function(value){
+  if (this.saved.length < 5) this.saved.push(value);
 };
-
 
 Dice.prototype.saveDynamite = function(){
-  for( var item of this.currentRoll ){
-    if( item === 5 ) this.save( 5 );
-  };
+  var i = this.currentRoll.length -1 
+  for (i; i >= 0; i--){
+    if( this.currentRoll[i] === 5) this.save(this.currentRoll.splice(i, 1)[0]);
+    console.log("save dyna, saved:", this.saved);
+    console.log("save dyna, current:", this.currentRoll);
+  }
 };
+
 //// could use dice.currentRoll and dice.saved and loop through each checking if 3 dynamite, 3 gatling, and how many arrows. Return true if 3 dynamite/gatling.  In game can do if(dice.threeDynamite){ the run the function to take life off player and run the function to end player turn/start new player turn }    ----  could also do if(dice.threeGatling){ shoot all players & set current player arrows = 0 }.
 Dice.prototype.threeDynamite = function(){
   var counter = 0;
-  for( var number of this.all ){
-    if( number === 5 ) counter++;
+  for (var i = 0; i < this.all.length; i++ ){
+    if (this.all[i] === 5) counter++;
   }
-  return ( counter >= 3 ) ? true : false
+  return (counter >= 3);
 };
-
-
-
 
 //// by saving number of arrows - in game model before each roll we can run a 'resolve arrows' function that will add dice.arrowsRolled to players total arrows and subtract dice.arrows rolled from total arrows left in middle.
 //// Could possibly add in counter for each result/outcome of dice (from this.currentRoll) so that we have a total record of each thing rolled by a player that we can then send to database and we'd have stats of what each player did during game for 'review of game page' at end.

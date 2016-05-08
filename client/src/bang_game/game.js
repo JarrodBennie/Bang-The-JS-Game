@@ -19,7 +19,7 @@ var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydr
   this.totalArrows = 9;
   this.dice = dice;
   this.wonBy = null;
-  this.canGatling = true;
+  this.gatlingAvailable = true;
   if (previousObject !== undefined) {
       this.rehydrate(previousObject);
   }
@@ -141,7 +141,7 @@ Game.prototype.rehydrate = function(previousObject){
   // }
   this.totalArrows = previousObject.totalArrows;
   this.wonBy = previousObject.wonBy;
-  console.log(this.players);
+  // console.log(this.players);
 
   // this.allPlayers = originalOrderPlayers;
 }
@@ -237,7 +237,7 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
     rotateSteps = 0
   }
   this.dice.reset();
-  this.canGatling = true;
+  this.gatlingAvailable = true;
 
   this.rotatePlayers(rotateSteps);
   for (var i = 0; i < this.players.length;i++){
@@ -278,21 +278,21 @@ Game.prototype.removePlayer = function(player){
 };
 
 Game.prototype.winCheckOutlaws = function(){
-  console.log("outlaw wincheck  checking if array empty - players array length:", this.players.length);
+  // console.log("outlaw wincheck  checking if array empty - players array length:", this.players.length);
   if (this.players.length === 0){
-    console.log("game.players.length is 0 - therefore winCheckOutlaws is returning an Outlaw victory");
+    // console.log("game.players.length is 0 - therefore winCheckOutlaws is returning an Outlaw victory");
     return "Outlaws win!"
   };
-  console.log("loops through players array:", this.players, "length:", this.players.length);
+  // console.log("loops through players array:", this.players, "length:", this.players.length);
   for (var i = 0; i < this.players.length; i++){
-    console.log("index:", i, "role:", this.players[i].role.name);
+    // console.log("index:", i, "role:", this.players[i].role.name);
     if (this.players[i].role.name === "Sheriff") {
-      console.log("index:", i, "role found:", this.players[i].role.name);
-      console.log("sheriff found, returning null from outlaw wincheck");
+      // console.log("index:", i, "role found:", this.players[i].role.name);
+      // console.log("sheriff found, returning null from outlaw wincheck");
       return null;
     }
   }
-  console.log("returning outlaws win because no sheriff found ??");
+  // console.log("returning outlaws win because no sheriff found ??");
   return "Outlaws win!"
 };// winConditionOutlaw [end]
 
@@ -459,24 +459,27 @@ Game.prototype.canShootTargetCheck = function(){
 };
 // returns true if active player can shoot their current targeted player, and false if they cannot
 
-Game.prototype.threeGatling = function(){$
-  var counter = 0;
-  for( item of this.dice.all ){
-    if( item === 4 ) {
-      counter++;
-    };
-  };
-  if ( counter >= 3 && this.canGatling === true) {
+Game.prototype.fireGatling = function(){$
+  if (this.gatlingCheck()) {
     for(var i = 1; i < this.players.length; i++){
       this.players[i].health -= 1;
     };
     this.totalArrows += this.players[0].arrows;
     this.players[0].arrows = 0;
-    Materialize.toast(this.players[0].name + " Used gatling!", 2000);
-    this.canGatling = false;
+    this.gatlingAvailable = false;
     return true;
+  } else {
+    return false;
   };
 };
+
+Game.prototype.gatlingCheck = function(){
+  var counter = 0;
+  for (item of this.dice.all ){
+    if (item === 4 ) counter++;
+  };
+   return (counter >= 3 && this.gatlingAvailable === true && this.checkActions() <= 0) 
+}
 
 Game.prototype.shootTarget = function(){
   var counterToDecrement;
@@ -490,17 +493,17 @@ Game.prototype.shootTarget = function(){
 
   if (this.players[0].target){
     this.players[0].target.health -= 1;
-    console.log(this.players[0].name + " shot " + this.players[0].target.name)
+    // console.log(this.players[0].name + " shot " + this.players[0].target.name)
     this.players[0].actionCounters[counterToDecrement.toString()] -= 1;
     // this.checkForDeaths();// need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
   }
   else{
-    console.log("this is a bug - called shoot function but the button to do that should have been disabled!")
+    // console.log("this is a bug - called shoot function but the button to do that should have been disabled!")
   }
 
   this.checkForDeaths();
 
-  console.log("action counters:", this.players[0].actionCounters)
+  // console.log("action counters:", this.players[0].actionCounters)
 
 };
 
@@ -512,10 +515,10 @@ Game.prototype.beerTarget = function(){
     //   this.players[0].target.health = this.players[0].target.maxHealth
     // }
     this.players[0].actionCounters["3"] -= 1;
-    console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
+    // console.log(this.players[0].name + " beer'd " + this.players[0].target.name)
   }
   else{
-    console.log("you don't have a target to beer! how did you even click the heal button?")
+    // console.log("you don't have a target to beer! how did you even click the heal button?")
   }
 };
 
@@ -533,7 +536,7 @@ Game.prototype.checkActions = function(){
 Game.prototype.dynamiteExplodes = function(){
  if (this.dice.threeDynamite()){
    this.players[0].health -= 1;
-   Materialize.toast("Boom!", 2000);
+   return true;
  }
 };
 
