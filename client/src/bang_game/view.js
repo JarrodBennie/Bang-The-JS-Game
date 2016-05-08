@@ -11,12 +11,10 @@ var View = function(gameState, game){
   this.hint;
 };// View constructor end
 
-//needs changing:
+// GET HTML ELEMENTS FROM PAGE
 View.prototype.grabElements = function(){
   this.docBody = document.getElementsByTagName("body");
-  // TARGET ALL HEALTH BARS
-  this.ele.allHealthBars = document.getElementsByClassName('determinate');
-  // TARGET BUTTONS
+  // BUTTONS
   this.ele.rollDiceButton = document.getElementById('roll-dice-button');
   this.ele.healButton = document.getElementById('heal-button');
   this.ele.shootButton = document.getElementById('shoot-button');
@@ -24,16 +22,15 @@ View.prototype.grabElements = function(){
   this.ele.roleButton = document.getElementById('role-button');
   this.ele.newGameButton = document.getElementById("new-game-button");
 
-
-  // TARGET DICE IMAGES
+  // DICE IMAGES
   this.ele.dice1 = document.getElementById('dice-1');
   this.ele.dice2 = document.getElementById('dice-2');
   this.ele.dice3 = document.getElementById('dice-3');
   this.ele.dice4 = document.getElementById('dice-4');
   this.ele.dice5 = document.getElementById('dice-5');
-  this.ele.diceElements = [this.ele.dice1, this.ele.dice2, this.ele.dice3, this.ele.dice4, this.ele.dice5];
+  this.ele.diceImages = [this.ele.dice1, this.ele.dice2, this.ele.dice3, this.ele.dice4, this.ele.dice5];
 
-  // TARGET PLAYER LIST ELEMENTS
+  // PLAYER LIST ITEMS
   var player1 = document.getElementById('player-1');
   var player2 = document.getElementById('player-2');
   var player3 = document.getElementById('player-3');
@@ -44,7 +41,10 @@ View.prototype.grabElements = function(){
   var player8 = document.getElementById('player-8');
   this.ele.playerListItems = [player1, player2, player3, player4, player5, player6, player7, player8];
 
-  // TARGET PLAYER LIST PLAYER SINGLE ITEMS
+  // ALL PLAYER HEALTH BARS
+  this.ele.allHealthBars = document.getElementsByClassName('determinate');
+
+  // PLAYER LIST COMPONENT PARTS
   this.ele.playerList = [];
   for (var i = 1; i <= 8; i++){
     var playerListPartsObject = {};
@@ -60,7 +60,7 @@ View.prototype.grabElements = function(){
     this.ele.playerList.push(playerListPartsObject);
   }// for loop 8 [end]
 
-  // TARGET CURRENT PLAYER
+  // CURRENT PLAYER
   // this.ele.currentPlayer = document.getElementById('current-player');
   this.ele.currentPlayerAvatar = document.getElementById('current-player-avatar');
   this.ele.currentPlayerAvatarReveal = document.getElementById('current-player-avatar-reveal');
@@ -92,6 +92,8 @@ View.prototype.renderStart = function(){
 
 
 };// renderStart = function [end]
+
+// ON CLICK EVENTS SETTERS
 
 View.prototype.setNewGameButtonOnClick = function(remove){
   this.ele.newGameButton.onclick = function(){
@@ -149,7 +151,6 @@ View.prototype.renderCurrentPlayerArrows = function(){
 
 View.prototype.renderPlayerList = function(){
   for (var i = 0; i < this.game.allPlayers.length; i++){
-    console.log(this.game.allPlayers.length);
     this.renderPlayerListItem(i);
   }
 };// renderPlayerList = function [end]
@@ -167,12 +168,15 @@ View.prototype.renderPlayerListItem = function(playerIndex){
   playerItem.setAttribute("class", "collection-item avatar player");
   playerObject.currentPlayerText.innerText = 'Current Player';
 
-  if(this.game.allPlayers[playerIndex] == this.game.players[playerIndex]){
+  if(this.game.allPlayers[playerIndex] == this.game.players[0]){
     playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name;
     playerObject.name.setAttribute("class", "title white-text");
     playerObject.character.setAttribute("class", "white-text");
     playerObject.currentPlayerDiv.style.display = "inline";
-    playerObject.healthDiv.style.display = "none";
+    playerObject.healthDiv.setAttribute('class', 'progress white')
+    playerObject.healthBar.setAttribute('class', 'determinate red lighten-4')
+
+    // playerObject.healthDiv.style.display = "none";
     playerItem.setAttribute("class", "collection-item avatar red darken-4 player");
 
   }else if(this.game.allPlayers[playerIndex] == this.game.players[this.game.players.length - 1]){

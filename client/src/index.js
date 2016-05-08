@@ -20,9 +20,9 @@ console.log("the new game object:", game);
 var gameState = new GameState(game);
 game = gameState.load();
 console.log("the game object that is used:", game);
+var view = new View(gameState, game);
 
 window.onload = function(){
-  var view = new View(gameState, game);
   view.grabElements();
   console.log(view.ele);
   view.hint = hint;
@@ -89,18 +89,18 @@ window.onload = function(){
     rollDiceButton.onclick = function(){
       diceClickEnable();
       rollDice(dice, diceElements, game);
-      game.resolveArrows();
+      view.game.resolveArrows();
       shootButtonEnableChecker()
       ifCurrentPlayerDiesTriggerNextTurn();
-      game.checkForDeaths();
+      view.game.checkForDeaths();
       shootButtonEnableChecker();
       view.renderCurrentPlayerHealth();
       updateHealthBars();
-      if(game.dice.canRoll() === false){
+      if(view.game.dice.canRoll() === false){
         //maybe re-add duplicate "use all dice to end turn" toast
         this.onclick = null;
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-        game.addToActionCounters();
+        view.game.addToActionCounters();
       };
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game);
     };
@@ -121,11 +121,11 @@ window.onload = function(){
     roleButton.onclick = null;
 
     Materialize.toast('For your eyes only...', 2000,'',function(){
-      currentPlayerAvatarReveal.src = game.players[0].role.imgUrl;
-      currentPlayerCharacter.innerHTML = game.players[0].role.name + '<i class="material-icons right">close</i>';
+      currentPlayerAvatarReveal.src = view.game.players[0].role.imgUrl;
+      currentPlayerCharacter.innerHTML = view.game.players[0].role.name + '<i class="material-icons right">close</i>';
       setTimeout(function(){
-        currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
-        currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
+        currentPlayerAvatarReveal.src = view.game.players[0].character.imgUrl;
+        currentPlayerCharacter.innerHTML = view.game.players[0].character.name + '<i class="material-icons right">close</i>';
         roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
         roleButton.onclick = roleButtonDefault;
       }, 1500);
@@ -143,37 +143,37 @@ window.onload = function(){
     dice5.style.opacity = 1;
 
     dice1.onclick = function(){
-      var dice1Value = game.dice.all[0];
-      if(dice1Value != 5) game.dice.save(dice1Value);
+      var dice1Value = view.game.dice.all[0];
+      if(dice1Value != 5) view.game.dice.save(dice1Value);
       dice1.onclick = null;
       dice1.style.opacity = 0.5;
 
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState);
     }
     dice2.onclick = function(){
-      var dice2Value = game.dice.all[1];
-      if(dice2Value != 5) game.dice.save(dice2Value);
+      var dice2Value = view.game.dice.all[1];
+      if(dice2Value != 5) view.game.dice.save(dice2Value);
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
     dice3.onclick = function(){
-      var dice3Value = game.dice.all[2];
-      if(dice3Value != 5) game.dice.save(dice3Value);
+      var dice3Value = view.game.dice.all[2];
+      if(dice3Value != 5) view.game.dice.save(dice3Value);
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
     dice4.onclick = function(){
-      var dice4Value = game.dice.all[3];
-      if(dice4Value != 5) game.dice.save(dice4Value);
+      var dice4Value = view.game.dice.all[3];
+      if(dice4Value != 5) view.game.dice.save(dice4Value);
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
     dice5.onclick = function(){
-      var dice5Value = game.dice.all[4];
-      if(dice5Value != 5) game.dice.save(dice5Value);
+      var dice5Value = view.game.dice.all[4];
+      if(dice5Value != 5) view.game.dice.save(dice5Value);
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
@@ -184,10 +184,10 @@ window.onload = function(){
     diceClickEnable();
     rollDice();
 
-    if(game.dice.canRoll() === false){
+    if(view.game.dice.canRoll() === false){
       this.onclick = null;
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-      game.addToActionCounters();
+      view.game.addToActionCounters();
     }
     savedDiceFull();
   };
@@ -208,57 +208,57 @@ window.onload = function(){
   // utility function to avoid repition in the playerX.onclick functions below:
   // what was a one line ternary now has to be these 14 lines in this function:
   var shootButtonEnableChecker = function(){
-    if (game.players.length > 3){
-      if (game.canShoot1()){
-        enableShootButton(game.players[0].target);
+    if (view.game.players.length > 3){
+      if (view.game.canShoot1()){
+        enableShootButton(view.game.players[0].target);
         playSound("shotgun-cock.wav");
       }
-      else if(!game.canShoot1() && !game.canShoot2()){
+      else if(!view.game.canShoot1() && !view.game.canShoot2()){
         disableShootButton();
       }
-      if(game.canShoot2()){
-        enableShootButton(game.players[0].target);
+      if(view.game.canShoot2()){
+        enableShootButton(view.game.players[0].target);
         playSound("revolver-cock.wav")
       }
-      else if(!game.canShoot2() && !game.canShoot1()){
+      else if(!view.game.canShoot2() && !view.game.canShoot1()){
         disableShootButton();
       }
-    } else if (game.players.length === 3){
-      if (game.canShoot1() && game.canShoot2()){
-        enableShootButton(game.players[0].target);
+    } else if (view.game.players.length === 3){
+      if (view.game.canShoot1() && view.game.canShoot2()){
+        enableShootButton(view.game.players[0].target);
         playSound("shotgun-cock.wav");
-      } else if (game.canShoot1()){
-        enableShootButton(game.players[0].target);
+      } else if (view.game.canShoot1()){
+        enableShootButton(view.game.players[0].target);
         playSound("shotgun-cock.wav");
       }
-      else if(!game.canShoot1() && !game.canShoot2()){
+      else if(!view.game.canShoot1() && !view.game.canShoot2()){
         disableShootButton();
       }
-      if (game.canShoot1() && game.canShoot2()){
-        enableShootButton(game.players[0].target);
+      if (view.game.canShoot1() && view.game.canShoot2()){
+        enableShootButton(view.game.players[0].target);
         playSound("shotgun-cock.wav");
-      } else if(game.canShoot2()){
-        enableShootButton(game.players[0].target);
+      } else if(view.game.canShoot2()){
+        enableShootButton(view.game.players[0].target);
         playSound("revolver-cock.wav")
       }
-      else if(!game.canShoot2() && !game.canShoot1()){
+      else if(!view.game.canShoot2() && !view.game.canShoot1()){
         disableShootButton();
       }
 
     }
-    else if (game.players.length === 2){
-      if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]){
-      enableShootButton(game.players[0].target);
+    else if (view.game.players.length === 2){
+      if (view.game.players[0].target == view.game.players[1] && view.game.players[0].actionCounters["1"]){
+      enableShootButton(view.game.players[0].target);
       playSound("shotgun-cock.wav");
-      } else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]){
-      enableShootButton(game.players[0].target);
+      } else if (view.game.players[0].target == view.game.players[1] && view.game.players[0].actionCounters["2"]){
+      enableShootButton(view.game.players[0].target);
         playSound("revolver-cock.wav")
-      } else if (game.players[0].target == game.players[0]){
+      } else if (view.game.players[0].target == view.game.players[0]){
         console.log("You can't shoot yourself, try shooting the other surviving player");
         disableShootButton();
       }
-    } else if (game.players.length < 2){
-      if (game.players[0].target == game.players[0] && (game.players[0].actionCounters["1"] || game.players[0].actionCounters["2"])){
+    } else if (view.game.players.length < 2){
+      if (view.game.players[0].target == view.game.players[0] && (view.game.players[0].actionCounters["1"] || view.game.players[0].actionCounters["2"])){
         console.log("You can't shoot yourself - the game should be over, you're the only player alive");
         disableShootButton();
       }
@@ -268,120 +268,120 @@ window.onload = function(){
 
   // PLAYER LIST
   player1.onclick = function(){
-    if(game.players[0].target === game.allPlayers[0]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[0]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[0];
+      view.game.players[0].target = view.game.allPlayers[0];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker()
-    if (game.canHeal()) {
-      enableHealButton(game.players[0].target);
+    if (view.game.canHeal()) {
+      enableHealButton(view.game.players[0].target);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player2.onclick = function(){
-    if(game.players[0].target === game.allPlayers[1]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[1]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[1];
+      view.game.players[0].target = view.game.allPlayers[1];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker()
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player3.onclick = function(){
-    if(game.players[0].target === game.allPlayers[2]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[2]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[2];
+      view.game.players[0].target = view.game.allPlayers[2];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker();
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player4.onclick = function(){
-    if(game.players[0].target === game.allPlayers[3]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[3]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[3];
+      view.game.players[0].target = view.game.allPlayers[3];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker();
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player5.onclick = function(){
-    if(game.players[0].target === game.allPlayers[4]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[4]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[4];
+      view.game.players[0].target = view.game.allPlayers[4];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker();
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player6.onclick = function(){
-    if(game.players[0].target === game.allPlayers[5]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[5]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[5];
+      view.game.players[0].target = view.game.allPlayers[5];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker();
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player7.onclick = function(){
-    if(game.players[0].target === game.allPlayers[6]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[6]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[6];
+      view.game.players[0].target = view.game.allPlayers[6];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker();
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
     }
   }
   player8.onclick = function(){
-    if(game.players[0].target === game.allPlayers[7]){
-      game.players[0].target = null;
+    if(view.game.players[0].target === view.game.allPlayers[7]){
+      view.game.players[0].target = null;
     }else{
-      game.players[0].target = game.allPlayers[7];
+      view.game.players[0].target = view.game.allPlayers[7];
     }
     targetPlayer(this, game);
     shootButtonEnableChecker();
-    if (game.canHeal()) {
-      enableHealButton(healButton, endTurnButton, game.players[0].target, allHealthBars, game);
+    if (view.game.canHeal()) {
+      enableHealButton(healButton, endTurnButton, view.game.players[0].target, allHealthBars, game);
     }
     else{
       disableHealButton(healButton);
@@ -403,19 +403,19 @@ window.onload = function(){
 
   var updateHealthBars = function(){
     for(i = 0; i < allHealthBars.length; i++){
-      allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+      allHealthBars[i].style.width = view.game.allPlayers[i].healthAsPercentage() + "%";
       var p = document.getElementById("player-" + (i + 1));
       var pChar = document.getElementById("player-" + (i + 1) + "-character");
       var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
       var pDead = document.getElementById("current-player-" + (i + 1));
       var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
       var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
-      if(game.allPlayers[i].health <= 0){
-        game.checkForDeaths();
+      if(view.game.allPlayers[i].health <= 0){
+        view.game.checkForDeaths();
         p.onclick = null;
         p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
-        pChar.innerHTML = game.allPlayers[i].role.name;
-        pAva.src = game.allPlayers[i].role.imgUrl;
+        pChar.innerHTML = view.game.allPlayers[i].role.name;
+        pAva.src = view.game.allPlayers[i].role.imgUrl;
         pDead.innerText = 'DEAD';
         pDead.setAttribute('class', 'grey-text text-darken-4')
         pDeadDiv.style.display = "inline";
@@ -435,33 +435,33 @@ window.onload = function(){
 
       Materialize.toast(shootMessage, 2000);
 
-      game.shootTarget();
+      view.game.shootTarget();
       playSound("pistol-riccochet.ogg")
 
-      if (game.canShoot1()){
-        enableShootButton(game.players[0].target);
+      if (view.game.canShoot1()){
+        enableShootButton(view.game.players[0].target);
       }
-      else if(!game.canShoot1() && !game.canShoot2()){
+      else if(!view.game.canShoot1() && !view.game.canShoot2()){
         disableShootButton();
       }
-      if(game.canShoot2()){
-        enableShootButton(game.players[0].target);
+      if(view.game.canShoot2()){
+        enableShootButton(view.game.players[0].target);
       }
-      else if(!game.canShoot2() && !game.canShoot1()){
+      else if(!view.game.canShoot2() && !view.game.canShoot1()){
         disableShootButton();
       }
 
 
-      (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
-      if (game.canHeal()) {
-        enableHealButton(game.players[0].target);
+      (view.game.canShoot1() || view.game.canShoot2()) ? enableShootButton(view.game.players[0].target) : disableShootButton();
+      if (view.game.canHeal()) {
+        enableHealButton(view.game.players[0].target);
       }
       else{
         disableHealButton();
       }
 
       updateHealthBars(allHealthBars, game);
-      if (game.checkActions() <= 0){
+      if (view.game.checkActions() <= 0){
         enableEndTurnButton();
       }
 
@@ -479,15 +479,15 @@ window.onload = function(){
     healButton.onclick = function(){
       Materialize.toast('You healed ' + target.name, 2000);
       playSound("bottle-pour.mp3");
-      game.beerTarget();
-      if (game.canHeal()) {
-        enableHealButton(game.players[0].target);
+      view.game.beerTarget();
+      if (view.game.canHeal()) {
+        enableHealButton(view.game.players[0].target);
       }else{
         disableHealButton();
       }
       updateHealthBars();
       view.renderCurrentPlayerHealth();
-      if (game.checkActions() <= 0){
+      if (view.game.checkActions() <= 0){
         enableEndTurnButton();
       }
     }
@@ -499,7 +499,7 @@ window.onload = function(){
   }
 
   var healButtonEnableChecker = function(){
-    if (game.canHeal()){
+    if (view.game.canHeal()){
       enableHealButton();
     }
     else {
@@ -510,7 +510,7 @@ window.onload = function(){
 
   //this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
   var currentPlayerDiedBehaviour = function(){
-    game.nextTurn(true, gameState);
+    view.game.nextTurn(true, gameState);
     clearDiceDisplay();
     view.renderCurrentPlayerArrows();
     ifCurrentPlayerDiesTriggerNextTurn(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
@@ -522,7 +522,7 @@ window.onload = function(){
   };
 
   var ifCurrentPlayerDiesTriggerNextTurn = function(){
-    if(game.players[0].health <= 0){
+    if(view.game.players[0].health <= 0){
       // CALL DISABLE DICEROLL FUNCTION HERE
       // var rollDiceButton = document.getElementById('roll-dice-button')
       // there doesn't seem to be a function for this - but these 2 lines do it:
@@ -548,17 +548,17 @@ window.onload = function(){
   var rollDice = function(){
     var counter = 0;
     // DISPLAY SAVED DICE
-    for (var i = 0; i < game.dice.saved.length; i++) {
+    for (var i = 0; i < view.game.dice.saved.length; i++) {
       var currentDice = document.getElementById('dice-'+(counter + 1));
-      currentDice.src = game.dice.imageUrl[game.dice.saved[i]];
+      currentDice.src = view.game.dice.imageUrl[view.game.dice.saved[i]];
       diceElements[i].onclick = null;
       diceElements[i].style.opacity = 0.5;
       currentDice.style.visibility = "visible"
       counter++
     }
     // ROLL DICE
-    game.dice.roll();
-    game.resolveArrows();
+    view.game.dice.roll();
+    view.game.resolveArrows();
     ifCurrentPlayerDiesTriggerNextTurn();
     shootButtonEnableChecker()
     view.renderArrowPile();
@@ -570,11 +570,11 @@ window.onload = function(){
     view.renderCurrentPlayerArrows(); // NECESSARY duplication
     view.renderCurrentPlayerHealth(); // NECESSARY duplication
     updateHealthBars();
-    game.checkForDeaths();
+    view.game.checkForDeaths();
 
 
-    game.dynamiteExplodes();
-    if (game.dice.threeDynamite()) {
+    view.game.dynamiteExplodes();
+    if (view.game.dice.threeDynamite()) {
       playSound("dynamite.mp3")
     }
 
@@ -587,14 +587,14 @@ window.onload = function(){
     // gameState.save();
 
     // DISPLAY CURRENT ROLL
-    for (var i = 0; i < game.dice.currentRoll.length; i++){
+    for (var i = 0; i < view.game.dice.currentRoll.length; i++){
       currentDice = document.getElementById('dice-'+(counter + 1));
       if (currentDice){
-        currentDice.src = game.dice.imageUrl[game.dice.currentRoll[i]];
+        currentDice.src = view.game.dice.imageUrl[view.game.dice.currentRoll[i]];
         currentDice.style.visibility = "visible"
       }
-      if(game.dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
-      if(game.dice.saved.length === 5) currentDice.style.opacity = 1;
+      if(view.game.dice.currentRoll[i] === 5) currentDice.style.opacity = 0.5;
+      if(view.game.dice.saved.length === 5) currentDice.style.opacity = 1;
       counter++
     }
   };// end rolldice func
@@ -610,12 +610,12 @@ window.onload = function(){
   var enableEndTurnButton = function(){
     fireGatlingCheck();
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-      if (game.threeGatling()){
+      if (view.game.threeGatling()){
         playSound("gatling-gun.mp3");
         updateHealthBars();
       }
     endTurnButton.onclick = function(){
-      game.nextTurn(false, gameState);
+      view.game.nextTurn(false, gameState);
       view.renderCurrentPlayerArrows();
       clearDiceDisplay();
       dispatchEvent(new Event('load'));
@@ -666,36 +666,36 @@ window.onload = function(){
 
 
   var savedDiceFull = function(){
-    if(game.dice.canRoll() === false){
-      game.addToActionCounters();
-      if (game.checkActions()){
+    if(view.game.dice.canRoll() === false){
+      view.game.addToActionCounters();
+      if (view.game.checkActions()){
         Materialize.toast("Target a player to resolve dice before ending turn", 3500)
         shootButtonEnableChecker();
         //added shootButtonEnable check here so that if targeting a player, then saving all dice, you can shoot that target straight away without reselecting them
       }
       for (var i = 0; i < diceElements.length; i++) diceElements[i].style.opacity = 1;
-      game.addToActionCounters();
+      view.game.addToActionCounters();
       rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       rollDiceButton.onclick = null;
-      if (game.checkActions() <= 0){
+      if (view.game.checkActions() <= 0){
         fireGatlingCheck();
         enableEndTurnButton();
         rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
       }
-    }; // if game.dice.canRoll() is false end
+    }; // if view.game.dice.canRoll() is false end
   };//func end
 
   var fireGatlingCheck = function(){
-    if (game.dice.canRoll() === false){
-      if (game.checkActions() <= 0) {
-        if (game.threeGatling()){
+    if (view.game.dice.canRoll() === false){
+      if (view.game.checkActions() <= 0) {
+        if (view.game.threeGatling()){
           playSound("gatling-gun.mp3")
           updateHealthBars();
-          // game.checkForDeaths();
+          // view.game.checkForDeaths();
           // need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
           // -- except don't need to in the case of gatling - as all shoot dice must be resolved before gatling fires - commented out above line
-          // added game.canGatling boolean to game.threeGatling to ensure we only run gatling once per turn (game.canGatling is set to true in game.nextturn)
-          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - game.canGatling prevents this.
+          // added view.game.canGatling boolean to view.game.threeGatling to ensure we only run gatling once per turn (view.game.canGatling is set to true in view.game.nextturn)
+          // as savedDiceFull is a checking function, run every time any single die is saved, saving 3 gatling would run it, then saving a fourth would run it again - view.game.canGatling prevents this.
           return true;
         }else{}
       }else{console.log("must resolve remaining actions - gatling not firing");}
@@ -720,10 +720,10 @@ var endGame = function(){
     this.players[i].target = null;
   }
   // gameState.save();
-  game.end();
+  view.game.end();
 };
 
 ////////////////////////////////////////////////////////////
-//    'game.dice.unsave(game.dice.all[indexOf(game.dice.all[index])])'   //
+//    'view.game.dice.unsave(view.game.dice.all[indexOf(view.game.dice.all[index])])'   //
 //      -Craig                                            //
 ////////////////////////////////////////////////////////////
