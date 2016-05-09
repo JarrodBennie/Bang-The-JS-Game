@@ -109,7 +109,8 @@ View.prototype.setNewGameButtonOnClick = function(remove){
     this.game = this.gameState.load();
     this.gameState.forceNew = false;
     // gameState.save();
-    dispatchEvent(new Event('load'));
+    // dispatchEvent(new Event('load'));
+    this.setup();
   }.bind(this);
   if (remove === null){
     this.ele.newGameButton.onclick = null;
@@ -187,7 +188,8 @@ View.prototype.currentPlayerDeadBehaviour = function(){
   this.renderCurrentPlayerArrows();
   this.currentPlayerDied(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
   this.renderDice(null);
-  dispatchEvent(new Event('load'));
+  // dispatchEvent(new Event('load'));
+  this.setup();
   this.renderCurrentPlayer();
   endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   
@@ -285,7 +287,7 @@ View.prototype.setEndTurnButtonOnClick = function(remove){
     playSound("gatling-gun.mp3");
     this.updateHealthBars();
   }
-  if (remove = null){
+  if (remove === null){
     this.ele.endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     this.ele.endTurnButton.onclick = null;
   }
@@ -293,7 +295,8 @@ View.prototype.setEndTurnButtonOnClick = function(remove){
     this.game.nextTurn(false, this.gameState);
     this.renderCurrentPlayer();
     this.renderDice(null);
-    dispatchEvent(new Event('load'));
+    // dispatchEvent(new Event('load'));
+    this.setup();
     this.ele.endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     this.setRollDiceButtonOnClick();
     // this.renderPlayerList();
