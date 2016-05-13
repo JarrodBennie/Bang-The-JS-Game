@@ -15,10 +15,9 @@ for (var i = 0; i < players.length; i++){
 var characterMaxHealthValues = true;
 var game = new Game(new Dice(), players, characterMaxHealthValues);
 game.setup();
-console.log("the new game object:", game);
 var gameState = new GameState(game);
 game = gameState.load();
-console.log("the game object that is used:", game);
+console.log("Active game:", game);
 var view = new View(gameState, game);
 
 window.onload = function(){

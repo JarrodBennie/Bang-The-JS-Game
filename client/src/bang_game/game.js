@@ -363,12 +363,12 @@ Game.prototype.resolveArrows = function(){
     this.players[0].arrows += 1;
     this.totalArrows -= 1;
     // throw new Error("giving an arrow")
-    console.log("you got an arrow");
+    // console.log("you got an arrow");
     if (this.totalArrows === 0){
       this.removeHealthAndArrows();
       this.totalArrows = 9;
       Materialize.toast("The Indians have attacked!!", 2000);
-      console.log("arrows in!");
+      // console.log("arrows in!");
       playSound("bow-and-arrows.mp3")
       //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
       this.checkForDeaths();

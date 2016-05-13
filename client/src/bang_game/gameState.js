@@ -12,13 +12,13 @@ var GameState = function(game){
 
 GameState.prototype.save = function(){
   localStorage.setItem("bang_the_JS_game_save", JSON.stringify(this.gameToSave));
-  console.log("saved this game to localStorage:", this.gameToSave);
+  console.log("Game saved:", this.gameToSave);
 }
 
 GameState.prototype.load = function(){
   var loadReturn =  JSON.parse(localStorage.getItem("bang_the_JS_game_save"));
   this.savedGame = loadReturn;
-  console.log("retrieved this game from localStorage:", loadReturn);
+  console.log("Saved game retrieved:", loadReturn);
   
   if (!this.savedGame || this.savedGame.wonBy || this.forceNew){
     this.gameToSave = this.gamePassedIn;
@@ -26,7 +26,7 @@ GameState.prototype.load = function(){
   }
 
   if (this.savedGame && !this.savedGame.wonBy && !this.forceNew) {
-    console.log("unfinished game found in storage - rehydrating objects...");
+    console.log("Unfinished game loaded - preparing objects.");
 
     var hydratedDice = new Dice(this.savedGame.dice);
     var hydratedPlayers = new Array();
