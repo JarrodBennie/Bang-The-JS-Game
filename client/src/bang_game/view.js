@@ -211,6 +211,7 @@ View.prototype.rollDice = function(){
   this.renderDice();
 
   this.game.resolveArrows();
+  this.renderPlayerList();
   this.renderCurrentPlayerArrows();
   this.renderCurrentPlayerHealth();
   this.currentPlayerDied();
