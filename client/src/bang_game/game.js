@@ -355,8 +355,9 @@ Game.prototype.winCheck = function(){
 
 
 Game.prototype.resolveArrows = function(){
-
+  // this.assignArrows();
   for (var i = 0; i < this.dice.arrowsRolled; i++){
+    console.log("arrows rolled", this.dice.arrowsRolled);
     //uncomment these to test currentPlayerDead behaviour MUCH more easily (refresh til no arrows on first role with sheriff, (or else outlaws win) then roll til you get one with other players to kill them straight away)
     // this.players[0].health = 1
     // this.totalArrows = 1
@@ -364,21 +365,26 @@ Game.prototype.resolveArrows = function(){
     this.totalArrows -= 1;
     // throw new Error("giving an arrow")
     // console.log("you got an arrow");
-    if (this.totalArrows === 0){
-      this.removeHealthAndArrows();
-      this.totalArrows = 9;
-      Materialize.toast("The Indians have attacked!!", 2000);
-      // console.log("arrows in!");
-      playSound("bow-and-arrows.mp3")
-      //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
-      this.checkForDeaths();
-    }
-
+    this.arrowsDamage();
   };
     this.dice.arrowsRolled = 0;
   // this.dice.currentRoll = [];
 
 };
+Game.prototype.assignArrows = function(){
+  
+};// assignArrows = function [end]
+
+Game.prototype.arrowsDamage = function(){
+  if (this.totalArrows > 0) return null;
+  this.removeHealthAndArrows();
+  this.totalArrows = 9;
+  Materialize.toast("The Indians have attacked!!", 2000);
+  playSound("bow-and-arrows.mp3")
+  // console.log("arrows in!");
+  //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
+  this.checkForDeaths();
+};// arrowsDamage = function [end]
 
 Game.prototype.removeHealthAndArrows = function(){
   for (var i = 0; i < this.players.length; i++){
@@ -432,6 +438,15 @@ Game.prototype.canHeal = function(){
       return false;
   }
 }
+
+Game.prototype.canShoot = function(distance){
+  if ( this.players[0].actionCounters[distance.toString()] > 0 && (this.players[0].target === this.players[distance] || this.players[0].target === this.players[this.players.length - distance] ) ) {
+    return true;
+  }
+  else{
+    return false;
+  }
+};// canShoot = function [end]
 
 Game.prototype.canShoot1 = function(){
   if ( this.players[0].actionCounters["1"] > 0 && (this.players[0].target === this.players[1] || this.players[0].target === this.players[this.players.length - 1] ) ) {

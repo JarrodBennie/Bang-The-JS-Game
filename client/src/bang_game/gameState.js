@@ -5,14 +5,13 @@ var Dice = require('./dice.js');
 var GameState = function(game){
   this.gamePassedIn = game;
   this.savedGame = null;
-  this.hydratedGame = null;
   this.forceNew = false;
-  this.gameToSave = null;
+  this.game = null;
 }; // constructor [end]
 
 GameState.prototype.save = function(){
-  localStorage.setItem("bang_the_JS_game_save", JSON.stringify(this.gameToSave));
-  console.log("Game saved:", this.gameToSave);
+  localStorage.setItem("bang_the_JS_game_save", JSON.stringify(this.game));
+  console.log("Game saved:", this.game);
 }
 
 GameState.prototype.load = function(){
@@ -21,7 +20,7 @@ GameState.prototype.load = function(){
   console.log("Saved game retrieved:", loadReturn);
   
   if (!this.savedGame || this.savedGame.wonBy || this.forceNew){
-    this.gameToSave = this.gamePassedIn;
+    this.game = this.gamePassedIn;
     return this.gamePassedIn;
   }
 
@@ -43,10 +42,8 @@ GameState.prototype.load = function(){
         }
       }
     }
-    var characterMaxHealthValues = this.savedGame.characterMaxHealthValues;
-    this.hydratedGame = new Game(hydratedDice, hydratedPlayers, characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
-    this.gameToSave = this.hydratedGame;
-    return this.hydratedGame;
+    this.game = new Game(hydratedDice, hydratedPlayers, this.savedGame.characterMaxHealthValues, this.savedGame, hydratedAllPlayers);
+    return this.game;
   }// if we want to use saved game - if statement end
 }
 

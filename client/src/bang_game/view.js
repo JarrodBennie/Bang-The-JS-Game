@@ -7,9 +7,7 @@ var View = function(gameState, game){
   this.ele = {};
   this.docBody = {};
   this.gameState = gameState;
-  console.log(game);
   this.game = game;
-  console.log(this.game);
   this.hint;
 };// View constructor end
 
@@ -81,16 +79,16 @@ View.prototype.setup = function(){
   this.renderPlayerList();
   this.renderHintCard();
   this.renderArrowPile();
-  this.setRollDiceButtonOnClick();
-
+  this.renderDice(null);
+  
   this.setHealButtonOnClick(null);
   this.setShootButtonOnClick(null);
   this.setEndTurnButtonOnClick(null);
   this.setAllDiceOnClicks(null);
 
   this.setViewRoleButtonOnClick();
-
   this.setPlayerListOnClicks();
+  this.setRollDiceButtonOnClick();
 
 };// setup = function [end]
 
@@ -162,7 +160,10 @@ View.prototype.setAllDiceOnClicks = function(remove){
 View.prototype.setDiceOnClick = function(diceNumber, remove){
   if (remove === null){
       this.ele.dice[diceNumber].onclick = null;
-      this.ele.dice[diceNumber].style.opacity = 0.5;
+      // this.ele.dice[diceNumber].style.opacity = 0.5;
+      console.log("SETDICEONCLICK called with null args");
+      // throw new Error("setDiceOnClick null call - trace")
+      // CALLED ON NEXT TURN
       return;
     }
   this.ele.dice[diceNumber].style.opacity = 1;
@@ -185,12 +186,9 @@ View.prototype.setDiceOnClick = function(diceNumber, remove){
 View.prototype.currentPlayerDeadBehaviour = function(){
   this.game.nextTurn(true, this.gameState);
   this.renderDice(null);
-  this.renderCurrentPlayerArrows();
-  this.currentPlayerDied(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
-  this.renderDice(null);
-  // dispatchEvent(new Event('load'));
-  this.setup();
   this.renderCurrentPlayer();
+  this.currentPlayerDied(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
+  this.setup();
   endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   
 };// currentPlayerDeadBehaviour = function [end]
@@ -198,6 +196,7 @@ View.prototype.currentPlayerDeadBehaviour = function(){
 View.prototype.currentPlayerDied = function(){
   if(this.game.players[0].health <= 0){
     this.setRollDiceButtonOnClick(null);
+    this.setEndTurnButtonOnClick(null);
     setTimeout(this.currentPlayerDiedBehaviour, 3000); // function definition just above
     return true
   }
@@ -212,6 +211,8 @@ View.prototype.rollDice = function(){
   this.renderDice();
 
   this.game.resolveArrows();
+  this.renderCurrentPlayerArrows();
+  this.renderCurrentPlayerHealth();
   this.currentPlayerDied();
   this.enableShootButton()
   this.renderArrowPile();
@@ -294,8 +295,6 @@ View.prototype.setEndTurnButtonOnClick = function(remove){
   this.ele.endTurnButton.onclick = function(){
     this.game.nextTurn(false, this.gameState);
     this.renderCurrentPlayer();
-    this.renderDice(null);
-    // dispatchEvent(new Event('load'));
     this.setup();
     this.ele.endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     this.setRollDiceButtonOnClick();
@@ -544,9 +543,12 @@ View.prototype.diceRollFinished = function(){
 
 View.prototype.renderDice = function(remove){
   if (remove === null){
-    for (var i = 0; i < this.game.dice.all.length; i++) {
+    for (var i = 0; i < this.ele.dice.length; i++) {
       this.ele.dice[i].style.visibility = "hidden";
+      this.ele.dice[i].src = null;
       this.ele.dice[i].onclick = null;
+      console.log("RENDERDICE called with null arg");
+      // NOT CALLED ON END TURN
     }
   }
 
@@ -595,12 +597,15 @@ View.prototype.renderCurrentPlayerHealth = function(){
   this.ele.currentPlayerHealth.innerHTML = "";
   var overhealed = false;
   if (this.game.players[0].health > this.game.players[0].maxHealth) overhealed = true;
+  console.log("overhealed: ", overhealed);
   var numHeartsToDraw = this.game.players[0].health;
+  console.log("HP before overhealed check:", this.game.players[0].health);
+  console.log("MAX HP before overhealed check:", this.game.players[0].maxHealth);
   if (overhealed === true){
     numHeartsToDraw = this.game.players[0].maxHealth;
   }
 
-  console.log(overhealed, numHeartsToDraw);
+  console.log("overhealed boolean:",overhealed, "health to draw:", numHeartsToDraw);
   for (var i = 0; i < numHeartsToDraw; i++) {
     this.ele.currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
   }
