@@ -8,6 +8,10 @@ div#current-player-health{
   float: left;
 }
 
+.determinate{
+  display: block;
+}
+
 div#current-player-arrows{
   display: inline-block;
 }

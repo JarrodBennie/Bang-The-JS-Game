@@ -1,4 +1,3 @@
-var Player = require("./player.js");
 var playSound = require("./play_sound.js")
 
 var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydratedAllPlayers){
@@ -217,10 +216,6 @@ Game.prototype.rotatePlayers = function(numSteps){
 };
 
 Game.prototype.nextTurn = function(currentPlayerDead, gameState){
-
-  ////////////////////////////////////////////////////
-  // Adam has stuff to add to this function         //
-  ////////////////////////////////////////////////////
   this.checkForDeaths();
   //reset health to max in case of overhealing
   for (var i = 0; i < this.players.length; i++){
@@ -243,18 +238,11 @@ Game.prototype.nextTurn = function(currentPlayerDead, gameState){
   for (var i = 0; i < this.players.length;i++){
     this.players[i].target = null;
   }
-  gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
-  // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
-
-  // add any other function calls for stuff that needs to happen every time a new turn starts
 };
-
 Game.prototype.end = function(winCheckResult){
   Materialize.toast(winCheckResult, 3000);
   window.alert(winCheckResult);
 };
-
-
 // checks if any players have 0 health - and call the game.removePlayer(player) function on them if so
 Game.prototype.checkForDeaths = function(){
   for (var i = 0; i < this.players.length; i++){

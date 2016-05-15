@@ -70,57 +70,51 @@ View.prototype.grabElements = function(){
   this.ele.hintElement = document.getElementById('hint');
 
 }// grabElements method [end]
-
 View.prototype.setup = function(){
   this.setNewGameButtonOnClick();
 
   this.renderCurrentPlayer();
-
   this.renderPlayerList();
   this.renderHintCard();
   this.renderArrowPile();
+
   this.renderDice(null);
+  this.setAllDiceOnClicks(null);
   
   this.setHealButtonOnClick(null);
   this.setShootButtonOnClick(null);
   this.setEndTurnButtonOnClick(null);
-  this.setAllDiceOnClicks(null);
-
   this.setViewRoleButtonOnClick();
-  this.setPlayerListOnClicks();
   this.setRollDiceButtonOnClick();
+  this.setPlayerListOnClicks();
 
 };// setup = function [end]
-
-
-View.prototype.renderStart = function(){
-  console.log("view.renderStart invoked");
-
-
-};// renderStart = function [end]
-
-// ON CLICK EVENTS SETTERS // //////////////////////////////////////////////////
-
+View.prototype.renderUpdateAll = function(){
+  this.renderCurrentPlayer();
+  this.renderPlayerList();
+  this.renderHintCard();
+  this.renderArrowPile();
+  this.renderDice();
+};// renderUpdateAll = function [end]
+// ON CLICK EVENTS SETTERS ////////////////////////////////////////////////////
 View.prototype.setNewGameButtonOnClick = function(remove){
+  if (remove === null){
+    this.ele.newGameButton.onclick = null;
+    return;
+  }
   this.ele.newGameButton.onclick = function(){
     this.gameState.forceNew = true;
     this.game = this.gameState.load();
     this.gameState.forceNew = false;
-    // gameState.save();
-    // dispatchEvent(new Event('load'));
     this.setup();
   }.bind(this);
-  if (remove === null){
-    this.ele.newGameButton.onclick = null;
-  }
-};
-  
+};// setNewGameButtonOnClick = function [end]
 View.prototype.setRollDiceButtonOnClick = function(remove){
   if (remove === null){
     this.ele.rollDiceButton.onclick = null;
     this.ele.rollDiceButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+    return;
   }
-
   this.ele.rollDiceButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   this.ele.rollDiceButton.onclick = function(){
     this.rollDice();
@@ -183,29 +177,25 @@ View.prototype.setDiceOnClick = function(diceNumber, remove){
 // checking / doing stuff functions  // //////////////////////////////////////////////////
 // //////////////////////////////////////////////////
 
-View.prototype.currentPlayerDeadBehaviour = function(){
+View.prototype.ifCurrentPlayerDead = function(){
   this.game.nextTurn(true, this.gameState);
+  gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
+  // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
+  this.setup();
   this.renderDice(null);
-  this.renderCurrentPlayer();
   this.currentPlayerDied(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
   this.setup();
   endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
-  
 };// currentPlayerDeadBehaviour = function [end]
-
 View.prototype.currentPlayerDied = function(){
-  if(this.game.players[0].health <= 0){
+  if(this.game.players[0].health > 0) return false;
+    this.renderCurrentPlayerHealth();
+    this.renderCurrentPlayerArrows();
     this.setRollDiceButtonOnClick(null);
     this.setEndTurnButtonOnClick(null);
-    setTimeout(this.currentPlayerDiedBehaviour, 3000); // function definition just above
+    setTimeout(this.ifCurrentPlayerDead, 3000); // function definition just above
     return true
-  }
-  else{
-    return false;
-  }
 };// currentPlayerDied = function [end]
-
-
 View.prototype.rollDice = function(){
   this.game.dice.roll();
   this.renderDice();
@@ -236,16 +226,11 @@ View.prototype.rollDice = function(){
   this.renderCurrentPlayerHealth(); // NECESSARY duplication
   this.updateHealthBars();
 };// rollDice = function [end]
-
 View.prototype.dynamiteExplodes = function(){
   this.game.dynamiteExplodes();
   playSound("dynamite.mp3");
   Materialize.toast("Boom!", 2000);
 };// dynamiteExplodes = function [end]
-
-// utility function to avoid repition in the playerX.onclick functions below:
-// what was a one line ternary now has to be these 14 lines in this function:
-
 View.prototype.enableShootButton = function(){
   //have to .bind(this) to keep this scoped to the view object - 'this' scope becomes Window without binding
   var shootEnableFunctions = {
@@ -268,20 +253,19 @@ View.prototype.setViewRoleButtonOnClick = function(remove){
   }
   this.ele.roleButton.onclick = function(){
     this.setViewRoleButtonOnClick(null);
-    Materialize.toast('For your eyes only...', 2000,'',function(){
+    Materialize.toast('For your eyes only...', 2000, '',function(){
       this.ele.currentPlayerAvatarReveal.src = view.game.players[0].role.imgUrl;
-      this.ele.currentPlayerCharacter.innerHTML = view.game.players[0].role.name + '<i class="material-icons right">close</i>';
+      // this.ele.currentPlayerCharacter.innerHTML = view.game.players[0].role.name + '<i class="material-icons right">close</i>';
+
       setTimeout(function(){
         this.ele.currentPlayerAvatarReveal.src = view.game.players[0].character.imgUrl;
         this.ele.currentPlayerCharacter.innerHTML = view.game.players[0].character.name + '<i class="material-icons right">close</i>';
         this.ele.roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
-        setViewRoleButtonOnClick();
+        this.setViewRoleButtonOnClick();
       }.bind(this), 1500);
     }.bind(this))
   }.bind(this)
-
 };// setViewRoleButtonOnClick = function [end]
-
 View.prototype.setEndTurnButtonOnClick = function(remove){
   this.fireGatling();
   this.ele.endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
@@ -295,11 +279,10 @@ View.prototype.setEndTurnButtonOnClick = function(remove){
   }
   this.ele.endTurnButton.onclick = function(){
     this.game.nextTurn(false, this.gameState);
-    this.renderCurrentPlayer();
+    this.gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
     this.setup();
     this.ele.endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     this.setRollDiceButtonOnClick();
-    // this.renderPlayerList();
   }.bind(this)
 };// setEndTurnButtonOnClick = function [end]
 
@@ -308,7 +291,6 @@ View.prototype.setPlayerListOnClicks = function(){
     this.setPlayerListItemOnClick(i);
   }
 };// setPlayerListOnClicks = function [end]
-
 View.prototype.setPlayerListItemOnClick = function(playerIndex){
   this.ele.playerList[playerIndex].div.onclick = function(){
     if(this.game.players[0].target === this.game.allPlayers[playerIndex]){
@@ -322,7 +304,6 @@ View.prototype.setPlayerListItemOnClick = function(playerIndex){
     this.game.canHeal() ? this.setHealButtonOnClick() : this.setHealButtonOnClick(null)
   }.bind(this)
 };// setPlayerListItemOnClick = function [end]
-
 View.prototype.targetPlayer = function(selectedDiv){
   var healthBar = selectedDiv.getElementsByClassName('progress')[0];
   // TARGET PREVIOUSLY SELECTED PLAYER
@@ -358,7 +339,6 @@ View.prototype.targetPlayer = function(selectedDiv){
   }
   
 };// targetPlayer = function [end]
-
 // UNUSED
 View.prototype.endGame = function(){
   // TRIGGER END GAME MODAL
@@ -373,8 +353,6 @@ View.prototype.endGame = function(){
   view.gameState.save();
   view.game.end();
 };// endGame = function [end]
-
-
 View.prototype.setShootButtonOnClick = function(remove){
   if (remove === null){
     this.ele.shootButton.setAttribute('class', 'waves-effect waves-light btn disabled')
@@ -391,6 +369,7 @@ View.prototype.setShootButtonOnClick = function(remove){
     Materialize.toast(shootMessage, 2000);
     this.game.shootTarget();
     playSound("pistol-riccochet.ogg")
+    this.renderPlayerList();
 
     if (this.game.canShoot1()){
       this.setShootButtonOnClick();
@@ -420,7 +399,6 @@ View.prototype.setShootButtonOnClick = function(remove){
     }
   }.bind(this); // onclick end
 };// setShootButtonOnClick = function [end]
-
 View.prototype.setHealButtonOnClick = function(remove){
   if (remove === null){
     this.ele.healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
@@ -444,9 +422,6 @@ View.prototype.setHealButtonOnClick = function(remove){
     }
   }.bind(this)
 };// setHealButtonOnClick = function [end]
-
-
-
 View.prototype.enableShootButtonFourPlayers = function(){
   if (this.game.canShoot1()){
     this.setShootButtonOnClick();
@@ -463,7 +438,6 @@ View.prototype.enableShootButtonFourPlayers = function(){
     this.setShootButtonOnClick(null);
   }
 };// enableShootButtonFourPlayers = function [end]
-
 View.prototype.enableShootButtonThreePlayers = function(){
   if (this.game.canShoot1() && this.game.canShoot2()){
     this.setShootButtonOnClick();
@@ -477,7 +451,6 @@ View.prototype.enableShootButtonThreePlayers = function(){
     this.setShootButtonOnClick(null);
   }
 };// enableShootButtonThreePlayers = function [end]
-
 View.prototype.enableShootButtonTwoPlayers = function(){
   if (this.game.players[0].target == this.game.players[1] && this.game.players[0].actionCounters["1"]){
   this.setShootButtonOnClick();
@@ -490,15 +463,12 @@ View.prototype.enableShootButtonTwoPlayers = function(){
     this.setShootButtonOnClick(null);
   }
 };// enableShootButtonTwoPlayers = function [end]
-  
 View.prototype.enableShootButtonOnePlayer = function(){
   if (this.game.players[0].target == this.game.players[0] && (this.game.players[0].actionCounters["1"] || this.game.players[0].actionCounters["2"])){
     console.log("You can't shoot yourself - the game should be over, you're the only player alive");
     this.setShootButtonOnClick(null);
   }
-  
 };// enableShootButtonOnePlayer = function [end]
-
 View.prototype.enableHealButton = function(){
   if (this.game.canHeal()){
     this.setHealButtonOnClick();
@@ -507,7 +477,6 @@ View.prototype.enableHealButton = function(){
     this.setHealButtonOnClick(null);
   }
 };// enableHealButton = function [end]
-
 View.prototype.fireGatling = function(){
   if(this.game.gatlingCheck()){
     this.game.fireGatling();
@@ -517,7 +486,6 @@ View.prototype.fireGatling = function(){
     this.game.checkForDeaths();
   }
 };// fireGatling = function [end]
-
 View.prototype.diceRollFinished = function(){
   if (this.game.dice.canRoll() === false){
     this.game.addToActionCounters();
@@ -537,11 +505,9 @@ View.prototype.diceRollFinished = function(){
     }
   }
 };
-
 // //////////////////////////////////////////////////// //////////////////////////////////////////////////
 // RENDER METHODS // //////////////////////////////////////////////////
 // //////////////////////////////////////////////////// //////////////////////////////////////////////////
-
 View.prototype.renderDice = function(remove){
   if (remove === null){
     for (var i = 0; i < this.ele.dice.length; i++) {
@@ -552,7 +518,6 @@ View.prototype.renderDice = function(remove){
       // NOT CALLED ON END TURN
     }
   }
-
     var diceCount = 0;
     for (diceCount; diceCount < this.game.dice.saved.length; diceCount++) {
       this.ele.dice[diceCount].src = this.game.dice.imageUrl[this.game.dice.saved[diceCount]];
@@ -566,7 +531,6 @@ View.prototype.renderDice = function(remove){
       this.ele.dice[diceCount].src = this.game.dice.imageUrl[this.game.dice.all[diceCount]];
       this.ele.dice[diceCount].style.visibility = "visible";
         this.ele.dice[diceCount].style.opacity = 1;
-
     }
     if(this.game.dice.saved.length === 5){
       for (var i = 0; i < this.game.dice.all; i++){
@@ -574,7 +538,6 @@ View.prototype.renderDice = function(remove){
       }
     }
 };// renderDice = function [end]
-
 View.prototype.renderArrowPile = function(){
   for (var i = 0; i < this.ele.arrowPile.length; i++){
     this.ele.arrowPile[i].src = "http://i.imgur.com/pUn7Uru.png";
@@ -582,7 +545,6 @@ View.prototype.renderArrowPile = function(){
     if(i >= this.game.totalArrows) this.ele.arrowPile[i].style.visibility = "hidden";
   }; // loop [end]
 };// renderArrowPile = function [end]
-
 View.prototype.renderCurrentPlayer = function(){
   this.ele.currentPlayerAvatar.src = this.game.players[0].character.imgUrl;
   this.ele.currentPlayerAvatarReveal.src = this.game.players[0].character.imgUrl;
@@ -593,7 +555,6 @@ View.prototype.renderCurrentPlayer = function(){
   this.renderCurrentPlayerHealth();  
   this.renderCurrentPlayerArrows();
 };// renderCurrentPlayer = function [end]
-
 View.prototype.renderCurrentPlayerHealth = function(){
   this.ele.currentPlayerHealth.innerHTML = "";
   var overhealed = false;
@@ -605,7 +566,6 @@ View.prototype.renderCurrentPlayerHealth = function(){
   if (overhealed === true){
     numHeartsToDraw = this.game.players[0].maxHealth;
   }
-
   console.log("overhealed boolean:",overhealed, "health to draw:", numHeartsToDraw);
   for (var i = 0; i < numHeartsToDraw; i++) {
     this.ele.currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
@@ -614,7 +574,6 @@ View.prototype.renderCurrentPlayerHealth = function(){
     this.ele.currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
   }
 };// renderCurrentPlayerHealth = function [end]
-
 View.prototype.renderCurrentPlayerArrows = function(){
   for(var i = 0; i < this.ele.currentPlayerArrows.length; i++){
     this.ele.currentPlayerArrows[i].src = "https://i.imgur.com/e6hASp9.png";
@@ -622,26 +581,20 @@ View.prototype.renderCurrentPlayerArrows = function(){
     if(i >= this.game.players[0].arrows) this.ele.currentPlayerArrows[i].style.display = "none";
   }
 };// renderCurrentPlayerArrows = function [end]
-
-
 View.prototype.renderPlayerList = function(){
   for (var i = 0; i < this.game.allPlayers.length; i++){
     this.renderPlayerListItem(i);
   }
 };// renderPlayerList = function [end]
-
 View.prototype.updateHealthBars = function(){
   for(i = 0; i < this.game.allPlayers.length; i++){
     this.ele.playerList[i].healthBar.style.width = this.game.allPlayers[i].healthAsPercentage() + "%";
     this.game.checkForDeaths();
   }
 };// updateHealthBars = function [end]
-
 View.prototype.renderPlayerListItem = function(playerIndex){
-
   var playerObject = this.ele.playerList[playerIndex];
   // var playerItem = this.ele.playerListItems[playerIndex];
-
   playerObject.name.setAttribute("class", "title grey-text text-darken-4");
   playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>";
   playerObject.character.setAttribute("class", "grey-text text-darken-4");
@@ -660,7 +613,6 @@ View.prototype.renderPlayerListItem = function(playerIndex){
     playerObject.currentPlayerDiv.innerHTML = '<b id="current-player-5">Current Player</b>';
     playerObject.div.setAttribute("class", "collection-item avatar red darken-4 player");
   }
-
   else if(this.game.allPlayers[playerIndex] == this.game.players[1]){
       playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>" + ' - NEXT';
   }
@@ -670,7 +622,6 @@ View.prototype.renderPlayerListItem = function(playerIndex){
   else{
     playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>";
   }
-
   if(this.game.allPlayers[playerIndex].role.name === "Sheriff"){
     playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
     playerObject.character.innerText = this.game.allPlayers[playerIndex].role.name;  
@@ -678,7 +629,6 @@ View.prototype.renderPlayerListItem = function(playerIndex){
     playerObject.avatar.src = this.game.allPlayers[playerIndex].character.imgUrl;
     playerObject.character.innerText = this.game.allPlayers[playerIndex].character.name;
   }
-
   if(this.game.allPlayers[playerIndex].health <= 0){
     playerObject.character.innerText = this.game.allPlayers[playerIndex].role.name;
     playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
@@ -697,11 +647,8 @@ View.prototype.renderPlayerListItem = function(playerIndex){
     playerObject.currentPlayerDiv.style.display = "inline";
     playerObject.healthBar.style.display = "none";
   }
-
   playerObject.healthBar.style.width = this.game.allPlayers[playerIndex].healthAsPercentage() + "%"
 };// renderPlayerListItem = function [end]
-
-
 View.prototype.renderHintCard = function(){
   // HINT CARD
   this.ele.hintElement.innerHTML = this.hint.all[Math.floor(Math.random()*this.hint.all.length)];
