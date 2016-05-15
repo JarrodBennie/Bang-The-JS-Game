@@ -11,7 +11,6 @@ var players = new Array(8);
 for (var i = 0; i < players.length; i++){
   players[i] = new Player("Player " + (i+1) )
 };
-
 var characterMaxHealthValues = true;
 var game = new Game(new Dice(), players, characterMaxHealthValues);
 game.setup();
@@ -24,21 +23,4 @@ window.onload = function(){
   view.grabElements();
   view.hint = hint;
   view.setup();
-}; // END OF WINDOW ONLOAD
-
-/////////////////////////////
-// WINDOW ONLOAD ENDS HERE //
-/////////////////////////////
-
-//////////////////////////////////
-// WINDOW ONLOAD ENDS SOMEWHERE //
-//////////////////////////////////
-
-//////////////////////////////////////
-//  WINDOW ONLOAD USED TO END HERE  //
-//////////////////////////////////////
-
-////////////////////////////////////////////////////////////
-//    'dice.unsave(dice.all[indexOf(dice.all[index])])'   //
-//      -Craig                                            //
-////////////////////////////////////////////////////////////
+}; // window.onload = [end]
