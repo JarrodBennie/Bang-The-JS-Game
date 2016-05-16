@@ -353,12 +353,12 @@ View.prototype.setViewRoleButtonOnClick = function(remove){
   this.ele.roleButton.onclick = function(){
     this.setViewRoleButtonOnClick(null);
     Materialize.toast('For your eyes only...', 2000, '',function(){
-      this.ele.currentPlayerAvatarReveal.src = view.game.players[0].role.imgUrl;
-      // this.ele.currentPlayerCharacter.innerHTML = view.game.players[0].role.name + '<i class="material-icons right">close</i>';
+      this.ele.currentPlayerAvatarReveal.src = this.game.players[0].role.imgUrl;
+      this.ele.currentPlayerCharacter.innerHTML = this.game.players[0].role.name + '<i class="material-icons right">close</i>';
 
       setTimeout(function(){
-        this.ele.currentPlayerAvatarReveal.src = view.game.players[0].character.imgUrl;
-        this.ele.currentPlayerCharacter.innerHTML = view.game.players[0].character.name + '<i class="material-icons right">close</i>';
+        this.ele.currentPlayerAvatarReveal.src = this.game.players[0].character.imgUrl;
+        this.ele.currentPlayerCharacter.innerHTML = this.game.players[0].character.name + '<i class="material-icons right">close</i>';
         this.ele.roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
         this.setViewRoleButtonOnClick();
       }.bind(this), 1500);
