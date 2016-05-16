@@ -98,9 +98,9 @@ View.prototype.renderPlayerListItem = function(playerIndex){
     playerObject.currentPlayerText.innerText = 'Current Player';
     playerObject.name.setAttribute("class", "title white-text");
     playerObject.character.setAttribute("class", "white-text");
-    playerObject.currentPlayerDiv.style.display = "inline";
     playerObject.healthDiv.style.display = "none";
     playerObject.currentPlayerDiv.style.display = "inline-block";
+    playerObject.currentPlayerDiv.setAttribute('class', 'grey-text text-lighten-4');
     playerObject.currentPlayerDiv.innerHTML = '<b id="current-player-5">Current Player</b>';
     playerObject.div.setAttribute("class", "collection-item avatar red darken-4 player");
   }
