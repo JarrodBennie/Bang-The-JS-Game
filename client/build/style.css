@@ -8,7 +8,7 @@ div#current-player-health{
   float: left;
 }
 
-.determinate{
+div.determinate{
   display: block;
 }
 

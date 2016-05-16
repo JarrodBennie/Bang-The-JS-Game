@@ -32,6 +32,7 @@ View.prototype.grabElements = function(){
 
   // PLAYER LIST COMPONENT PARTS
   this.ele.playerList = [];
+  var determinates = document.getElementsByClassName('determinate');
   for (var i = 1; i <= 8; i++){
     var playerListObject = {};
     playerListObject.div = document.getElementById('player-'+i);
@@ -44,9 +45,16 @@ View.prototype.grabElements = function(){
     playerListObject.currentPlayerText = document.getElementById('current-player-'+i)
     playerListObject.sheriffIcon = document.querySelector('li.player-'+i+', i.sheriff-icon');
 
+    // playerListObject.healthBarFill = determinates[i-1];
+    console.log("player"+i+"healthBar: ", playerListObject.healthBar);
+    // console.log("player"+i+"healthBarFill: ", playerListObject.healthBarFill);
+
     this.ele.playerList.push(playerListObject);
   }// for loop 8 [end]
-
+  // console.log(this.ele.playerList[0].healthBarFill);
+  var allHealthBars = document.getElementsByClassName('determinate');
+  console.log(allHealthBars);
+  console.log(allHealthBars.length);
   // CURRENT PLAYER
   // this.ele.currentPlayer = document.getElementById('current-player');
   this.ele.currentPlayerAvatar = document.getElementById('current-player-avatar');
@@ -59,17 +67,108 @@ View.prototype.grabElements = function(){
   for (var i = 1; i <= 9; i++){
     this.ele.currentPlayerArrows.push(document.getElementById("current-player-arrow-" + i));
   }
-
   // TARGET ARROW PILE PICTURES
   this.ele.arrowPile = [];
   for (var i = 1; i <= 9; i++){
     this.ele.arrowPile.push(document.getElementById('arrow-' + i));
   }
-  
   // TARGET HINT CARD
   this.ele.hintElement = document.getElementById('hint');
-
 }// grabElements method [end]
+View.prototype.updateHealthBars = function(){
+  for(i = 0; i < this.game.allPlayers.length; i++){
+    this.ele.playerList[i].healthBar.style.width = this.game.allPlayers[i].healthAsPercentage() + "%";
+    this.game.checkForDeaths();
+  }
+};// updateHealthBars = function [end]
+View.prototype.renderPlayerListItem = function(playerIndex){
+  var playerObject = this.ele.playerList[playerIndex];
+  // var playerItem = this.ele.playerListItems[playerIndex];
+  playerObject.name.setAttribute("class", "title grey-text text-darken-4");
+  playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>";
+  playerObject.character.setAttribute("class", "grey-text text-darken-4");
+  playerObject.currentPlayerDiv.style.display = "none";
+  playerObject.healthDiv.style.display = "block";
+  playerObject.healthDiv.setAttribute('class', 'progress red lighten-4')
+  playerObject.div.setAttribute("class", "collection-item avatar player");
+  playerObject.healthBar.style.display = "block"; // IMPORTANT - some bars default to display: none - some default to block
+  playerObject.healthBar.style.width = this.game.allPlayers[playerIndex].healthAsPercentage() + "%"
+
+  if(this.game.allPlayers[playerIndex] == this.game.players[0]){
+    playerObject.currentPlayerText.innerText = 'Current Player';
+    playerObject.name.setAttribute("class", "title white-text");
+    playerObject.character.setAttribute("class", "white-text");
+    playerObject.currentPlayerDiv.style.display = "inline";
+    playerObject.healthDiv.style.display = "none";
+    playerObject.currentPlayerDiv.style.display = "inline-block";
+    playerObject.currentPlayerDiv.innerHTML = '<b id="current-player-5">Current Player</b>';
+    playerObject.div.setAttribute("class", "collection-item avatar red darken-4 player");
+  }
+  else if(this.game.allPlayers[playerIndex] == this.game.players[1]){
+      playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>" + ' - NEXT';
+  }
+  else if(this.game.allPlayers[playerIndex] == this.game.players[this.game.players.length - 1]){
+    playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>" + ' - PREVIOUS';
+  }
+  else{
+    playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>";
+  }
+  if(this.game.allPlayers[playerIndex].role.name === "Sheriff"){
+    playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
+    playerObject.character.innerText = this.game.allPlayers[playerIndex].role.name;  
+  }else{
+    playerObject.avatar.src = this.game.allPlayers[playerIndex].character.imgUrl;
+    playerObject.character.innerText = this.game.allPlayers[playerIndex].character.name;
+  }
+  if(this.game.allPlayers[playerIndex].health <= 0){
+    playerObject.character.innerText = this.game.allPlayers[playerIndex].role.name;
+    playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
+    playerObject.div.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+    playerObject.div.onclick = null;
+    playerObject.currentPlayerText.setAttribute('class', 'grey-text text-darken-4');
+    playerObject.currentPlayerText.innerText = 'DEAD';
+
+    playerObject.currentPlayerDiv.style.display = "inline";
+    playerObject.healthDiv.style.display = "none";
+    playerObject.character.innerHTML = this.game.allPlayers[playerIndex].role.name;
+    playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
+    // sets text colour to black for "DEAD" text:
+    playerObject.currentPlayerDiv.setAttribute('class', 'grey-text text-darken-4')
+    //possibly unnecessary?:
+    playerObject.currentPlayerDiv.style.display = "inline";
+    playerObject.healthBar.style.display = "none";
+  }
+};// renderPlayerListItem = function [end]
+// // old view healthbars function
+// var updateHealthBars = function(){
+//   for(i = 0; i < allHealthBars.length; i++){
+//     allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
+//     playerObject.determinate
+//     var p = document.getElementById("player-" + (i + 1));
+//     playerObject.div
+//     var pChar = document.getElementById("player-" + (i + 1) + "-character");
+//     playerObject.character
+//     var pAva = document.getElementById("player-" + (i + 1) + "-avatar");
+//     playerObject.avatar
+//     var pDead = document.getElementById("current-player-" + (i + 1));
+//     playerObject.currentPlayerText
+//     var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
+//     playerObject.currentPlayerDiv
+//     var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
+//     playerObject.healthDiv
+//     if(game.allPlayers[i].health <= 0){
+//       game.checkForDeaths();
+//       p.onclick = null;
+//       p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
+//       pChar.innerHTML = game.allPlayers[i].role.name;
+//       pAva.src = game.allPlayers[i].role.imgUrl;
+//       pDead.innerText = 'DEAD';
+//       pDead.setAttribute('class', 'grey-text text-darken-4')
+//       pDeadDiv.style.display = "inline";
+//       pHealthBar.style.display = "none";
+//     }
+//   }
+// }
 View.prototype.setup = function(){
   this.setNewGameButtonOnClick();
 
@@ -585,70 +684,8 @@ View.prototype.renderPlayerList = function(){
   for (var i = 0; i < this.game.allPlayers.length; i++){
     this.renderPlayerListItem(i);
   }
+  // this.updateHealthBars(); // doesn't fix new game health bar display bug
 };// renderPlayerList = function [end]
-View.prototype.updateHealthBars = function(){
-  for(i = 0; i < this.game.allPlayers.length; i++){
-    this.ele.playerList[i].healthBar.style.width = this.game.allPlayers[i].healthAsPercentage() + "%";
-    this.game.checkForDeaths();
-  }
-};// updateHealthBars = function [end]
-View.prototype.renderPlayerListItem = function(playerIndex){
-  var playerObject = this.ele.playerList[playerIndex];
-  // var playerItem = this.ele.playerListItems[playerIndex];
-  playerObject.name.setAttribute("class", "title grey-text text-darken-4");
-  playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>";
-  playerObject.character.setAttribute("class", "grey-text text-darken-4");
-  playerObject.currentPlayerDiv.style.display = "none";
-  playerObject.healthDiv.style.display = "block";
-  playerObject.healthDiv.setAttribute('class', 'progress red lighten-4')
-  playerObject.div.setAttribute("class", "collection-item avatar player");
-
-  if(this.game.allPlayers[playerIndex] == this.game.players[0]){
-    playerObject.currentPlayerText.innerText = 'Current Player';
-    playerObject.name.setAttribute("class", "title white-text");
-    playerObject.character.setAttribute("class", "white-text");
-    playerObject.currentPlayerDiv.style.display = "inline";
-    playerObject.healthDiv.style.display = "none";
-    playerObject.currentPlayerDiv.style.display = "inline-block";
-    playerObject.currentPlayerDiv.innerHTML = '<b id="current-player-5">Current Player</b>';
-    playerObject.div.setAttribute("class", "collection-item avatar red darken-4 player");
-  }
-  else if(this.game.allPlayers[playerIndex] == this.game.players[1]){
-      playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>" + ' - NEXT';
-  }
-  else if(this.game.allPlayers[playerIndex] == this.game.players[this.game.players.length - 1]){
-    playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>" + ' - PREVIOUS';
-  }
-  else{
-    playerObject.name.innerHTML = "<b>" + this.game.allPlayers[playerIndex].name + "</b>";
-  }
-  if(this.game.allPlayers[playerIndex].role.name === "Sheriff"){
-    playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
-    playerObject.character.innerText = this.game.allPlayers[playerIndex].role.name;  
-  }else{
-    playerObject.avatar.src = this.game.allPlayers[playerIndex].character.imgUrl;
-    playerObject.character.innerText = this.game.allPlayers[playerIndex].character.name;
-  }
-  if(this.game.allPlayers[playerIndex].health <= 0){
-    playerObject.character.innerText = this.game.allPlayers[playerIndex].role.name;
-    playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
-    playerObject.div.setAttribute('class', 'collection-item avatar grey lighten-4 player');
-    playerObject.div.onclick = null;
-    playerObject.currentPlayerText.setAttribute('class', 'grey-text text-darken-4');
-    playerObject.currentPlayerText.innerText = 'DEAD';
-
-    playerObject.currentPlayerDiv.style.display = "inline";
-    playerObject.healthDiv.style.display = "none";
-    playerObject.character.innerHTML = this.game.allPlayers[playerIndex].role.name;
-    playerObject.avatar.src = this.game.allPlayers[playerIndex].role.imgUrl;
-    // sets text colour to black for "DEAD" text:
-    playerObject.currentPlayerDiv.setAttribute('class', 'grey-text text-darken-4')
-    //possibly unnecessary?:
-    playerObject.currentPlayerDiv.style.display = "inline";
-    playerObject.healthBar.style.display = "none";
-  }
-  playerObject.healthBar.style.width = this.game.allPlayers[playerIndex].healthAsPercentage() + "%"
-};// renderPlayerListItem = function [end]
 View.prototype.renderHintCard = function(){
   // HINT CARD
   this.ele.hintElement.innerHTML = this.hint.all[Math.floor(Math.random()*this.hint.all.length)];
