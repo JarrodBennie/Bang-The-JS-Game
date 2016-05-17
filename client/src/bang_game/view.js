@@ -13,7 +13,6 @@ var View = function(gameState, game){
 
 // GET HTML ELEMENTS FROM PAGE
 View.prototype.grabElements = function(){
-  this.docBody = document.getElementsByTagName("body");
   // BUTTONS
   this.ele.rollDiceButton = document.getElementById('roll-dice-button');
   this.ele.healButton = document.getElementById('heal-button');
