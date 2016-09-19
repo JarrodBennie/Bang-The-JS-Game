@@ -706,14 +706,14 @@ window.onload = function(){
     if (game.players.length > 3){
       if (game.canShoot1()){
         enableShootButton(game.players[0].target);
-        playSound("shotgun-cock.wav");
+        playSound("audio/shotgun-cock.wav");
       }
       else if(!game.canShoot1() && !game.canShoot2()){
         disableShootButton();
       }
       if(game.canShoot2()){
         enableShootButton(game.players[0].target);
-        playSound("revolver-cock.wav")
+        playSound("audio/revolver-cock.wav")
       }
       else if(!game.canShoot2() && !game.canShoot1()){
         disableShootButton();
@@ -721,20 +721,20 @@ window.onload = function(){
     } else if (game.players.length === 3){
       if (game.canShoot1() && game.canShoot2()){
         enableShootButton(game.players[0].target);
-        playSound("shotgun-cock.wav");
+        playSound("audio/shotgun-cock.wav");
       } else if (game.canShoot1()){
         enableShootButton(game.players[0].target);
-        playSound("shotgun-cock.wav");
+        playSound("audio/shotgun-cock.wav");
       }
       else if(!game.canShoot1() && !game.canShoot2()){
         disableShootButton();
       }
       if (game.canShoot1() && game.canShoot2()){
         enableShootButton(game.players[0].target);
-        playSound("shotgun-cock.wav");
+        playSound("audio/shotgun-cock.wav");
       } else if(game.canShoot2()){
         enableShootButton(game.players[0].target);
-        playSound("revolver-cock.wav")
+        playSound("audio/revolver-cock.wav")
       }
       else if(!game.canShoot2() && !game.canShoot1()){
         disableShootButton();
@@ -744,10 +744,10 @@ window.onload = function(){
     else if (game.players.length === 2){
       if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]){
       enableShootButton(game.players[0].target);
-      playSound("shotgun-cock.wav");
+      playSound("audio/shotgun-cock.wav");
       } else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]){
       enableShootButton(game.players[0].target);
-        playSound("revolver-cock.wav")
+        playSound("audio/revolver-cock.wav")
       } else if (game.players[0].target == game.players[0]){
         console.log("You can't shoot yourself, try shooting the other surviving player");
         disableShootButton();
@@ -931,7 +931,7 @@ window.onload = function(){
       Materialize.toast(shootMessage, 2000);
 
       game.shootTarget();
-      playSound("pistol-riccochet.ogg")
+      playSound("audio/pistol-riccochet.ogg")
 
       if (game.canShoot1()){
         enableShootButton(game.players[0].target);
@@ -973,7 +973,7 @@ window.onload = function(){
     healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
     healButton.onclick = function(){
       Materialize.toast('You healed ' + target.name, 2000);
-      playSound("bottle-pour.mp3");
+      playSound("audio/bottle-pour.mp3");
       game.beerTarget();
       if (game.canHeal()) {
         enableHealButton(game.players[0].target);
@@ -1070,7 +1070,7 @@ window.onload = function(){
 
     game.dynamiteExplodes();
     if (game.dice.threeDynamite()) {
-      playSound("dynamite.mp3")
+      playSound("audio/dynamite.mp3")
     }
 
     ifCurrentPlayerDiesTriggerNextTurn();
@@ -1106,7 +1106,7 @@ window.onload = function(){
     fireGatlingCheck();
     endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
       if (game.threeGatling()){
-        playSound("gatling-gun.mp3");
+        playSound("audio/gatling-gun.mp3");
         updateHealthBars();
       }
     endTurnButton.onclick = function(){
@@ -1184,7 +1184,7 @@ window.onload = function(){
     if (dice.canRoll() === false){
       if (game.checkActions() <= 0) {
         if (game.threeGatling()){
-          playSound("gatling-gun.mp3")
+          playSound("audio/gatling-gun.mp3")
           updateHealthBars();
           // game.checkForDeaths();
           // need to update the live array if someone dies so that 1s and 2s are still accurate in terms of distance in the same turn as someone dies
