@@ -467,7 +467,8 @@ View.prototype.setShootButtonOnClick = function(remove){
     Materialize.toast(shootMessage, 2000);
     this.game.shootTarget();
     playSound("pistol-riccochet.ogg")
-    this.renderPlayerList();
+    // this line was causing inverted target highlighting:
+    // this.renderPlayerList();
 
     if (this.game.canShoot1()){
       this.setShootButtonOnClick();
