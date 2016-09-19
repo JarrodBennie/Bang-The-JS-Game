@@ -23,4 +23,4 @@ window.onload = function(){
   view.grabElements();
   view.hint = hint;
   view.setup();
-}; // window.onload = [end]
+};

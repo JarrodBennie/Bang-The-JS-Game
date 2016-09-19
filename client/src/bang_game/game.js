@@ -354,13 +354,14 @@ Game.prototype.resolveArrows = function(){
     // throw new Error("giving an arrow")
     // console.log("you got an arrow");
     this.arrowsDamage();
+    }
   };
     this.dice.arrowsRolled = 0;
   // this.dice.currentRoll = [];
 
 };
 Game.prototype.assignArrows = function(){
-  
+
 };// assignArrows = function [end]
 
 Game.prototype.arrowsDamage = function(){
@@ -370,7 +371,7 @@ Game.prototype.arrowsDamage = function(){
   Materialize.toast("The Indians have attacked!!", 2000);
   playSound("bow-and-arrows.mp3")
   // console.log("arrows in!");
-  //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted 
+  //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted
   this.checkForDeaths();
 };// arrowsDamage = function [end]
 
