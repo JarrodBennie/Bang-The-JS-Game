@@ -354,12 +354,10 @@ Game.prototype.resolveArrows = function(){
     // throw new Error("giving an arrow")
     // console.log("you got an arrow");
     this.arrowsDamage();
-    }
-  };
     this.dice.arrowsRolled = 0;
-  // this.dice.currentRoll = [];
-
+  }
 };
+
 Game.prototype.assignArrows = function(){
 
 };// assignArrows = function [end]
