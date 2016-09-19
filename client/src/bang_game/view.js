@@ -1,7 +1,8 @@
-Game = require('./game');
-Player = require('./player');
-Dice = require('./dice');
-Hint = require('./hint');
+var Game = require('./game');
+var Player = require('./player');
+var Dice = require('./dice');
+var Hint = require('./hint');
+var playSound = require("./playSound.js")
 
 var View = function(gameState, game){
   this.ele = {};
@@ -326,7 +327,7 @@ View.prototype.rollDice = function(){
 };// rollDice = function [end]
 View.prototype.dynamiteExplodes = function(){
   this.game.dynamiteExplodes();
-  playSound("dynamite.mp3");
+  playSound("audio/dynamite.mp3");
   Materialize.toast("Boom!", 2000);
 };// dynamiteExplodes = function [end]
 View.prototype.enableShootButton = function(){
@@ -368,7 +369,7 @@ View.prototype.setEndTurnButtonOnClick = function(remove){
   this.fireGatling();
   this.ele.endTurnButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   if (this.game.fireGatling()){
-    playSound("gatling-gun.mp3");
+    playSound("audio/gatling-gun.mp3");
     this.updateHealthBars();
   }
   if (remove === null){
@@ -466,7 +467,7 @@ View.prototype.setShootButtonOnClick = function(remove){
     }
     Materialize.toast(shootMessage, 2000);
     this.game.shootTarget();
-    playSound("pistol-riccochet.ogg")
+    playSound("audio/pistol-riccochet.ogg")
     // this line was causing inverted target highlighting:
     // this.renderPlayerList();
 
@@ -507,7 +508,7 @@ View.prototype.setHealButtonOnClick = function(remove){
   this.ele.healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
   this.ele.healButton.onclick = function(){
     Materialize.toast('You healed ' + this.game.players[0].target.name, 2000);
-    playSound("bottle-pour.mp3");
+    playSound("audio/bottle-pour.mp3");
     this.game.beerTarget();
     if (this.game.canHeal()) {
       this.setHealButtonOnClick();
@@ -524,14 +525,14 @@ View.prototype.setHealButtonOnClick = function(remove){
 View.prototype.enableShootButtonFourPlayers = function(){
   if (this.game.canShoot1()){
     this.setShootButtonOnClick();
-    playSound("shotgun-cock.wav");
+    playSound("audio/shotgun-cock.wav");
   }
   else if(!this.game.canShoot1() && !this.game.canShoot2()){
     this.setShootButtonOnClick(null);
   }
   if(this.game.canShoot2()){
     this.setShootButtonOnClick();
-    playSound("revolver-cock.wav")
+    playSound("audio/revolver-cock.wav")
   }
   else if(!this.game.canShoot2() && !this.game.canShoot1()){
     this.setShootButtonOnClick(null);
@@ -540,11 +541,11 @@ View.prototype.enableShootButtonFourPlayers = function(){
 View.prototype.enableShootButtonThreePlayers = function(){
   if (this.game.canShoot1() && this.game.canShoot2()){
     this.setShootButtonOnClick();
-    playSound("shotgun-cock.wav");
+    playSound("audio/shotgun-cock.wav");
   }
   else if (this.game.canShoot1()){
     this.setShootButtonOnClick();
-    playSound("shotgun-cock.wav");
+    playSound("audio/shotgun-cock.wav");
   }
   else if(!this.game.canShoot1() && !this.game.canShoot2()){
     this.setShootButtonOnClick(null);
@@ -553,10 +554,10 @@ View.prototype.enableShootButtonThreePlayers = function(){
 View.prototype.enableShootButtonTwoPlayers = function(){
   if (this.game.players[0].target == this.game.players[1] && this.game.players[0].actionCounters["1"]){
   this.setShootButtonOnClick();
-  playSound("shotgun-cock.wav");
+  playSound("audio/shotgun-cock.wav");
   } else if (this.game.players[0].target == this.game.players[1] && this.game.players[0].actionCounters["2"]){
   this.setShootButtonOnClick();
-    playSound("revolver-cock.wav")
+    playSound("audio/revolver-cock.wav")
   } else if (this.game.players[0].target == this.game.players[0]){
     console.log("You can't shoot yourself, try shooting the other surviving player");
     this.setShootButtonOnClick(null);
@@ -580,7 +581,7 @@ View.prototype.fireGatling = function(){
   if(this.game.gatlingCheck()){
     this.game.fireGatling();
     Materialize.toast(this.game.players[0].name + " Used gatling!", 2000);
-    playSound("gatling-gun.mp3")
+    playSound("audio/gatling-gun.mp3")
     this.updateHealthBars();
     this.game.checkForDeaths();
   }

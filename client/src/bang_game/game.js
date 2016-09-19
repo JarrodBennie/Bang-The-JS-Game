@@ -1,4 +1,4 @@
-var playSound = require("./play_sound.js")
+var playSound = require("./playSound.js")
 
 var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydratedAllPlayers){
   this.characterBasedMaxHealth = characterBasedMaxHealth;
