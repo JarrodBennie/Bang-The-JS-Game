@@ -6,7 +6,6 @@ var playSound = require("./playSound.js")
 
 var View = function(gameState, game){
   this.ele = {};
-  this.docBody = {};
   this.gameState = gameState;
   this.game = game;
   this.hint;
