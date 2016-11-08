@@ -1,9 +1,9 @@
-Game = require('./bang_game/game');
-Player = require('./bang_game/player');
-Dice = require('./bang_game/dice');
-Hint = require('./bang_game/hint');
-GameState = require("./bang_game/gameState.js");
-playSound = require("./bang_game/play_sound.js");
+Game = require('./models/game');
+Player = require('./models/player');
+Dice = require('./models/dice');
+Hint = require('./models/hint');
+GameState = require("./models/gameState.js");
+playSound = require("./models/play_sound.js");
 
 // NEWING UP OBJECTS
 var hint = new Hint;
