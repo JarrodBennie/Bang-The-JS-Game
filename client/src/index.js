@@ -1,24 +1,21 @@
 const Game = require('./models/game');
 const Player = require('./models/player');
 const Dice = require('./models/dice');
-const Hint = require('./models/hint');
 const GameState = require("./models/gameState.js");
 const playSound = require("./models/play_sound.js");
 
 const UI = require('./ui/ui.js');
 
-// NEWING UP OBJECTS
-var hint = new Hint;
-
 var players = new Array(8);
-for (var i = 0; i < players.length; i++){
-  players[i] = new Player("Player " + (i+1) )
+
+for (let i = 0; i < players.length; i++) {
+  players[i] = new Player("Player " + (i+1));
 }
 
 var dice = new Dice();
 var characterMaxHealthValues = true;
-
 var game = new Game(dice, players, characterMaxHealthValues);
+
 game.setup();
 
 var gameState = new GameState(game);
@@ -26,25 +23,24 @@ game = gameState.load();
 dice = game.dice;
 
 
-window.onload = function(){
+window.onload = function () {
 
   var newGameButton = document.getElementById("new-game-button");
 
-  newGameButton.onclick = function(){
+  newGameButton.onclick = function () {
     gameState.forceNew = true;
     game = gameState.load();
     dice = game.dice;
     gameState.forceNew = false;
-    // gameState.save();
     dispatchEvent(new Event('load'));
   }
 
-  var displayCurrentPlayerArrows = function(){
-    for(var i = 0; i < 9; i++){
+  var displayCurrentPlayerArrows = function () {
+    for (var i = 0; i < 9; i++) {
       var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
       currentPlayerArrows.src = "https://i.imgur.com/e6hASp9.png";
       currentPlayerArrows.style.display = "inline-block";
-      if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
+      if (i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
     }
   }
 
@@ -112,17 +108,6 @@ window.onload = function(){
   }
   updateCurrentPlayerHealth();
 
-
-//  currentPlayerHealth.innerHTML = "";
-
-//  for (var i = 0; i < game.players[0].health; i++) {
-//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
-// }
-
-// for (var i = 0; i < game.players[0].healthDifference(); i++) {
-//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
-// }
-
   // DRAW ARROWS
   var drawArrows = function(){
     for( var i=1; i <= 9; i++ ){
@@ -134,10 +119,6 @@ window.onload = function(){
   }
 
   // HINT CARD
-  var hintElement = document.getElementById('hint');
-  // replaced _.sample(hint.all) with manual random sample using Math.random - this was the only lodash in the app and seems unecessary to require it just for this line.
-  hintElement.innerHTML = hint.all[Math.floor(Math.random()*hint.all.length)];
-
   drawArrows(game);
 
   // EVENT LISTENERS
@@ -180,10 +161,10 @@ window.onload = function(){
     roleButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     roleButton.onclick = null;
 
-    Materialize.toast('For your eyes only...', 2000,'',function(){
+    Materialize.toast('For your eyes only...', 2000,'', function () {
       currentPlayerAvatarReveal.src = game.players[0].role.imgUrl;
       currentPlayerCharacter.innerHTML = game.players[0].role.name + '<i class="material-icons right">close</i>';
-      setTimeout(function(){
+      setTimeout(function () {
         currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
         currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
         roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
@@ -195,14 +176,14 @@ window.onload = function(){
   roleButton.onclick = roleButtonDefault;
 
   // DICE
-  var diceClickEnable = function(){
+  var diceClickEnable = function () {
     dice1.style.opacity = 1;
     dice2.style.opacity = 1;
     dice3.style.opacity = 1;
     dice4.style.opacity = 1;
     dice5.style.opacity = 1;
 
-    dice1.onclick = function(){
+    dice1.onclick = function () {
       var dice1Value = dice.all[0];
       if(dice1Value != 5) dice.save(dice1Value);
       dice1.onclick = null;
@@ -210,35 +191,35 @@ window.onload = function(){
 
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState);
     }
-    dice2.onclick = function(){
+    dice2.onclick = function () {
       var dice2Value = dice.all[1];
       if(dice2Value != 5) dice.save(dice2Value);
       dice2.onclick = null;
       dice2.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
-    dice3.onclick = function(){
+    dice3.onclick = function () {
       var dice3Value = dice.all[2];
       if(dice3Value != 5) dice.save(dice3Value);
       dice3.onclick = null;
       dice3.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
-    dice4.onclick = function(){
+    dice4.onclick = function () {
       var dice4Value = dice.all[3];
       if(dice4Value != 5) dice.save(dice4Value);
       dice4.onclick = null;
       dice4.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
-    dice5.onclick = function(){
+    dice5.onclick = function () {
       var dice5Value = dice.all[4];
       if(dice5Value != 5) dice.save(dice5Value);
       dice5.onclick = null;
       dice5.style.opacity = 0.5;
       savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
     }
-  };//diceclickenable end
+  }
 
   var rollDiceDefault = function(){
     diceClickEnable();
@@ -250,10 +231,7 @@ window.onload = function(){
       game.addToActionCounters();
     }
     savedDiceFull();
-  };
-
-  //commented out because it's up near the start now - was causing double arrows
-  // rollDiceButton.onclick = rollDiceDefault;
+  }
 
   // DICE CLICKS DISABLED BEFORE DICE ARE ROLLED TO PREVENT ROLL DICE BUTTON LOCKOUT.
   var diceClickDisable = function(){
@@ -262,7 +240,7 @@ window.onload = function(){
     dice3.onclick = null;
     dice4.onclick = null;
     dice5.onclick = null;
-  };
+  }
   diceClickDisable();
 
   // utility function to avoid repition in the playerX.onclick functions below:
@@ -306,25 +284,27 @@ window.onload = function(){
       }
 
     }
-    else if (game.players.length === 2){
-      if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]){
+    else if (game.players.length === 2) {
+      if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]) {
       enableShootButton(game.players[0].target);
       playSound("audio/shotgun-cock.wav");
-      } else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]){
+      }
+      else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]) {
       enableShootButton(game.players[0].target);
         playSound("audio/revolver-cock.wav")
-      } else if (game.players[0].target == game.players[0]){
+      }
+      else if (game.players[0].target == game.players[0]) {
         console.log("You can't shoot yourself, try shooting the other surviving player");
         disableShootButton();
       }
-    } else if (game.players.length < 2){
-      if (game.players[0].target == game.players[0] && (game.players[0].actionCounters["1"] || game.players[0].actionCounters["2"])){
+    }
+    else if (game.players.length < 2) {
+      if (game.players[0].target == game.players[0] && (game.players[0].actionCounters["1"] || game.players[0].actionCounters["2"])) {
         console.log("You can't shoot yourself - the game should be over, you're the only player alive");
         disableShootButton();
       }
     }
-
-  };
+  }
 
   // PLAYER LIST
   // player1.onclick = function(){
@@ -448,21 +428,16 @@ window.onload = function(){
   //   }
   // }
 
-
-
   //////////////////////////////////////
   //  WINDOW ONLOAD USED TO END HERE  //
   //////////////////////////////////////
-
-
 
   //////////////////////////////////
   // WINDOW ONLOAD ENDS SOMEWHERE //
   //////////////////////////////////
 
-
-  var updateHealthBars = function(){
-    for(i = 0; i < allHealthBars.length; i++){
+  var updateHealthBars = function () {
+    for (i = 0; i < allHealthBars.length; i++) {
       allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
       var p = document.getElementById("player-" + (i + 1));
       var pChar = document.getElementById("player-" + (i + 1) + "-character");
@@ -470,7 +445,7 @@ window.onload = function(){
       var pDead = document.getElementById("current-player-" + (i + 1));
       var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
       var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
-      if(game.allPlayers[i].health <= 0){
+      if (game.allPlayers[i].health <= 0) {
         game.checkForDeaths();
         p.onclick = null;
         p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
@@ -484,12 +459,13 @@ window.onload = function(){
     }
   }
 
-  var enableShootButton = function(target){
+  var enableShootButton = function (target) {
     shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-    shootButton.onclick = function(){
-      if(target.health < 2){
+    shootButton.onclick = function () {
+      if (target.health < 2){
         var shootMessage = 'You killed ' + target.name
-      } else {
+      }
+      else {
         var shootMessage = 'You shot ' + target.name
       }
 
@@ -498,75 +474,78 @@ window.onload = function(){
       game.shootTarget();
       playSound("audio/pistol-riccochet.ogg")
 
-      if (game.canShoot1()){
+      if (game.canShoot1()) {
         enableShootButton(game.players[0].target);
       }
-      else if(!game.canShoot1() && !game.canShoot2()){
+      else if (!game.canShoot1() && !game.canShoot2()) {
         disableShootButton();
       }
-      if(game.canShoot2()){
+      if (game.canShoot2()) {
         enableShootButton(game.players[0].target);
       }
-      else if(!game.canShoot2() && !game.canShoot1()){
+      else if (!game.canShoot2() && !game.canShoot1()) {
         disableShootButton();
       }
-
 
       (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
+      
       if (game.canHeal()) {
         enableHealButton(game.players[0].target);
       }
-      else{
+      else {
         disableHealButton();
       }
 
       updateHealthBars(allHealthBars, game);
-      if (game.checkActions() <= 0){
+
+      if (game.checkActions() <= 0) {
         enableEndTurnButton();
       }
 
-    }; // onclick end
-  };//enable shoot button func end
+    }
+  }
 
-  var disableShootButton = function(){
+  var disableShootButton = function () {
     shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     shootButton.onclick = null;
-  };
+  }
 
-
-  var enableHealButton = function(target){
+  var enableHealButton = function (target) {
     healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-    healButton.onclick = function(){
+    healButton.onclick = function () {
       Materialize.toast('You healed ' + target.name, 2000);
       playSound("audio/bottle-pour.mp3");
       game.beerTarget();
+
       if (game.canHeal()) {
         enableHealButton(game.players[0].target);
-      }else{
+      }
+      else {
         disableHealButton();
       }
+
       updateHealthBars();
       updateCurrentPlayerHealth();
-      if (game.checkActions() <= 0){
+
+      if (game.checkActions() <= 0) {
         enableEndTurnButton();
       }
     }
-  };
+  }
 
-  var disableHealButton = function(){
+  var disableHealButton = function () {
     healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
     healButton.onclick = null;
   }
 
-  var healButtonEnableChecker = function(){
-    if (game.canHeal()){
+  var healButtonEnableChecker = function () {
+    if (game.canHeal()) {
       enableHealButton();
     }
     else {
       disableHealButton();
     }
   }
-
 
   //this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
   var currentPlayerDiedBehaviour = function(){
@@ -581,7 +560,7 @@ window.onload = function(){
     endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
   };
 
-  var ifCurrentPlayerDiesTriggerNextTurn = function(){
+  var ifCurrentPlayerDiesTriggerNextTurn = function () {
     if(game.players[0].health <= 0){
       // CALL DISABLE DICEROLL FUNCTION HERE
       // var rollDiceButton = document.getElementById('roll-dice-button')
@@ -592,7 +571,7 @@ window.onload = function(){
       setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
       return true
     }
-    else{
+    else {
       return false;
     }
   };
@@ -600,8 +579,6 @@ window.onload = function(){
   var displayDiceOnScreen = function(){
 
   };
-
-
 
   // ROLL DICE BUTTON
 
@@ -686,7 +663,6 @@ window.onload = function(){
     }
   };
 
-
   // SELECT PLAYER FROM LIST
   var targetPlayer = function(selection){
     // TARGET HEALTH BAR OF SELECTED PLAYER
@@ -723,7 +699,6 @@ window.onload = function(){
       healthBar.setAttribute('class', 'progress red lighten-4');
     }
   }
-
 
   var savedDiceFull = function(){
     if(dice.canRoll() === false){
@@ -769,7 +744,6 @@ window.onload = function(){
 /////////////////////////////
 // WINDOW ONLOAD ENDS HERE //
 /////////////////////////////
-
 
 var endGame = function(){
   // TRIGGER END GAME MODAL

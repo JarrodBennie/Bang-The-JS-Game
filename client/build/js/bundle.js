@@ -47,24 +47,21 @@
 	const Game = __webpack_require__(1);
 	const Player = __webpack_require__(2);
 	const Dice = __webpack_require__(4);
-	const Hint = __webpack_require__(5);
-	const GameState = __webpack_require__(6);
+	const GameState = __webpack_require__(5);
 	const playSound = __webpack_require__(3);
 	
-	const UI = __webpack_require__(8);
-	
-	// NEWING UP OBJECTS
-	var hint = new Hint;
+	const UI = __webpack_require__(6);
 	
 	var players = new Array(8);
-	for (var i = 0; i < players.length; i++){
-	  players[i] = new Player("Player " + (i+1) )
+	
+	for (let i = 0; i < players.length; i++) {
+	  players[i] = new Player("Player " + (i+1));
 	}
 	
 	var dice = new Dice();
 	var characterMaxHealthValues = true;
-	
 	var game = new Game(dice, players, characterMaxHealthValues);
+	
 	game.setup();
 	
 	var gameState = new GameState(game);
@@ -72,25 +69,24 @@
 	dice = game.dice;
 	
 	
-	window.onload = function(){
+	window.onload = function () {
 	
 	  var newGameButton = document.getElementById("new-game-button");
 	
-	  newGameButton.onclick = function(){
+	  newGameButton.onclick = function () {
 	    gameState.forceNew = true;
 	    game = gameState.load();
 	    dice = game.dice;
 	    gameState.forceNew = false;
-	    // gameState.save();
 	    dispatchEvent(new Event('load'));
 	  }
 	
-	  var displayCurrentPlayerArrows = function(){
-	    for(var i = 0; i < 9; i++){
+	  var displayCurrentPlayerArrows = function () {
+	    for (var i = 0; i < 9; i++) {
 	      var currentPlayerArrows = document.getElementById('current-player-arrow-' + (i+1));
 	      currentPlayerArrows.src = "https://i.imgur.com/e6hASp9.png";
 	      currentPlayerArrows.style.display = "inline-block";
-	      if(i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
+	      if (i >= game.players[0].arrows) currentPlayerArrows.style.display = "none";
 	    }
 	  }
 	
@@ -158,17 +154,6 @@
 	  }
 	  updateCurrentPlayerHealth();
 	
-	
-	//  currentPlayerHealth.innerHTML = "";
-	
-	//  for (var i = 0; i < game.players[0].health; i++) {
-	//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
-	// }
-	
-	// for (var i = 0; i < game.players[0].healthDifference(); i++) {
-	//   currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite_outline</i>';
-	// }
-	
 	  // DRAW ARROWS
 	  var drawArrows = function(){
 	    for( var i=1; i <= 9; i++ ){
@@ -180,10 +165,6 @@
 	  }
 	
 	  // HINT CARD
-	  var hintElement = document.getElementById('hint');
-	  // replaced _.sample(hint.all) with manual random sample using Math.random - this was the only lodash in the app and seems unecessary to require it just for this line.
-	  hintElement.innerHTML = hint.all[Math.floor(Math.random()*hint.all.length)];
-	
 	  drawArrows(game);
 	
 	  // EVENT LISTENERS
@@ -226,10 +207,10 @@
 	    roleButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	    roleButton.onclick = null;
 	
-	    Materialize.toast('For your eyes only...', 2000,'',function(){
+	    Materialize.toast('For your eyes only...', 2000,'', function () {
 	      currentPlayerAvatarReveal.src = game.players[0].role.imgUrl;
 	      currentPlayerCharacter.innerHTML = game.players[0].role.name + '<i class="material-icons right">close</i>';
-	      setTimeout(function(){
+	      setTimeout(function () {
 	        currentPlayerAvatarReveal.src = game.players[0].character.imgUrl;
 	        currentPlayerCharacter.innerHTML = game.players[0].character.name + '<i class="material-icons right">close</i>';
 	        roleButton.setAttribute('class', 'btn waves-effect waves-light red darken-4')
@@ -241,14 +222,14 @@
 	  roleButton.onclick = roleButtonDefault;
 	
 	  // DICE
-	  var diceClickEnable = function(){
+	  var diceClickEnable = function () {
 	    dice1.style.opacity = 1;
 	    dice2.style.opacity = 1;
 	    dice3.style.opacity = 1;
 	    dice4.style.opacity = 1;
 	    dice5.style.opacity = 1;
 	
-	    dice1.onclick = function(){
+	    dice1.onclick = function () {
 	      var dice1Value = dice.all[0];
 	      if(dice1Value != 5) dice.save(dice1Value);
 	      dice1.onclick = null;
@@ -256,35 +237,35 @@
 	
 	      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState);
 	    }
-	    dice2.onclick = function(){
+	    dice2.onclick = function () {
 	      var dice2Value = dice.all[1];
 	      if(dice2Value != 5) dice.save(dice2Value);
 	      dice2.onclick = null;
 	      dice2.style.opacity = 0.5;
 	      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
 	    }
-	    dice3.onclick = function(){
+	    dice3.onclick = function () {
 	      var dice3Value = dice.all[2];
 	      if(dice3Value != 5) dice.save(dice3Value);
 	      dice3.onclick = null;
 	      dice3.style.opacity = 0.5;
 	      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
 	    }
-	    dice4.onclick = function(){
+	    dice4.onclick = function () {
 	      var dice4Value = dice.all[3];
 	      if(dice4Value != 5) dice.save(dice4Value);
 	      dice4.onclick = null;
 	      dice4.style.opacity = 0.5;
 	      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
 	    }
-	    dice5.onclick = function(){
+	    dice5.onclick = function () {
 	      var dice5Value = dice.all[4];
 	      if(dice5Value != 5) dice.save(dice5Value);
 	      dice5.onclick = null;
 	      dice5.style.opacity = 0.5;
 	      savedDiceFull(dice, endTurnButton, diceElements, rollDiceButton, game, gameState)
 	    }
-	  };//diceclickenable end
+	  }
 	
 	  var rollDiceDefault = function(){
 	    diceClickEnable();
@@ -296,10 +277,7 @@
 	      game.addToActionCounters();
 	    }
 	    savedDiceFull();
-	  };
-	
-	  //commented out because it's up near the start now - was causing double arrows
-	  // rollDiceButton.onclick = rollDiceDefault;
+	  }
 	
 	  // DICE CLICKS DISABLED BEFORE DICE ARE ROLLED TO PREVENT ROLL DICE BUTTON LOCKOUT.
 	  var diceClickDisable = function(){
@@ -308,7 +286,7 @@
 	    dice3.onclick = null;
 	    dice4.onclick = null;
 	    dice5.onclick = null;
-	  };
+	  }
 	  diceClickDisable();
 	
 	  // utility function to avoid repition in the playerX.onclick functions below:
@@ -352,25 +330,27 @@
 	      }
 	
 	    }
-	    else if (game.players.length === 2){
-	      if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]){
+	    else if (game.players.length === 2) {
+	      if (game.players[0].target == game.players[1] && game.players[0].actionCounters["1"]) {
 	      enableShootButton(game.players[0].target);
 	      playSound("audio/shotgun-cock.wav");
-	      } else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]){
+	      }
+	      else if (game.players[0].target == game.players[1] && game.players[0].actionCounters["2"]) {
 	      enableShootButton(game.players[0].target);
 	        playSound("audio/revolver-cock.wav")
-	      } else if (game.players[0].target == game.players[0]){
+	      }
+	      else if (game.players[0].target == game.players[0]) {
 	        console.log("You can't shoot yourself, try shooting the other surviving player");
 	        disableShootButton();
 	      }
-	    } else if (game.players.length < 2){
-	      if (game.players[0].target == game.players[0] && (game.players[0].actionCounters["1"] || game.players[0].actionCounters["2"])){
+	    }
+	    else if (game.players.length < 2) {
+	      if (game.players[0].target == game.players[0] && (game.players[0].actionCounters["1"] || game.players[0].actionCounters["2"])) {
 	        console.log("You can't shoot yourself - the game should be over, you're the only player alive");
 	        disableShootButton();
 	      }
 	    }
-	
-	  };
+	  }
 	
 	  // PLAYER LIST
 	  // player1.onclick = function(){
@@ -494,21 +474,16 @@
 	  //   }
 	  // }
 	
-	
-	
 	  //////////////////////////////////////
 	  //  WINDOW ONLOAD USED TO END HERE  //
 	  //////////////////////////////////////
-	
-	
 	
 	  //////////////////////////////////
 	  // WINDOW ONLOAD ENDS SOMEWHERE //
 	  //////////////////////////////////
 	
-	
-	  var updateHealthBars = function(){
-	    for(i = 0; i < allHealthBars.length; i++){
+	  var updateHealthBars = function () {
+	    for (i = 0; i < allHealthBars.length; i++) {
 	      allHealthBars[i].style.width = game.allPlayers[i].healthAsPercentage() + "%";
 	      var p = document.getElementById("player-" + (i + 1));
 	      var pChar = document.getElementById("player-" + (i + 1) + "-character");
@@ -516,7 +491,7 @@
 	      var pDead = document.getElementById("current-player-" + (i + 1));
 	      var pDeadDiv = document.getElementById("player-" + (i + 1) + "-cp-div");
 	      var pHealthBar = document.getElementById("player-" + (i + 1) + "-health-div");
-	      if(game.allPlayers[i].health <= 0){
+	      if (game.allPlayers[i].health <= 0) {
 	        game.checkForDeaths();
 	        p.onclick = null;
 	        p.setAttribute('class', 'collection-item avatar grey lighten-4 player');
@@ -530,12 +505,13 @@
 	    }
 	  }
 	
-	  var enableShootButton = function(target){
+	  var enableShootButton = function (target) {
 	    shootButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-	    shootButton.onclick = function(){
-	      if(target.health < 2){
+	    shootButton.onclick = function () {
+	      if (target.health < 2){
 	        var shootMessage = 'You killed ' + target.name
-	      } else {
+	      }
+	      else {
 	        var shootMessage = 'You shot ' + target.name
 	      }
 	
@@ -544,75 +520,78 @@
 	      game.shootTarget();
 	      playSound("audio/pistol-riccochet.ogg")
 	
-	      if (game.canShoot1()){
+	      if (game.canShoot1()) {
 	        enableShootButton(game.players[0].target);
 	      }
-	      else if(!game.canShoot1() && !game.canShoot2()){
+	      else if (!game.canShoot1() && !game.canShoot2()) {
 	        disableShootButton();
 	      }
-	      if(game.canShoot2()){
+	      if (game.canShoot2()) {
 	        enableShootButton(game.players[0].target);
 	      }
-	      else if(!game.canShoot2() && !game.canShoot1()){
+	      else if (!game.canShoot2() && !game.canShoot1()) {
 	        disableShootButton();
 	      }
-	
 	
 	      (game.canShoot1() || game.canShoot2()) ? enableShootButton(game.players[0].target) : disableShootButton();
+	      
 	      if (game.canHeal()) {
 	        enableHealButton(game.players[0].target);
 	      }
-	      else{
+	      else {
 	        disableHealButton();
 	      }
 	
 	      updateHealthBars(allHealthBars, game);
-	      if (game.checkActions() <= 0){
+	
+	      if (game.checkActions() <= 0) {
 	        enableEndTurnButton();
 	      }
 	
-	    }; // onclick end
-	  };//enable shoot button func end
+	    }
+	  }
 	
-	  var disableShootButton = function(){
+	  var disableShootButton = function () {
 	    shootButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	    shootButton.onclick = null;
-	  };
+	  }
 	
-	
-	  var enableHealButton = function(target){
+	  var enableHealButton = function (target) {
 	    healButton.setAttribute('class','waves-effect waves-light btn red darken-4');
-	    healButton.onclick = function(){
+	    healButton.onclick = function () {
 	      Materialize.toast('You healed ' + target.name, 2000);
 	      playSound("audio/bottle-pour.mp3");
 	      game.beerTarget();
+	
 	      if (game.canHeal()) {
 	        enableHealButton(game.players[0].target);
-	      }else{
+	      }
+	      else {
 	        disableHealButton();
 	      }
+	
 	      updateHealthBars();
 	      updateCurrentPlayerHealth();
-	      if (game.checkActions() <= 0){
+	
+	      if (game.checkActions() <= 0) {
 	        enableEndTurnButton();
 	      }
 	    }
-	  };
+	  }
 	
-	  var disableHealButton = function(){
+	  var disableHealButton = function () {
 	    healButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	    healButton.onclick = null;
 	  }
 	
-	  var healButtonEnableChecker = function(){
-	    if (game.canHeal()){
+	  var healButtonEnableChecker = function () {
+	    if (game.canHeal()) {
 	      enableHealButton();
 	    }
 	    else {
 	      disableHealButton();
 	    }
 	  }
-	
 	
 	  //this function needs to inherit the scope of window.onload - passing it to setTimeout as a callback defined directly in the setTimeout arguments would make it lose the scope of window.onload, hence declaring it here and passing this func by name to setTimeout
 	  var currentPlayerDiedBehaviour = function(){
@@ -627,7 +606,7 @@
 	    endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 	  };
 	
-	  var ifCurrentPlayerDiesTriggerNextTurn = function(){
+	  var ifCurrentPlayerDiesTriggerNextTurn = function () {
 	    if(game.players[0].health <= 0){
 	      // CALL DISABLE DICEROLL FUNCTION HERE
 	      // var rollDiceButton = document.getElementById('roll-dice-button')
@@ -638,7 +617,7 @@
 	      setTimeout(currentPlayerDiedBehaviour, 3000); // function definition just above
 	      return true
 	    }
-	    else{
+	    else {
 	      return false;
 	    }
 	  };
@@ -646,8 +625,6 @@
 	  var displayDiceOnScreen = function(){
 	
 	  };
-	
-	
 	
 	  // ROLL DICE BUTTON
 	
@@ -732,7 +709,6 @@
 	    }
 	  };
 	
-	
 	  // SELECT PLAYER FROM LIST
 	  var targetPlayer = function(selection){
 	    // TARGET HEALTH BAR OF SELECTED PLAYER
@@ -769,7 +745,6 @@
 	      healthBar.setAttribute('class', 'progress red lighten-4');
 	    }
 	  }
-	
 	
 	  var savedDiceFull = function(){
 	    if(dice.canRoll() === false){
@@ -815,7 +790,6 @@
 	/////////////////////////////
 	// WINDOW ONLOAD ENDS HERE //
 	/////////////////////////////
-	
 	
 	var endGame = function(){
 	  // TRIGGER END GAME MODAL
@@ -1596,37 +1570,6 @@
 
 /***/ },
 /* 5 */
-/***/ function(module, exports) {
-
-	var Hint = function(){
-	  this.all = [
-	    "<b>Hint</b>: Don't believe Tony's lies.",
-	    "<b>Hint</b>: Beware of the Erik special.",
-	    "<b>Hint</b>: Remember to utilise your character's special ability!",
-	    "<b>Hint</b>: Arrow damage is not dealt until the last arrow is taken and the Indians attack.",
-	    "<b>Hint</b>: A Renegade wins by being the last character in play.",
-	    "<b>Hint</b>: Dynamite cannot be re-rolled.",
-	    "<b>Hint</b>: Arrows must be resolved immediately after each roll.",
-	    "<b>Hint</b>: Rolling 3 Gatling deals 1 damage to all players.",
-	    "<b>Hint</b>: If a player's life points reach 0 they are eliminated from the game.",
-	    "<b>Hint</b>: If all players are eliminated at the same time, the Outlaws win!",
-	    "<b>Hint</b>: Deputies must help and protect the Sherrif.",
-	    "<b>Hint</b>: Rolling 3 Dynamite deals 1 damage and ends your turn.",
-	    "<b>Hint</b>: Outlaws must eliminate the Sheriff.",
-	    "<b>Hint</b>: The Sheriff must eliminate all Outlaws and Renegades.",
-	    "<b>Hint</b>: If you are eliminated but your teammates win, you win too!",
-	    "<b>Hint</b>: If the Sheriff is confronted by 2 Renegades and the Sheriff dies first, the Outlaws win!",
-	    "<b>Hint</b>: Click on a die to save it and prevent it from re-rolling.",
-	    "<b>Hint</b>: If you aren't satisfied with your roll, you can re-roll up to twice.",
-	    "<b>Hint</b>: The Sheriff always takes the first turn.",
-	    "<b>Hint</b>: Open the Current Player panel to check your special ability and role!"
-	  ]
-	}
-	
-	module.exports = Hint;
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var Player = __webpack_require__(2);
@@ -1713,6 +1656,27 @@
 	module.exports = GameState;
 
 /***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	const PlayerList = __webpack_require__(7);
+	const Hint = __webpack_require__(9);
+	
+	class UI {
+	  constructor(game) {
+	    this.render(game);
+	  }
+	
+	  render(game) {
+	    new PlayerList(game);
+	    new Hint();
+	  }
+	}
+	
+	module.exports = UI;
+
+
+/***/ },
 /* 7 */
 /***/ function(module, exports) {
 
@@ -1749,8 +1713,6 @@
 	
 	    elements.healthBar.style.width = players.thisPlayer.healthAsPercentage() + '%';
 	
-	    this.renderDefault(elements, players);
-	
 	    if (players.thisPlayer == players.currentPlayer) {
 	      this.renderCurrent(elements, players);
 	    }
@@ -1759,6 +1721,9 @@
 	    }
 	    else if (players.thisPlayer == players.nextPlayer) {
 	      elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>' + ' - NEXT';
+	    }
+	    else {
+	      this.renderDefault(elements, players);
 	    }
 	
 	    const displayStatus = players.thisPlayer.role.name === 'Sheriff' ? 'role' : 'character';
@@ -1778,7 +1743,7 @@
 	    elements.character.setAttribute('class', 'grey-text text-darken-4');
 	    elements.cpContainer.style.display = 'none';
 	    elements.healthContainer.style.display = 'block';
-	    elements.healthContainer.setAttribute('class', 'progress red lighten-4')
+	    elements.healthContainer.setAttribute('class', 'progress red lighten-4');
 	    elements.player.setAttribute('class', 'collection-item avatar player');
 	    elements.currentPlayerText.innerText = 'Current Player';
 	  }
@@ -1807,22 +1772,99 @@
 
 
 /***/ },
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const PlayerList = __webpack_require__(7);
+	const hints = __webpack_require__(10);
 	
-	class UI {
-	  constructor(game) {
-	    this.render(game);
+	class Hint {
+	  constructor() {
+	    this.render()
 	  }
 	
-	  render(game) {
-	    new PlayerList(game);
+	  render() {
+	    const elements = this.createElements();
+	    this.setClasses(elements);
+	    this.setText(elements);
+	    this.appendToPage(elements);
+	  }
+	
+	  createElements() {
+	    return {
+	      row: document.createElement('div'),
+	      column: document.createElement('div'),
+	      card: document.createElement('div'),
+	      span: document.createElement('div'),
+	      text: document.createElement('p')
+	    }
+	  }
+	
+	  setClasses(elements) {
+	    elements.row.setAttribute('class', 'row');
+	    elements.column.setAttribute('class', 'col s12 m8 offset-m2');
+	    elements.card.setAttribute('class', 'card-panel red darken-4 center-align');
+	    elements.span.setAttribute('class', 'white-text');
+	    elements.text.setAttribute('id', 'hint');
+	  }
+	
+	  setText(elements) {
+	    const title = document.createElement('b');
+	    title.innerText = 'Hint: ';
+	    
+	    const hint = document.createElement('text');
+	    hint.innerText = this.getHint();
+	
+	    elements.text.appendChild(title);
+	    elements.text.appendChild(hint);
+	  }
+	
+	  getHint() {
+	    const random = Math.floor(Math.random() * hints.length);
+	    const hintText = hints[random];
+	    return hintText;
+	  }
+	
+	  appendToPage(elements) {
+	    elements.span.appendChild(elements.text);
+	    elements.card.appendChild(elements.span);
+	    elements.column.appendChild(elements.card);
+	    elements.row.appendChild(elements.column);
+	    document.body.appendChild(elements.row);
 	  }
 	}
 	
-	module.exports = UI;
+	module.exports = Hint;
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	const hints = [
+	  "Don't believe Tony's lies.",
+	  'Beware of the Erik special.',
+	  "Remember to utilise your character's special ability!",
+	  'Arrow damage is not dealt until the last arrow is taken and the Indians attack.',
+	  'A Renegade wins by being the last character in play.',
+	  'Dynamite cannot be re-rolled.',
+	  'Arrows must be resolved immediately after each roll.',
+	  'Rolling 3 Gatling deals 1 damage to all players.',
+	  "If a player's life points reach 0 they are eliminated from the game.",
+	  'If all players are eliminated at the same time, the Outlaws win!',
+	  'Deputies must help and protect the Sherrif.',
+	  'Rolling 3 Dynamite deals 1 damage and ends your turn.',
+	  'Outlaws must eliminate the Sheriff.',
+	  'The Sheriff must eliminate all Outlaws and Renegades.',
+	  'If you are eliminated but your teammates win, you win too!',
+	  'If the Sheriff is confronted by 2 Renegades and the Sheriff dies first, the Outlaws win!',
+	  'Click on a die to save it and prevent it from re-rolling.',
+	  "If you aren't satisfied with your roll, you can re-roll up to twice.",
+	  'The Sheriff always takes the first turn.',
+	  'Open the Current Player panel to check your special ability and role.'
+	]
+	
+	module.exports = hints;
 
 
 /***/ }

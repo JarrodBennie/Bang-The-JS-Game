@@ -31,8 +31,6 @@ class PlayerList {
 
     elements.healthBar.style.width = players.thisPlayer.healthAsPercentage() + '%';
 
-    this.renderDefault(elements, players);
-
     if (players.thisPlayer == players.currentPlayer) {
       this.renderCurrent(elements, players);
     }
@@ -41,6 +39,9 @@ class PlayerList {
     }
     else if (players.thisPlayer == players.nextPlayer) {
       elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>' + ' - NEXT';
+    }
+    else {
+      this.renderDefault(elements, players);
     }
 
     const displayStatus = players.thisPlayer.role.name === 'Sheriff' ? 'role' : 'character';
@@ -60,7 +61,7 @@ class PlayerList {
     elements.character.setAttribute('class', 'grey-text text-darken-4');
     elements.cpContainer.style.display = 'none';
     elements.healthContainer.style.display = 'block';
-    elements.healthContainer.setAttribute('class', 'progress red lighten-4')
+    elements.healthContainer.setAttribute('class', 'progress red lighten-4');
     elements.player.setAttribute('class', 'collection-item avatar player');
     elements.currentPlayerText.innerText = 'Current Player';
   }
