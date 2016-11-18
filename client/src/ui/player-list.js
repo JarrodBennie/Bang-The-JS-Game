@@ -29,19 +29,18 @@ class PlayerList {
       previousPlayer: game.players[game.players.length - 1]
     }
 
-    elements.healthBar.style.width = players.thisPlayer.healthAsPercentage() + '%';
-
-    if (players.thisPlayer == players.currentPlayer) {
-      this.renderCurrent(elements, players);
+    if (players.thisPlayer !== players.currentPlayer) {
+      this.renderDefaultPlayer(elements, players);  
     }
-    else if (players.thisPlayer == players.previousPlayer) {
+    else {
+      this.renderCurrentPlayer(elements, players);
+    }
+
+    if (players.thisPlayer == players.previousPlayer) {
       elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>' + ' - PREVIOUS';
     }
     else if (players.thisPlayer == players.nextPlayer) {
       elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>' + ' - NEXT';
-    }
-    else {
-      this.renderDefault(elements, players);
     }
 
     const displayStatus = players.thisPlayer.role.name === 'Sheriff' ? 'role' : 'character';
@@ -49,13 +48,13 @@ class PlayerList {
     elements.character.innerText = players.thisPlayer[displayStatus].name;
 
     if (players.thisPlayer.health <= 0) {
-      this.renderDead(elements, players);
+      this.renderDeadPlayer(elements, players);
     }
 
     this.renderPlayers(game, ++playerNumber);
   }
 
-  renderDefault(elements, players) {
+  renderDefaultPlayer(elements, players) {
     elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>';
     elements.name.setAttribute('class', 'title grey-text text-darken-4');
     elements.character.setAttribute('class', 'grey-text text-darken-4');
@@ -63,19 +62,20 @@ class PlayerList {
     elements.healthContainer.style.display = 'block';
     elements.healthContainer.setAttribute('class', 'progress red lighten-4');
     elements.player.setAttribute('class', 'collection-item avatar player');
-    elements.currentPlayerText.innerText = 'Current Player';
+    elements.healthBar.style.width = players.thisPlayer.healthAsPercentage() + '%';
   }
 
-  renderCurrent(elements, players) {
+  renderCurrentPlayer(elements, players) {
     elements.name.innerHTML = '<b>' + players.thisPlayer.name;
     elements.name.setAttribute('class', 'title white-text');
     elements.character.setAttribute('class', 'white-text');
     elements.cpContainer.style.display = 'inline';
     elements.healthContainer.style.display = 'none';
+    elements.currentPlayerText.innerText = 'Current Player';
     elements.player.setAttribute('class', 'collection-item avatar red darken-4 player');
   }
 
-  renderDead(elements, players) {
+  renderDeadPlayer(elements, players) {
     elements.character.innerText = players.thisPlayer.role.name;
     elements.avatar.src = players.thisPlayer.role.imgUrl;
     elements.player.setAttribute('class', 'collection-item avatar grey lighten-4 player');

@@ -7,24 +7,21 @@ const playSound = require("./models/play_sound.js");
 const UI = require('./ui/ui.js');
 
 var players = new Array(8);
-
 for (let i = 0; i < players.length; i++) {
   players[i] = new Player("Player " + (i+1));
 }
 
 var dice = new Dice();
 var characterMaxHealthValues = true;
-var game = new Game(dice, players, characterMaxHealthValues);
 
+var game = new Game(dice, players, characterMaxHealthValues);
 game.setup();
 
 var gameState = new GameState(game);
 game = gameState.load();
 dice = game.dice;
 
-
 window.onload = function () {
-
   var newGameButton = document.getElementById("new-game-button");
 
   newGameButton.onclick = function () {

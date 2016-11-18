@@ -35,13 +35,13 @@ class Hint {
     title.innerText = 'Hint: ';
     
     const hint = document.createElement('text');
-    hint.innerText = this.getHint();
+    hint.innerText = this.getHintText();
 
     elements.text.appendChild(title);
     elements.text.appendChild(hint);
   }
 
-  getHint() {
+  getHintText() {
     const random = Math.floor(Math.random() * hints.length);
     const hintText = hints[random];
     return hintText;

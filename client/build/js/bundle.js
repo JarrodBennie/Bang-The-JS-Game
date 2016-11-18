@@ -53,24 +53,21 @@
 	const UI = __webpack_require__(6);
 	
 	var players = new Array(8);
-	
 	for (let i = 0; i < players.length; i++) {
 	  players[i] = new Player("Player " + (i+1));
 	}
 	
 	var dice = new Dice();
 	var characterMaxHealthValues = true;
-	var game = new Game(dice, players, characterMaxHealthValues);
 	
+	var game = new Game(dice, players, characterMaxHealthValues);
 	game.setup();
 	
 	var gameState = new GameState(game);
 	game = gameState.load();
 	dice = game.dice;
 	
-	
 	window.onload = function () {
-	
 	  var newGameButton = document.getElementById("new-game-button");
 	
 	  newGameButton.onclick = function () {
@@ -1660,7 +1657,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	const PlayerList = __webpack_require__(7);
-	const Hint = __webpack_require__(9);
+	const Hint = __webpack_require__(8);
 	
 	class UI {
 	  constructor(game) {
@@ -1711,19 +1708,18 @@
 	      previousPlayer: game.players[game.players.length - 1]
 	    }
 	
-	    elements.healthBar.style.width = players.thisPlayer.healthAsPercentage() + '%';
-	
-	    if (players.thisPlayer == players.currentPlayer) {
-	      this.renderCurrent(elements, players);
+	    if (players.thisPlayer !== players.currentPlayer) {
+	      this.renderDefaultPlayer(elements, players);  
 	    }
-	    else if (players.thisPlayer == players.previousPlayer) {
+	    else {
+	      this.renderCurrentPlayer(elements, players);
+	    }
+	
+	    if (players.thisPlayer == players.previousPlayer) {
 	      elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>' + ' - PREVIOUS';
 	    }
 	    else if (players.thisPlayer == players.nextPlayer) {
 	      elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>' + ' - NEXT';
-	    }
-	    else {
-	      this.renderDefault(elements, players);
 	    }
 	
 	    const displayStatus = players.thisPlayer.role.name === 'Sheriff' ? 'role' : 'character';
@@ -1731,13 +1727,13 @@
 	    elements.character.innerText = players.thisPlayer[displayStatus].name;
 	
 	    if (players.thisPlayer.health <= 0) {
-	      this.renderDead(elements, players);
+	      this.renderDeadPlayer(elements, players);
 	    }
 	
 	    this.renderPlayers(game, ++playerNumber);
 	  }
 	
-	  renderDefault(elements, players) {
+	  renderDefaultPlayer(elements, players) {
 	    elements.name.innerHTML = '<b>' + players.thisPlayer.name + '</b>';
 	    elements.name.setAttribute('class', 'title grey-text text-darken-4');
 	    elements.character.setAttribute('class', 'grey-text text-darken-4');
@@ -1745,19 +1741,20 @@
 	    elements.healthContainer.style.display = 'block';
 	    elements.healthContainer.setAttribute('class', 'progress red lighten-4');
 	    elements.player.setAttribute('class', 'collection-item avatar player');
-	    elements.currentPlayerText.innerText = 'Current Player';
+	    elements.healthBar.style.width = players.thisPlayer.healthAsPercentage() + '%';
 	  }
 	
-	  renderCurrent(elements, players) {
+	  renderCurrentPlayer(elements, players) {
 	    elements.name.innerHTML = '<b>' + players.thisPlayer.name;
 	    elements.name.setAttribute('class', 'title white-text');
 	    elements.character.setAttribute('class', 'white-text');
 	    elements.cpContainer.style.display = 'inline';
 	    elements.healthContainer.style.display = 'none';
+	    elements.currentPlayerText.innerText = 'Current Player';
 	    elements.player.setAttribute('class', 'collection-item avatar red darken-4 player');
 	  }
 	
-	  renderDead(elements, players) {
+	  renderDeadPlayer(elements, players) {
 	    elements.character.innerText = players.thisPlayer.role.name;
 	    elements.avatar.src = players.thisPlayer.role.imgUrl;
 	    elements.player.setAttribute('class', 'collection-item avatar grey lighten-4 player');
@@ -1772,11 +1769,10 @@
 
 
 /***/ },
-/* 8 */,
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	const hints = __webpack_require__(10);
+	const hints = __webpack_require__(9);
 	
 	class Hint {
 	  constructor() {
@@ -1813,13 +1809,13 @@
 	    title.innerText = 'Hint: ';
 	    
 	    const hint = document.createElement('text');
-	    hint.innerText = this.getHint();
+	    hint.innerText = this.getHintText();
 	
 	    elements.text.appendChild(title);
 	    elements.text.appendChild(hint);
 	  }
 	
-	  getHint() {
+	  getHintText() {
 	    const random = Math.floor(Math.random() * hints.length);
 	    const hintText = hints[random];
 	    return hintText;
@@ -1838,7 +1834,7 @@
 
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports) {
 
 	const hints = [
