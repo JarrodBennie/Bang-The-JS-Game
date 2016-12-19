@@ -345,7 +345,7 @@ Game.prototype.winCheck = function(){
 Game.prototype.resolveArrows = function(){
   // this.assignArrows();
   for (var i = 0; i < this.dice.arrowsRolled; i++){
-    console.log("arrows rolled", this.dice.arrowsRolled);
+    // console.log("arrows rolled", this.dice.arrowsRolled);
     //uncomment these to test currentPlayerDead behaviour MUCH more easily (refresh til no arrows on first role with sheriff, (or else outlaws win) then roll til you get one with other players to kill them straight away)
     // this.players[0].health = 1
     // this.totalArrows = 1

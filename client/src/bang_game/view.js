@@ -1,7 +1,4 @@
-var Game = require('./game');
-var Player = require('./player');
-var Dice = require('./dice');
-var Hint = require('./hint');
+
 var playSound = require("./playSound.js")
 
 var View = function(gameState, game){
@@ -22,11 +19,11 @@ View.prototype.grabElements = function(){
   this.ele.newGameButton = document.getElementById("new-game-button");
 
   // DICE IMAGES
-  dice1 = document.getElementById('dice-1');
-  dice2 = document.getElementById('dice-2');
-  dice3 = document.getElementById('dice-3');
-  dice4 = document.getElementById('dice-4');
-  dice5 = document.getElementById('dice-5');
+  var dice1 = document.getElementById('dice-1');
+  var dice2 = document.getElementById('dice-2');
+  var dice3 = document.getElementById('dice-3');
+  var dice4 = document.getElementById('dice-4');
+  var dice5 = document.getElementById('dice-5');
   this.ele.dice = [dice1, dice2, dice3, dice4, dice5];
 
   // PLAYER LIST COMPONENT PARTS
@@ -45,15 +42,15 @@ View.prototype.grabElements = function(){
     playerListObject.sheriffIcon = document.querySelector('li.player-'+i+', i.sheriff-icon');
 
     // playerListObject.healthBarFill = determinates[i-1];
-    console.log("player"+i+"healthBar: ", playerListObject.healthBar);
+    // console.log("player"+i+"healthBar: ", playerListObject.healthBar);
     // console.log("player"+i+"healthBarFill: ", playerListObject.healthBarFill);
 
     this.ele.playerList.push(playerListObject);
   }// for loop 8 [end]
   // console.log(this.ele.playerList[0].healthBarFill);
   var allHealthBars = document.getElementsByClassName('determinate');
-  console.log(allHealthBars);
-  console.log(allHealthBars.length);
+  // console.log(allHealthBars);
+  // console.log(allHealthBars.length);
   // CURRENT PLAYER
   // this.ele.currentPlayer = document.getElementById('current-player');
   this.ele.currentPlayerAvatar = document.getElementById('current-player-avatar');
@@ -243,7 +240,7 @@ View.prototype.setAllDiceOnClicks = function(remove){
     }
     return;
   }
-  console.log(this.game.dice.saved.length);
+  // console.log(this.game.dice.saved.length);
   for (var i = this.game.dice.saved.length; i < 5; i++){
     this.setDiceOnClick(i);
   }
@@ -253,7 +250,7 @@ View.prototype.setDiceOnClick = function(diceNumber, remove){
   if (remove === null){
       this.ele.dice[diceNumber].onclick = null;
       // this.ele.dice[diceNumber].style.opacity = 0.5;
-      console.log("SETDICEONCLICK called with null args");
+      // console.log("SETDICEONCLICK called with null args");
       // throw new Error("setDiceOnClick null call - trace")
       // CALLED ON NEXT TURN
       return;
@@ -266,8 +263,8 @@ View.prototype.setDiceOnClick = function(diceNumber, remove){
       this.ele.dice[diceNumber].onclick = null;
       this.diceRollFinished();
   }.bind(this)
-  console.log(this.ele.dice[diceNumber]);
-  console.log(this.ele.dice[diceNumber].onclick);
+  // console.log(this.ele.dice[diceNumber]);
+  // console.log(this.ele.dice[diceNumber].onclick);
 };// setDiceOnClick = function [end]
 
 
@@ -276,14 +273,15 @@ View.prototype.setDiceOnClick = function(diceNumber, remove){
 // //////////////////////////////////////////////////
 
 View.prototype.ifCurrentPlayerDead = function(){
+  // console.log(this.game)
   this.game.nextTurn(true, this.gameState);
-  gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
+  this.gameState.save(); // save state of the game at another time without resetting dice and rotating players and in theory we could possibly continue the turn with the dice and rerolls remembered
   // updateDisplayForNewTurn function here (grey out and remove onclicks for dead players - reset buttons etc.)
   this.setup();
   this.renderDice(null);
   this.currentPlayerDied(); // checks again after players rotated - in case player rotated to died to arrows same as the previous player
   this.setup();
-  endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
+  this.ele.endTurnButton.setAttribute('class', 'waves-effect waves-light btn disabled');
 };// currentPlayerDeadBehaviour = function [end]
 View.prototype.currentPlayerDied = function(){
   if(this.game.players[0].health > 0) return false;
@@ -447,7 +445,7 @@ View.prototype.endGame = function(){
   for (var i = 0; i < this.players.length;i++){
     this.players[i].target = null;
   }
-  console.log("saving finished game");
+  // console.log("saving finished game");
   view.gameState.save();
   view.game.end();
 };// endGame = function [end]
@@ -558,13 +556,13 @@ View.prototype.enableShootButtonTwoPlayers = function(){
   this.setShootButtonOnClick();
     playSound("audio/revolver-cock.wav")
   } else if (this.game.players[0].target == this.game.players[0]){
-    console.log("You can't shoot yourself, try shooting the other surviving player");
+    // console.log("You can't shoot yourself, try shooting the other surviving player");
     this.setShootButtonOnClick(null);
   }
 };// enableShootButtonTwoPlayers = function [end]
 View.prototype.enableShootButtonOnePlayer = function(){
   if (this.game.players[0].target == this.game.players[0] && (this.game.players[0].actionCounters["1"] || this.game.players[0].actionCounters["2"])){
-    console.log("You can't shoot yourself - the game should be over, you're the only player alive");
+    // console.log("You can't shoot yourself - the game should be over, you're the only player alive");
     this.setShootButtonOnClick(null);
   }
 };// enableShootButtonOnePlayer = function [end]
@@ -613,7 +611,7 @@ View.prototype.renderDice = function(remove){
       this.ele.dice[i].style.visibility = "hidden";
       this.ele.dice[i].src = null;
       this.ele.dice[i].onclick = null;
-      console.log("RENDERDICE called with null arg");
+      // console.log("RENDERDICE called with null arg");
       // NOT CALLED ON END TURN
     }
   }
@@ -658,14 +656,14 @@ View.prototype.renderCurrentPlayerHealth = function(){
   this.ele.currentPlayerHealth.innerHTML = "";
   var overhealed = false;
   if (this.game.players[0].health > this.game.players[0].maxHealth) overhealed = true;
-  console.log("overhealed: ", overhealed);
+  // console.log("overhealed: ", overhealed);
   var numHeartsToDraw = this.game.players[0].health;
-  console.log("HP before overhealed check:", this.game.players[0].health);
-  console.log("MAX HP before overhealed check:", this.game.players[0].maxHealth);
+  // console.log("HP before overhealed check:", this.game.players[0].health);
+  // console.log("MAX HP before overhealed check:", this.game.players[0].maxHealth);
   if (overhealed === true){
     numHeartsToDraw = this.game.players[0].maxHealth;
   }
-  console.log("overhealed boolean:",overhealed, "health to draw:", numHeartsToDraw);
+  // console.log("overhealed boolean:",overhealed, "health to draw:", numHeartsToDraw);
   for (var i = 0; i < numHeartsToDraw; i++) {
     this.ele.currentPlayerHealth.innerHTML += '<i class="material-icons hp-icon">favorite</i>';
   }

@@ -1,9 +1,9 @@
-Game = require('./bang_game/game');
-Player = require('./bang_game/player');
-Dice = require('./bang_game/dice');
-Hint = require('./bang_game/hint');
-GameState = require("./bang_game/gameState.js");
-View = require("./bang_game/view.js");
+var Game = require('./bang_game/game');
+var Player = require('./bang_game/player');
+var Dice = require('./bang_game/dice');
+var Hint = require('./bang_game/hint');
+var GameState = require("./bang_game/gameState.js");
+var View = require("./bang_game/view.js");
 
 var hint = new Hint;
 var players = new Array(8);

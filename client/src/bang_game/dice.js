@@ -61,7 +61,7 @@ Dice.prototype.roll = function(){
     var result = Math.floor( Math.random() * 6 ) + 1;
     this.currentRoll.push( result );
   };
-  console.log("Dice rolled:", this.currentRoll);
+  // console.log("Dice rolled:", this.currentRoll);
 
   this.saveDynamite();
   
@@ -89,7 +89,7 @@ Dice.prototype.saveDynamite = function(){
   var i = this.currentRoll.length -1 
   for (i; i >= 0; i--){
     if( this.currentRoll[i] === 5) this.save(this.currentRoll.splice(i, 1)[0]);
-    console.log("save dyna - saved:", this.saved, " current:", this.currentRoll);
+    // console.log("save dyna - saved:", this.saved, " current:", this.currentRoll);
   }
 };
 Dice.prototype.threeDynamite = function(){
