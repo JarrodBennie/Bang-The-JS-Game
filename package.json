@@ -10,8 +10,10 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd client && webpack && cd .. && node server.js"
+    "test": "mocha client/src/bang_game/specs",
+    "start": "npm run build && npm run server",
+    "build": "cd client/ && webpack -p",
+    "server": "node server.js"
   },
   "author": "",
   "license": "ISC"
