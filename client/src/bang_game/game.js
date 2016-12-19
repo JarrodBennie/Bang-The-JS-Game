@@ -406,8 +406,8 @@ Game.prototype.removeHealthAndArrows = function(){
 
 Game.prototype.addToActionCounters = function(){
   this.players[0].actionCounters = {"1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0}
-  for( var i of this.dice.all){
-    this.players[0].actionCounters[i.toString()] += 1;
+  for( var i in this.dice.all){
+    this.players[0].actionCounters[this.dice.all[i].toString()] += 1;
   };
 };
 ///// counts how many of each dice result (arrow, beer etc) and saves this to the players actionsCounters.
@@ -461,8 +461,8 @@ Game.prototype.canShootTargetCheck = function(){
 
 Game.prototype.threeGatling = function(){$
   var counter = 0;
-  for( item of this.dice.all ){
-    if( item === 4 ) {
+  for( i in this.dice.all ){
+    if( this.dice.all[i] === 4 ) {
       counter++;
     };
   };
