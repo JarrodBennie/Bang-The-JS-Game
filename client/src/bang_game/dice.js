@@ -67,16 +67,20 @@ Dice.prototype.roll = function(){
   
   this.all = this.saved.concat( this.currentRoll )
 
-  for( var i = 0; i < this.currentRoll.length; i++ ){
-    if( this.currentRoll[i] === 6 ) {
-      this.arrowsRolled++;
-    }
-  }
+  this.countArrows();
   this.rolls--;
   return this.currentRoll;
 };
 
 //// for special cards could add in above: if( playerSpecialAbility != [the special ability that lets you re-roll dynamite]){ this.saveDynamite } so save dynamite happens to everyone except the player with the special card. but it wont know what player - so would have to pass in the player object - dice.save( 0, player1) seems a bit ugly but would allow us to check player special card.
+
+Dice.prototype.countArrows= function(){
+  for( var i = 0; i < this.currentRoll.length; i++ ){
+    if( this.currentRoll[i] === 6 ) {
+      this.arrowsRolled++;
+    }
+  }
+};
 
 Dice.prototype.save = function(value){
   if (this.saved.length < 5) this.saved.push(value);

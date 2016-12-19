@@ -1,7 +1,5 @@
 var assert = require('chai').assert;
 var Dice = require('../dice.js');
-var _ = require('lodash');
-
 
 describe('Dice', function(){
   var dice;
