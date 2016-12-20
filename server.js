@@ -12,15 +12,15 @@ app.get( '/', (req, res) => {
   res.sendFile(path.join(`${ __dirname }/client/build/index.html`));
 });
 
-app.get ('/info', (req, res) => {
+app.get('/info', (req, res) => {
   res.sendFile(path.join(`${ __dirname }/client/build/info.html`));
 })
 
-app.get( '/rules', (req, res) => {
+app.get('/rules', (req, res) => {
   res.sendFile(path.join(`${ __dirname }/client/build/rules.html`));
 });
 
-app.get( '/new', (req, res) => {
+app.get('/new', (req, res) => {
   res.sendFile(path.join(`${ __dirname }/client/build/index.html`));
 });
 
@@ -55,5 +55,5 @@ app.post('/name', (req, res) => {
 });
 
 const server = app.listen(3000, function () {
-  console.log(`Bang! The JS Game listening on port ${ this.address().port } `);
+  console.log(`Bang! The JS Game listening on port ${ this.address().port }`);
 });
