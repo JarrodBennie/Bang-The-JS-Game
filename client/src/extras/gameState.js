@@ -1,6 +1,6 @@
-var Player = require('./player.js');
-var Game = require('./game.js');
-var Dice = require('./dice.js');
+var Player = require('../models/player.js');
+var Game = require('../models/game.js');
+var Dice = require('../models/dice.js');
 
 var GameState = function(game){
   this.gamePassedIn = game;

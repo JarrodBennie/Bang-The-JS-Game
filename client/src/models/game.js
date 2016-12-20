@@ -1,4 +1,4 @@
-var playSound = require("./playSound.js")
+var playSound = require("../extras/playSound.js")
 
 var Game = function(dice, players, characterBasedMaxHealth, previousObject, hydratedAllPlayers){
   this.characterBasedMaxHealth = characterBasedMaxHealth;
@@ -367,7 +367,7 @@ Game.prototype.arrowsDamage = function(){
   this.removeHealthAndArrows();
   this.totalArrows = 9;
   Materialize.toast("The Indians have attacked!!", 2000);
-  playSound("bow-and-arrows.mp3")
+  playSound("/audio/bow-and-arrows.mp3")
   // console.log("arrows in!");
   //adding this.checkForDeaths() call  to update who can be targetted by shots still to be resolved after arrows kill some player(s), preventing them from being targetted
   this.checkForDeaths();
@@ -477,8 +477,8 @@ Game.prototype.fireGatling = function(){$
 
 Game.prototype.gatlingCheck = function(){
   var counter = 0;
-  for (item of this.dice.all ){
-    if (item === 4 ) counter++;
+  for (i in this.dice.all ){
+    if (this.dice.all[i] === 4 ) counter++;
   };
    return (counter >= 3 && this.gatlingAvailable === true && this.checkActions() <= 0) 
 }
