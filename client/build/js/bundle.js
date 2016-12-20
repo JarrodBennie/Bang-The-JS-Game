@@ -1798,7 +1798,7 @@
 	
 	  setClasses(elements) {
 	    elements.row.setAttribute('class', 'row');
-	    elements.column.setAttribute('class', 'col s12 m8 offset-m2');
+	    elements.column.setAttribute('class', 'col s12 m8 offset-m3');
 	    elements.card.setAttribute('class', 'card-panel red darken-4 center-align');
 	    elements.span.setAttribute('class', 'white-text');
 	    elements.text.setAttribute('id', 'hint');
