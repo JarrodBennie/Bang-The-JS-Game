@@ -1,58 +1,59 @@
-var express = require('express');
-var app = express();
-var path = require('path');
-var MongoClient = require('mongodb').MongoClient;
-var bodyParser = require('body-parser');
-var url = 'mongodb://localhost:27017/databaseName';
+const express = require('express');
+const app = express();
+const path = require('path');
+const MongoClient = require('mongodb').MongoClient;
+const bodyParser = require('body-parser');
+const url = 'mongodb://localhost:27017/databaseName';
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(express.static('client/build'));
 
-app.get( '/', function(req, res){
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+app.get( '/', (req, res) => {
+  res.sendFile(path.join(`${ __dirname }/client/build/index.html`));
 });
 
-app.get ('/info', function(req, res){
-  res.sendFile(path.join(__dirname + '/client/build/info.html'));
+app.get ('/info', (req, res) => {
+  res.sendFile(path.join(`${ __dirname }/client/build/info.html`));
 })
 
-app.get( '/rules', function(req, res){
-  res.sendFile(path.join(__dirname + '/client/build/rules.html'));
+app.get( '/rules', (req, res) => {
+  res.sendFile(path.join(`${ __dirname }/client/build/rules.html`));
 });
 
-app.get( '/new', function(req, res){
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+app.get( '/new', (req, res) => {
+  res.sendFile(path.join(`${ __dirname }/client/build/index.html`));
 });
 
-app.get('/name', function(req, res){
-  MongoClient.connect(url, function(err, db){
-    if(err){
-      console.log(err);
+app.get('/name', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+    if (err) {
+      console.err(err);
       return;
     }
-    var collection = db.collection('name');
-    collection.find({}).toArray(function(err, docs){
+
+    const collection = db.collection('name');
+    collection.find({}).toArray((err, docs) => {
       res.json(docs);
       db.close();
     });
   });
 });
 
-app.post('/name', function(req, res){
-  MongoClient.connect(url, function(err, db){
-    if(err){
-      console.log(err);
+app.post('/name', (req, res) => {
+  MongoClient.connect(url, (err, db) => {
+    if (err) {
+      console.err(err);
       return;
     }
-    var collection = db.collection('name');
+
+    const collection = db.collection('name');
     collection.insert({'name': 'value'});
   });
+
   res.status(200).end();
   db.close();
 });
 
-app.use(express.static('client/build'));
-var server = app.listen(3000, function(){
-  var host = server.address().address;
-  var port = server.address().port;
-  console.log('Example app listening at https://%s:%s', host, port);
+const server = app.listen(3000, function () {
+  console.log(`Bang! The JS Game listening on port ${ this.address().port } `);
 });
