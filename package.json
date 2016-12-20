@@ -1,22 +1,26 @@
 {
-  "name": "BANG-JS",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "dependencies": {
-    "body-parser": "^1.15.0",
-    "express": "^4.13.4",
-    "mongo": "^0.1.0"
-  },
-  "devDependencies": {
-    "mocha": "^3.1.2",
-    "webpack": "^1.13.3"
-  },
-  "scripts": {
-    "test": "mocha client/src/models/specs",
-    "start": "cd client && webpack && cd .. && node server.js",
-    "bundle": "cd client && webpack -w"
-  },
-  "author": "",
-  "license": "ISC"
+    "name": "BANG-JS",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+
+    "dependencies": {
+        "body-parser": "^1.15.0",
+        "express": "^4.13.4",
+        "mongo": "^0.1.0"
+    },
+
+    "devDependencies": {
+        "mocha": "^3.1.2",
+        "webpack": "^1.13.3"
+    },
+
+    "scripts": {
+        "test": "mocha client/src/models/specs",
+        "start": "cd client && webpack && cd .. && node server.js",
+        "bundle": "cd client && webpack -w"
+    },
+
+    "author": "",
+    "license": "ISC"
 }
