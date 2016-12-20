@@ -2,7 +2,7 @@ const hints = require('../models/hints.js');
 
 class Hint {
     constructor() {
-        this.render()
+        this.render();
     }
 
     render() {
@@ -19,7 +19,7 @@ class Hint {
             card: document.createElement('div'),
             span: document.createElement('div'),
             text: document.createElement('p')
-        }
+        };
     }
 
     setClasses(elements) {
